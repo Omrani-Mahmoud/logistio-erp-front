@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Router, Route, Switch, Redirect,BrowserRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
+import SignIn from './Pages/Login/SignIn';
+import {ProtectedRoute} from './ProtectedRoute';
+import Test from './Pages/Home/Test'
+const history = createBrowserHistory();
+export const ConnectedUser = React.createContext();
 
 function App() {
+  const [user, setuser] = React.useState({});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <BrowserRouter>
+    <ConnectedUser.Provider value={[user,setuser]} >
+
+    <Router  history={history}>
+       <Switch>
+        <Route component={SignIn} exact path='/'/> 
+        <Route component={Test}  path='/test'/> 
+         {/* <ProtectedRoute  component={Dashboard}  path='/home' /> */}
+      </Switch>
+    </Router>
+    </ConnectedUser.Provider>
+
+    </BrowserRouter>
   );
 }
 
