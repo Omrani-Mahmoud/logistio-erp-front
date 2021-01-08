@@ -17,10 +17,12 @@ import auth from '../../Auth';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {ConnectedUser}  from '../../App'
 import useToken from '../../Hooks/useToken';
+import useGetUser from '../../Hooks/useGetUser';
+import jwt from 'jsonwebtoken';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 const initialState = {
-  userName:'',
+  username:'',
     password:''
 }
 
@@ -28,7 +30,7 @@ const initialState = {
 const reducer = (state,action)=>{
         switch (action.type) {
             case 'userName':
-                return{...state,userName:action.value};
+                return{...state,username:action.value};
             case 'password':
                 return{...state,password:action.value}
         
@@ -121,16 +123,14 @@ export default function SignIn(props) {
   
 
   const AuthHandler = ()=>{
+      setloading(true);
+    auth.login(userInfo,setloading,(token)=>{
+        setToken(token);
+        // history.push('/home');
+        user_context[1]({userName:jwt.decode(token).username});
+        history.push('/home');
+    })
 
-    user_context[1]({userName:'mahmpud'})
-    //   setloading(true);
-    // auth.login(userInfo,()=>{
-    //     setloading(false);
-    //     history.push("/home")
-    // })
-    // history.push("/home")
-    setToken('h12h')
-    history.push('/test')
 }
 
   return (

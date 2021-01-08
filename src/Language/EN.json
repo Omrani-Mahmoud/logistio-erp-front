@@ -1,9 +1,81 @@
 {
     "signin":"SIGN IN",
     "login":"SIGN IN",
-    "userName":"User Name",
+    "userName":"Username",
     "password":"Password",
     "forgotPass":"Forgot password?",
     "noAccount":"Don't have an account?",
-    "signUp":"Sign Up"
+    "signUp":"Sign Up",
+    "hello":"Hello",
+    "logout":"logout",
+    "newUsers":"Users",
+    "email":"User email",
+    "addUser":"New User",
+    "allowedSections":"Allowed Sections",
+    "roles":"Roles",
+    "roleSelect":"Select a role",
+    "roleSelectHint":"list of defined roles",
+    "subRole":"New Sub role",
+    "passwordGenerationHint":"Password will be sent separately to this email.",
+    "saveUser":"Save user",
+    "section":"Section",
+    "products":"Products",
+    "stock":"Stock",
+    "orders":"Orders",
+    "purchases":"Purchases",
+
+    "productsSection":"Products Section",
+    "stockSection":"Stock Section",
+    "ordersSection":"Orders Section",
+    "purchasesSection":"Purchases Section",
+    "roleName":"Role name",
+
+
+    "entity":"Entity",
+    "create":"Create",
+    "read":"Read",
+    "update":"Update",
+    "delete":"Delete",
+
+
+    "product_img":"Product Image",
+    "product_name":"Products name",
+    "sku":"SKU",
+    "variants_number":"Variants Number",
+    "type":"Type",
+    "category":"Category",
+    "description":"Description",
+    "agent_desc":"Agent Description",
+    "urls_table":"Urls table",
+    "variants_table":"Variants table",
+    "accessories_table":"Accessories table",
+
+
+    "link":"Link",
+    "action":"Action",
+
+    "option":"Option",
+    "quantity":"Quantity",
+    "price":"Price",
+
+
+    "name":"Name",
+    "attachments":"Attachments",
+    "language":"English",
+
+    
+
+    "allProducts":"All Products",
+    "bolk":"Bolk",
+    "drop_shipping":"Drop Shipping",
+    "search_by_sku":"Search by SKU",
+    "no_products":"No products match ..",
+
+
+    "send_mail":"Send Email",
+    "mailing":"Mailing",
+    "email_subject":"Email subject",
+    "email_text":"Email Text",
+    "your_text_here":"your text here ..."
+    
 }

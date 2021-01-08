@@ -1,3 +1,3 @@
 export const uri ={
-    link:"http://localhost:4000/"
+    link:"http://192.168.1.92:8000"
 };

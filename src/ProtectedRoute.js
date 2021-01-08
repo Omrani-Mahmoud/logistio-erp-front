@@ -7,7 +7,7 @@ import auth from './Auth'
         <Route  {...rest} render={
             (props)=>{
                 auth.isAuthenticated();
-                if(window.localStorage.getItem("tuabalsilennufh")==='maomhdni')
+                if(window.localStorage.getItem("erpT"))
                     return <Component {...props}/>
                 else{
                     return <Redirect to={{

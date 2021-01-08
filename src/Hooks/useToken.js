@@ -4,8 +4,8 @@ import React from 'react'
 function useToken() {
     const token = window.localStorage.getItem('erpT')
     const setToken = (givenToken)=>{
-            window.localStorage.setItem('erpT',givenToken)
-        return 
+        return  window.localStorage.setItem('erpT',givenToken)
+        
     }
     const getToken = ()=>{
         return token
