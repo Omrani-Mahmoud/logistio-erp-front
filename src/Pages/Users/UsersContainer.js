@@ -55,7 +55,12 @@ function UsersContainer() {
         setselectedRole(event.target.value);
       };
 
+      const resetSelectedRole = ()=>{
+          setselectedRole('')
+      }
 
+
+    //******* MISSING REFETCH ROLES AFTER ADD **********/
       React.useEffect(() => {
         console.log('HERE FETCH ROLES')
         let mounted = true;
@@ -126,7 +131,7 @@ function UsersContainer() {
     }
 
     return (
-        <Users handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} />
+        <Users handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} resetSelectedRole={resetSelectedRole} />
     )
 }
 

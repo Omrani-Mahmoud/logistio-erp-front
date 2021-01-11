@@ -25,7 +25,7 @@ const lngc = window.localStorage.getItem("lang")
 const lang = require(`../../Language/${lngc}.json`);
 
 
-function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user,saveUser}) {
+function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user,saveUser,resetSelectedRole}) {
     const textFStyle = {
         marginBottom:'7px'
     }
@@ -36,8 +36,8 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
     
 
     const handle_newRole = (e) =>{
-
-      setisNew(e.target.checked)
+      setisNew(e.target.checked);
+      resetSelectedRole()
     }
 
 
