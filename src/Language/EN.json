@@ -23,6 +23,7 @@
     "stock":"Stock",
     "orders":"Orders",
     "purchases":"Purchases",
+    "save":"SAVE",
 
     "productsSection":"Products Section",
     "stockSection":"Stock Section",
@@ -49,6 +50,9 @@
     "urls_table":"Urls table",
     "variants_table":"Variants table",
     "accessories_table":"Accessories table",
+    "minim_q":"MOQ",
+    "minim_p_q":"MOQ for custom packaging",
+
 
 
     "link":"Link",

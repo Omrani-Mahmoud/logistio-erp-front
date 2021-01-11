@@ -10,22 +10,26 @@ class Auth{
     login(inputsValue,setter,cb){
       axios({
         method:'POST',
-        url:`${uri.link}/api/token/`,
+        url:`${uri.link}/token/`,
         data:inputsValue,
       })
       .then(res=>{
-        console.log('here',res.data)
+      
         if(res.status===200)
-            if(res.data && res.data.access){
+        {
+          console.log('here token',res)
+
+            if(res.data && res.data.token){
                 //window.localStorage.setItem("tuabalsilennufh","maomhdni")
                 // window.localStorage.setItem("token",res.data.token);
                 this.authenticated=true;
-                cb(res.data.access)
+                cb(res.data.token)
             }
+          }
         })
 
         .catch(err=>{
-          console.log('error')
+          console.log('error',err)
           Swal.fire({
             icon: 'error',
             title: 'Oops...',

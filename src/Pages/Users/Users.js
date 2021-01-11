@@ -25,15 +25,23 @@ const lngc = window.localStorage.getItem("lang")
 const lang = require(`../../Language/${lngc}.json`);
 
 
-function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user}) {
+function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user,saveUser}) {
     const textFStyle = {
         marginBottom:'7px'
     }
     const classes = useStyles();
 
 
-  
+    const [isNew, setisNew] = React.useState(false)
+    
 
+    const handle_newRole = (e) =>{
+
+      setisNew(e.target.checked)
+    }
+
+
+    console.log('roles:::::',roles)
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column'}} >
              
@@ -65,6 +73,8 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
       />
             
             <Paper elevation={3} style={{marginTop:'10px'}}>
+
+
             {
 
                 toggled?
@@ -73,96 +83,114 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
                     <Grid item md={12} style={{display:'flex',flexDirection:'column',padding:'15px'}}>
                      
                       <SectionsTableContainer />
-  
+
                       
                     </Grid>
 
                 </Grid>
                 :
                 <Grid item md={12} style={{ padding:'10px'}}>
-                  {/* {
-                    newRole?
-                    <h3>new here</h3>
-                    :
-                    <>
-                    <span style={{color:'#303030',fontWeight:'bold',opacity:'60%'}}>{lang.roleSelect} </span>
-                    <Grid item md={8} style={{display:'flex',flexDirection:'column',padding:'15px'}}>
-                        <FormControl className={classes.formControl}>
-                                <InputLabel id="demo-simple-select-label">{lang.roles}</InputLabel>
-                                <Select
-                                labelId="demo-simple-select-label"
-                                id="demo-simple-select"
-                                value={selectedRole}
-                                onChange={handleDropDownRoleChange}
-                                >
-                                <MenuItem value={10}>Role1</MenuItem>
-                                <MenuItem value={20}>Role2</MenuItem>
-                                <MenuItem value={30}>Role3</MenuItem>
-                                </Select>
-                                <FormHelperText>{lang.roleSelectHint}</FormHelperText>
+                  <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={isNew}
+                          onChange={(e)=>{handle_newRole(e)}}
+                          name="checkedB"
+                          color="primary"
+                        />
+                      }
+                      label="New role ?"
+                    />
+                    {
+                      !isNew?
+                      <Grid item md={12}>
+                      <Grid item md={8} style={{display:'flex',flexDirection:'column',padding:'15px'}}>
+                      <span style={{color:'#303030',fontWeight:'bold',opacity:'60%'}}>{lang.roleSelect} </span>
 
-                        </FormControl>
-                    </Grid>
-                    </>
-                  } */}
-                  <Grid item md={8} style={{display:'flex',flexDirection:'column',padding:'15px'}}>
-                     <TextField size='small' style={textFStyle} id="standard-basic1" label={lang.roleName} onChange={(e)=>userDispatcher({type:'name',value:e.target.value})} />
-                     <section>
-                              <FormControlLabel key={1}
-                                  control={
-                                    <Checkbox
-                                      checked={user?.role?.products}
-                                      onChange={(e)=>userDispatcher({type:'products',value:e.target.checked})}
-                                      name="checkedp"
-                                      color="primary"
-                                    />
-                                  }
-                                  label={lang.productsSection}
-                                />
+                          <FormControl className={classes.formControl}>
+                                  <InputLabel id="demo-simple-select-label">{lang.roles}</InputLabel>
+                                  <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={selectedRole}
+                                  onChange={handleDropDownRoleChange}
+                                  >
+                                    {
+                                      roles.map(elem=>{
+                                        return <MenuItem value={elem._id}>{elem.name}</MenuItem>
+                                      })
+                                    }
+                                  
+                                  </Select>
+                                  <FormHelperText>{lang.roleSelectHint}</FormHelperText>
+  
+                          </FormControl>
+                      </Grid>
+                      </Grid>
+                      :
 
-                                <FormControlLabel key={2}
-                                  control={
-                                    <Checkbox
-                                      checked={user?.role?.stock}
-                                      onChange={(e)=>userDispatcher({type:'stock',value:e.target.checked})}
-                                      name="checkeds"
-                                      color="primary"
-                                    />
-                                  }
-                                  label={lang.stockSection}
-                                />
-
-                                <FormControlLabel key={3}
-                                  control={
-                                    <Checkbox
-                                      checked={user?.role?.orders}
-                                      onChange={(e)=>userDispatcher({type:'orders',value:e.target.checked})}
-                                      name="checkedo"
-                                      color="primary"
-                                    />
-                                  }
-                                  label={lang.ordersSection}
-                                />
-
-                                <FormControlLabel key={4}
-                                  control={
-                                    <Checkbox
-                                      checked={user?.role?.purchases}
-                                      onChange={(e)=>userDispatcher({type:'purchases',value:e.target.checked})}
-                                      name="checkedp"
-                                      color="primary"
-                                    />
-                                  }
-                                  label={lang.purchasesSection}
-                                />
-                    </section>
-                  </Grid>
+                      <Grid item md={8} style={{display:'flex',flexDirection:'column',padding:'15px'}}>
+                      <TextField size='small' style={textFStyle} id="standard-basic1" label={lang.roleName} onChange={(e)=>userDispatcher({type:'name',value:e.target.value})} />
+                      <section>
+                               <FormControlLabel key={1}
+                                   control={
+                                     <Checkbox
+                                       checked={user?.role?.products}
+                                       onChange={(e)=>userDispatcher({type:'products',value:e.target.checked})}
+                                       name="checkedp"
+                                       color="primary"
+                                     />
+                                   }
+                                   label={lang.productsSection}
+                                 />
+ 
+                                 <FormControlLabel key={2}
+                                   control={
+                                     <Checkbox
+                                       checked={user?.role?.stock}
+                                       onChange={(e)=>userDispatcher({type:'stock',value:e.target.checked})}
+                                       name="checkeds"
+                                       color="primary"
+                                     />
+                                   }
+                                   label={lang.stockSection}
+                                 />
+ 
+                                 <FormControlLabel key={3}
+                                   control={
+                                     <Checkbox
+                                       checked={user?.role?.orders}
+                                       onChange={(e)=>userDispatcher({type:'orders',value:e.target.checked})}
+                                       name="checkedo"
+                                       color="primary"
+                                     />
+                                   }
+                                   label={lang.ordersSection}
+                                 />
+ 
+                                 <FormControlLabel key={4}
+                                   control={
+                                     <Checkbox
+                                       checked={user?.role?.purchases}
+                                       onChange={(e)=>userDispatcher({type:'purchases',value:e.target.checked})}
+                                       name="checkedp"
+                                       color="primary"
+                                     />
+                                   }
+                                   label={lang.purchasesSection}
+                                 />
+                     </section>
+                   </Grid>
+                    }
+                  
+               
+                
                     
                </Grid>
             }
                 
             </Paper>
-            <Button variant="contained" color="primary" disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'#000246'}}>
+            <Button variant="contained" color="primary" disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'#939BA4'}} onClick={saveUser}>
               {lang.saveUser}
             </Button>
         </Container>

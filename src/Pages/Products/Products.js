@@ -83,7 +83,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
         let mounted = true;
 
     axios.get(`${uri.link}/prods/`,{
-        headers:{'Authorization':`Bearer ${getToken()}`}
+        headers:{'auth-token':`${getToken()}`}
     })
        .then(function (response) {
            if(mounted){
@@ -110,8 +110,10 @@ function Products({open,handleCloseModal,handleOpenModal}) {
             type:'bolk',
             category:'test',
             description:'bla bla bla',
-            agent_description:'bla bla bla agent',
+            agent_description:'bla bla bla aaaaa',
             urls:['https://www.youtube.com/','link2'],
+            moq:10,
+            moqcp:14,
             variants:[
                 {
                     option1: "Pink",
@@ -133,7 +135,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
             ],
             accessories:[
                 {
-                    name:'acc1acc1acc1acc1acc1acc1acc1acc1',
+                    name:'acc1acc1acc1acc1',
                     attachments:[
                         'https://logistiomedia.nyc3.digitaloceanspaces.com/logistiomedia/f7c3b8a85d96ed35a3fcec51caa9d07d.png',
                         'https://logistiomedia.nyc3.digitaloceanspaces.com/logistiomedia/packaging1.ai',
@@ -159,6 +161,8 @@ function Products({open,handleCloseModal,handleOpenModal}) {
             description:'bla bla bla',
             agent_description:'bla bla bla agent',
             urls:['link1','link2'],
+            moq:10,
+            moqcp:14,
             variants:[
                 {
                     option1: "Pink",

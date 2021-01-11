@@ -8,7 +8,11 @@ import AccessoriesTable from '../../Components/AccessoriesTable';
 import EmailModal from '../../Components/EmailModal';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
-const lang = require(`../../Language/${lngc}.json`)
+const lang = require(`../../Language/${lngc}.json`);
+
+
+
+
 
 const useStyles = makeStyles((theme)=>({
   table: {
@@ -20,10 +24,40 @@ const useStyles = makeStyles((theme)=>({
       marginRight:'20px'
     },
 }));
+
+const reducer = (state,action)=>{
+  switch (action.type) {
+    case 'moq':
+        return {...state,MOQ:action.value}
+        case 'moqcp':
+          return {...state,MOQCP:action.value}
+          case 'agentDesc':
+            return {...state,agent_desc:action.value}
+     
+  
+    default:
+      return state
+      break;
+  }
+}
+
+
 function CustomModal({open,handleOpen,handleClose,product}) {
   const classes = useStyles();
 
-  const [emailModal, setemailModal] = React.useState(false)
+
+  const initProduct = {
+    MOQ:product.moq,
+    MOQCP:product.moqcp,
+    agent_desc:product.agent_description,
+  }
+
+  const [emailModal, setemailModal] = React.useState(false);
+
+  const [productsInputs, dispatch] = React.useReducer(reducer, initProduct);
+
+
+  console.log('PRODUCTS ::::: ',productsInputs)
   const lableSpan = {
     color:'#303030',
     opacity:'70%',
@@ -32,8 +66,6 @@ function CustomModal({open,handleOpen,handleClose,product}) {
 
   const valueSpan = {
     color:'#303030',
-    
-    
   }
 
   const handleCloseEmailModal = ()=>{
@@ -75,9 +107,15 @@ function CustomModal({open,handleOpen,handleClose,product}) {
                   <CustomSpan label={`${lang.category} :`} value={product.category} />
                 </section>
      
-                <CustomSpan label={`${lang.description} :`} value={product.description} textArea  disabled/>
+                <CustomSpan label={`${lang.minim_q} :`} value={productsInputs.MOQ} input type='moq' handler={dispatch} disabled={product.type==='bolk'?false:true}  />
+
+                <CustomSpan label={`${lang.minim_p_q} :`} value={productsInputs.MOQCP} type='moqcp' input handler={dispatch} />
+
+                <CustomSpan label={`${lang.description} :`} value={product.description} textArea  disabled />
                 
-                <CustomSpan label={`${lang.agent_desc} :`} value={product.agent_description} textArea />
+                <CustomSpan label={`${lang.agent_desc} :`} value={productsInputs.agent_desc} textArea type='agentDesc' handler={dispatch} />
+
+                <Button variant='contained' style={{background:'#939BA4',color:'white',fontWeight:'bold'}}>Update product</Button>
 
               <section style={{padding:'10px'}}>
                 <CustomSpan label={`${lang.urls_table} :`} />

@@ -8,14 +8,27 @@ import {
     useHistory,
     useLocation
   } from "react-router-dom";
-function LockRoute({children,name,sections,...rest}) {
 
+
+
+const _check  = (array,value)=>{
+  let valid = false;
+  array.map(obj =>{
+    console.log('OBJ',obj)
+      if(obj.name===value){
+        valid = true
+
+      }
+  })
+  return valid
+}
+function LockRoute({children,name,sections,...rest}) {
     return (
         <Route
           {...rest}
           render={({ location }) =>
             typeof sections ==='object'?
-            sections.includes(name)? (
+            _check(sections,name)? (
               children
             ) : (
               <Redirect

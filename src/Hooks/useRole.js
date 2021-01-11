@@ -9,9 +9,17 @@ function useRole(sections,section='') {
         if(sections==='all')
             return true
     }
-    if(sections.includes(section)){
-        return true
-    }
+    if(sections?.length>0){
+        let valid = false;
+         sections.map(elem=>{
+             console.log('elem',elem.name)
+             console.log('sec',section)
+            if(elem.name===section)
+                valid = true
+            
+    })
+    return valid
+}
     else
     return null
 }

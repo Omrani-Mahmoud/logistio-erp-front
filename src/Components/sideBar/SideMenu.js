@@ -63,6 +63,7 @@ function SideMenu({sections}) {
   
   const classes = useStyles();
 
+  console.log('SECTIONS SIDE BAR ::::',sections)
   return (
     <Drawer
       className={classes.drawer}
@@ -78,7 +79,7 @@ function SideMenu({sections}) {
       <div className={classes.toolbar} />
     
       <List style={{ padding: "10px", }}>
-        {useRole(sections,'products') && (
+        {useRole(sections,'product') && (
           <Link to='/home/products' style={{textDecoration:'none',color:'white'}} >
             <ListItem
               button
@@ -128,7 +129,7 @@ function SideMenu({sections}) {
               </ListItem>
             </Link>
         )}
-        {useRole(sections,'users_management') && (
+        {useRole(sections,'user') && (
            <Link to='/home/users' style={{textDecoration:'none',color:'white'}}>
               <ListItem
                 button

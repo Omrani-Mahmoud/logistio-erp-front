@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { Grid, TextField } from '@material-ui/core'
 import AttachmentsLink from './AttachmentsLink';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import CustomRow from './Accesories row/CustomRow';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`)
@@ -43,32 +44,7 @@ function AccessoriesTable({accessories=[]}) {
                 </TableHead>
                 <TableBody>
                     {accessories.map((row,index) => (
-                    <TableRow key={index}>
-                        <TableCell align='center'  >
-                                {row?.name?row.name:'-'}
-                        </TableCell>
-                        <TableCell align='center' >
-                                
-                                <TextareaAutosize defaultValue={row?.description?row.description:'-'} placeholder="Description" />
-                        </TableCell>
-                        <TableCell align='center'>
-                                {row?.quantity?row.quantity:'-'}
-                        </TableCell>
-                        <TableCell align='center' style={{display:'flex',width:'160px',flexWrap:'wrap'}}>
-                                {row?.attachments?row.attachments.map(elem =>{
-                                    return <AttachmentsLink link={elem} />
-                                })
-                                :
-                                '-'
-                                
-                            
-                            }
-                        </TableCell>
-                        <TableCell align='center'>
-                            <TextField id="price_text" label={lang.price} variant="outlined" defaultValue={row?.price?row.price:0}  size='small'/>
-                        </TableCell>
-                       
-                    </TableRow>
+                        <CustomRow row={row} key={row} />
                     ))}
                 </TableBody>
                 </Table>

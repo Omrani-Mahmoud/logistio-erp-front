@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import LinkIcon from '@material-ui/icons/Link';
 import { Link } from 'react-router-dom';
 import { Grid, TextField } from '@material-ui/core'
+import CustomRow from './Variants row/CustomRow';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`)
@@ -42,24 +43,7 @@ function VariantsTable({variants}) {
                 </TableHead>
                 <TableBody>
                     {variants.map((row,index) => (
-                    <TableRow key={index}>
-                        <TableCell align='center' >
-                                {row?.option1?row.option1:'-'}
-                        </TableCell>
-                        <TableCell align='center'>
-                                {row?.option2?row.option2:'-'}
-                        </TableCell>
-                        <TableCell align='center'>
-                                {row?.option3?row.option3:'-'}
-                        </TableCell>
-                        <TableCell align='center'>
-                                {row?.quantity?row?.quantity:'-'}
-                        </TableCell>
-                        <TableCell align='center'>
-                            <TextField id="price_text" label={lang.price} variant="outlined" defaultValue={row?.price?row.price:0}  size='small'/>
-                             
-                        </TableCell>
-                    </TableRow>
+                        <CustomRow row={row} key={index} />
                     ))}
                 </TableBody>
                 </Table>

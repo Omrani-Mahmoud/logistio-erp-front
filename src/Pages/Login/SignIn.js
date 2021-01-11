@@ -126,8 +126,9 @@ export default function SignIn(props) {
       setloading(true);
     auth.login(userInfo,setloading,(token)=>{
         setToken(token);
+        console.log('DECODED__token:::',jwt.decode(token))
         // history.push('/home');
-        user_context[1]({userName:jwt.decode(token).username});
+        user_context[1]({userName:jwt.decode(token).username,role:jwt.decode(token).role});
         history.push('/home');
     })
 
