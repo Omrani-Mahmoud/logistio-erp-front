@@ -23,7 +23,7 @@ const lngc = window.localStorage.getItem("lang")
   : "EN";
 const lang = require(`../../Language/${lngc}.json`);
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,8 +44,10 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
     background:"rgb(36,37,77)",
-    borderTopRightRadius:'20px',
-    borderBottomRightRadius:'20px',
+    borderRadius:'20px',
+    height:'95vh',
+    position:'relative',
+  
 
     
     

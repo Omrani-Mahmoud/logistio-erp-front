@@ -45,7 +45,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column'}} >
              
-            <Paper elevation={3} style={{marginTop:'35px',marginBottom:'30px'}}>
+            <Paper elevation={3} style={{marginTop:'35px',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px'}}>
                 <Grid item md={12} style={{ padding:'10px'}}>
                     <span style={{color:'#303030',fontWeight:'bold',opacity:'60%'}}>{lang.addUser} </span>
                     <Grid item md={8} style={{display:'flex',flexDirection:'column',padding:'15px'}}>
@@ -72,7 +72,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
         label={lang.subRole}
       />
             
-            <Paper elevation={3} style={{marginTop:'10px'}}>
+            <Paper elevation={3} style={{marginTop:'10px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px'}}>
 
 
             {
@@ -190,7 +190,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
             }
                 
             </Paper>
-            <Button variant="contained" color="primary" disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'#939BA4'}} onClick={saveUser}>
+            <Button variant="contained" color="primary" disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'rgb(120,135,235)'}} onClick={saveUser}>
               {lang.saveUser}
             </Button>
         </Container>

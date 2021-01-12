@@ -57,16 +57,26 @@ class Auth{
 
 
     
-   async isAuthenticated(){
+    isAuthenticated(){
     let token =window.localStorage.getItem('erpT');
-    let user = jwt.decode(token);
+    let user ={};
+    let value = false;
+    if(token!=='expired'){
+      user = jwt.decode(token);
+    }
+   
     var current_time = Date.now() / 1000;
+    if(Object.keys(user).length>0){
       if ( user.exp < current_time) 
-      /* expired */ 
-      console.log('EXPIRED')
-      else 
-      console.log('STILL')
-
+          value = false;
+      else
+        value = true
+    }
+    else{
+      value = false
+    }
+    
+    return value
       
       // await axios.get(uri.link+"user/me",{
 

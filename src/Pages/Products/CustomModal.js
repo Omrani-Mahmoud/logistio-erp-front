@@ -6,7 +6,7 @@ import CustomSpan from '../../Components/CustomSpan';
 import VariantsTable from '../../Components/VariantsTable';
 import AccessoriesTable from '../../Components/AccessoriesTable';
 import EmailModal from '../../Components/EmailModal';
-
+import img from '../../Assets/img/productPlaceHolder.png'
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
 
@@ -33,6 +33,8 @@ const reducer = (state,action)=>{
           return {...state,MOQCP:action.value}
           case 'agentDesc':
             return {...state,agent_desc:action.value}
+            case 'samplePrice':
+             return {...state,samplePrice:action.value}
      
   
     default:
@@ -49,6 +51,7 @@ function CustomModal({open,handleOpen,handleClose,product}) {
   const initProduct = {
     MOQ:product.moq,
     MOQCP:product.moqcp,
+    samplePrice:product.price_sample,
     agent_desc:product.agent_description,
   }
 
@@ -57,7 +60,7 @@ function CustomModal({open,handleOpen,handleClose,product}) {
   const [productsInputs, dispatch] = React.useReducer(reducer, initProduct);
 
 
-  console.log('PRODUCTS ::::: ',productsInputs)
+  console.log('CHOSSED ::::: ',product)
   const lableSpan = {
     color:'#303030',
     opacity:'70%',
@@ -86,51 +89,58 @@ function CustomModal({open,handleOpen,handleClose,product}) {
     >
     
           <Grid item md={10} >
-           <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'rgb(243,245,247)'}}>
-             <div>
-             <Avatar alt={product.name} src={product.img}  variant="square" className={classes.large} />
-                
-             </div>
+           <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'white'}}>
+           
              <Grid item md={12} style={{display:'flex',flexDirection:'column'}}>
+               <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px',display:'flex',flexDirection:'row'}}>
+                <div>
+                  <Avatar  alt={product.name} src={product.img?product.img:img}  variant="square" className={classes.large} />
+                      
+                  </div>
+                  <div style={{width:'100%'}}>
                 <Grid item md={12}>
                     <section style={{display:'flex',justifyContent:'space-between',flexDirection:'row',width:'58%'}}>
                       <CustomSpan label={`${lang.product_name} :`} value={product.name} />
                    
-                      <CustomSpan label={`${lang.type} :`} value={product.type} />
-                      <Button variant="contained" size='small' style={{background:'#4D5B6A',color:"white",fontWeight:'bold',fontSize:'12px'}} onClick={handleOpeneEmailModal} >{lang.send_mail}</Button>
+                      <CustomSpan label={`${lang.type} :`} value={product.type_shopping} />
+                      <Button variant="contained" size='small' style={{background:'#939BA4',color:"white",fontWeight:'bold',fontSize:'12px'}} onClick={handleOpeneEmailModal} >{lang.send_mail}</Button>
 
                     </section>
                 </Grid>
 
-                <section style={{display:'flex',justifyContent:'space-between',flexDirection:'row',width:'40%'}}>
+              
                   <CustomSpan label={`${lang.sku} :`} value={product.sku} /> 
-                  <CustomSpan label={`${lang.category} :`} value={product.category} />
-                </section>
-     
+          
+                <CustomSpan label={`${lang.category} :`} value={product.category.name} />
+
                 <CustomSpan label={`${lang.minim_q} :`} value={productsInputs.MOQ} input type='moq' handler={dispatch} disabled={product.type==='bolk'?false:true}  />
 
                 <CustomSpan label={`${lang.minim_p_q} :`} value={productsInputs.MOQCP} type='moqcp' input handler={dispatch} />
 
-                <CustomSpan label={`${lang.description} :`} value={product.description} textArea  disabled />
+                <CustomSpan label={`${lang.sample} :`} value={productsInputs.samplePrice} type='samplePrice' input handler={dispatch} />
+
+                <CustomSpan label={`${lang.description} :`} value={product.description?product.description:''} textArea  disabled />
                 
-                <CustomSpan label={`${lang.agent_desc} :`} value={productsInputs.agent_desc} textArea type='agentDesc' handler={dispatch} />
+                <CustomSpan label={`${lang.agent_desc} :`} value={product.agent_desc?product.agent_desc:''} textArea type='agentDesc' handler={dispatch} />
+                <Button variant='contained'  style={{background:'black',color:'white',fontWeight:'bold',zIndex:999999999,float:'right',width:'200px'}}>Update product</Button>
 
-                <Button variant='contained' style={{background:'#939BA4',color:'white',fontWeight:'bold'}}>Update product</Button>
-
-              <section style={{padding:'10px'}}>
+                </div>
+                
+                </section>
+                <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px'}}>
                 <CustomSpan label={`${lang.urls_table} :`} />
-                <UrlsTable urls_array={product.urls} />
+                <UrlsTable urls_array={product.urls?product.urls:[]} />
               </section>
 
-              <section style={{padding:'10px'}}>
+              <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px'}}>
                 <CustomSpan label={`${lang.variants_table} :`} />
-                <VariantsTable variants={product.variants} />
+                <VariantsTable variants={product.variants?product.variants:[]} />
               </section>
 
-              <section style={{padding:'10px'}}>
+              <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px'}}>
               
                 <CustomSpan label={`${lang.accessories_table} :`}  />
-                <AccessoriesTable accessories={product.accessories} />
+                <AccessoriesTable accessories={product.accessories?product.accessories:[]} />
               </section>
             </Grid>
            

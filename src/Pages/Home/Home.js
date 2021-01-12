@@ -66,21 +66,23 @@ function Home() {
     // }, [])
 
     return (
-        <Grid lg={12} >
+
                 
             <Grid
                 container
                 direction="row"
                 justify="flex-start"
                 alignItems="flex-start"
+                style={{flexWrap:'nowrap'}}
+                
                 >
-         <Grid item lg={2}>
-                <SideMenu sections={sections} />
+                <Grid item  style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',minHeight:'100vh',padding:'10px'}}>
+                    <SideMenu sections={sections} />
                 </Grid>
                
-                <Grid item lg={10}>
+                <Grid  md={10} style={{padding:'16px 10px 10px 10px'}}>
                 <CustomAppBar user={user_context[0]} />
-                    <div style={{display:'flex',flexDirection:'column',backgroundColor:'rgb(243,245,247)',minHeight:'90vh'}}>
+                    <div style={{display:'flex',flexDirection:'column',backgroundColor:'white',height:'86vh'}}>
                   
                     <Switch>
                             <Route exact path='/home' component={Test}/>
@@ -103,7 +105,7 @@ function Home() {
                     
                 </Grid>
             </Grid>
-        </Grid>
+   
 
     )
 }

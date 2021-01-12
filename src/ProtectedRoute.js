@@ -3,11 +3,13 @@ import {Route,Redirect} from "react-router-dom"
 import auth from './Auth'
 
  const  ProtectedRoute =({component:Component, ...rest}) =>{
+
+    console.log('AUTH:::::', auth.isAuthenticated())
     return (
         <Route  {...rest} render={
             (props)=>{
                 auth.isAuthenticated();
-                if(window.localStorage.getItem("erpT"))
+                if(auth.isAuthenticated())
                     return <Component {...props}/>
                 else{
                     return <Redirect to={{

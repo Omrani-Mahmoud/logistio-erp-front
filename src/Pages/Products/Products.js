@@ -19,6 +19,8 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import AppBar from '@material-ui/core/AppBar';
 import ProductsTable from './ProductsTable';
+import ProductCard from '../../Components/Products Card/ProductCard';
+import EmptyArrayHolder from '../../Components/EmptyArrayHolder';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
@@ -82,12 +84,14 @@ function Products({open,handleCloseModal,handleOpenModal}) {
         console.log('HERE FETCH PRODS')
         let mounted = true;
 
-    axios.get(`${uri.link}/prods/`,{
+    axios.get(`${uri.link}/products/`,{
         headers:{'auth-token':`${getToken()}`}
     })
        .then(function (response) {
            if(mounted){
-                console.log(response);
+            console.log('PRODUCTS --->',response)
+    
+            // console.log('PRODUCTS ::: :',response);
                 setproducts(response.data)
            }
        })
@@ -202,9 +206,9 @@ function Products({open,handleCloseModal,handleOpenModal}) {
        
     ]
 
-
+console.log('PRODUCTS --->',products)
     return (
-        <Grid item md={12} style={{marginTop:'10px',padding:"20px"}}>
+        <Grid item md={12} style={{marginTop:'10px'}}>
                 {/* <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                 <TableHead>
@@ -235,7 +239,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
             </TableContainer>
             <CustomModal open={open}  handleClose={handleCloseModal}  product={rows[0]} /> */}
 
-<AppBar position="static" color="default">
+<AppBar position="relative" color="white" style={{borderRadius:'10px'}} >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -256,29 +260,38 @@ function Products({open,handleCloseModal,handleOpenModal}) {
       </AppBar>
 
       <TabPanel value={value} index={0}>
-            <Grid item md={12}>
-                <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all'/>
+            <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'75vh',overflowY:'auto',justifyContent:products.length>0?'start':'center'}}>
+              {
+                products.length>0?
+               products.map(row=>{
+                  return <ProductCard row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all' products={products} />
+
+                })
+                : 
+                <EmptyArrayHolder text={lang.no_products}/>
+              }
+              {/* <ProductCard row={rows[0]} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all' /> */}
+                {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all'/> */}
             </Grid>
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-            <Grid item md={12}>
+            <Grid item md={12} style={{background:'rgb(243,245,247)',padding:'15px',borderRadius:'15px'}}>
                 <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='bolk'/>
             </Grid>
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-            <Grid item md={12}>
+            <Grid item md={12} style={{background:'rgb(243,245,247)',padding:'15px',borderRadius:'15px'}}>
                 <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='drop_ship'/>
             </Grid>
       </TabPanel>
 
       <TabPanel value={value} index={3}>
-            <Grid item md={12}>
+            <Grid item md={12} style={{background:'rgb(243,245,247)',padding:'15px',borderRadius:'15px'}}>
                 <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all'/>
             </Grid>
       </TabPanel>
-
       </Grid>
     )
 }

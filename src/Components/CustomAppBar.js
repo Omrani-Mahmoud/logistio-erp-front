@@ -17,6 +17,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import auth from '../Auth'
+import { useHistory } from 'react-router';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`);
 
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomAppBar({user}) {
   const classes = useStyles();
   const [isMenuOpen, setisMenuOpen] = React.useState(null)
+  const history = useHistory();
   const handleMenuOpen = (event)=>{
         setisMenuOpen(event.currentTarget)
   }
@@ -40,7 +42,7 @@ export default function CustomAppBar({user}) {
 }
 
 const logout_ = ()=>{
-  auth.logout()
+  auth.logout(history)
 }
 
 const [isEnglish, setIsEnglish] = React.useState(window.localStorage.getItem('lang')=='CH'?false:true);
@@ -58,9 +60,9 @@ const handleChange = (event) => {
 
  
   return (
-    <Grid item lg={12}>
+    <Grid item lg={12} style={{background:'rgb(243,245,247)',borderRadius:'10px'}}>
      
-        <div style={{display:'flex',flexDirection:'row',width:'100%',justifyContent:"flex-end",marginBottom:'0px',paddingBottom:'5px',paddingTop:'5px'}}>
+        <div style={{display:'flex',flexDirection:'row',width:'100%',justifyContent:"flex-end",marginBottom:'0px',paddingBottom:'5px',}}>
         <FormControlLabel
       
         control={

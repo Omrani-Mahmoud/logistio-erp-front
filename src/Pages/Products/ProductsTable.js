@@ -31,6 +31,11 @@ const useStyles = makeStyles((theme)=>({
 function ProductsTable({rows,open,handleOpenModal,handleCloseModal,filter}) {
     const classes = useStyles();
     const [searchValue, setsearchValue] = React.useState('');
+
+
+
+
+    
     let data = [];
          data= rows.filter((elem)=>{
             if(filter==='all') 
@@ -56,18 +61,20 @@ function ProductsTable({rows,open,handleOpenModal,handleCloseModal,filter}) {
         {
             data.length>0?
             <>
-            <FormControl style={{margin:'10px'}}>
-                <InputLabel htmlFor="input-with-icon-adornment" >{lang.search_by_sku}</InputLabel>
-                <Input
-                onChange={(e)=>setsearchValue(e.target.value)}
-                id="input-with-icon-adornment"
-                startAdornment={
-                    <InputAdornment position="start">
-                    <SearchIcon />
-                    </InputAdornment>
-                }
-        />
-        </FormControl>
+          
+                    <FormControl style={{margin:'10px'}}>
+                        <InputLabel htmlFor="input-with-icon-adornment" >{lang.search_by_sku}</InputLabel>
+                        <Input
+                        onChange={(e)=>setsearchValue(e.target.value)}
+                        id="input-with-icon-adornment"
+                        startAdornment={
+                            <InputAdornment position="start">
+                            <SearchIcon />
+                            </InputAdornment>
+                        }
+                />
+                </FormControl>
+             
         <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                 <TableHead>
