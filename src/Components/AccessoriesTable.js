@@ -26,7 +26,7 @@ const useStyles = makeStyles({
         fontWeight:'bold'
     }
   });
-function AccessoriesTable({accessories=[]}) {
+function AccessoriesTable({accessories=[],productId,fetch}) {
     const classes = useStyles();
     return (
         <Grid item md={12} style={{marginTop:'5px',height:'183px',overflowY:'auto',marginBottom:'10px'}}>
@@ -44,7 +44,7 @@ function AccessoriesTable({accessories=[]}) {
                 </TableHead>
                 <TableBody>
                     {accessories.map((row,index) => (
-                        <CustomRow row={row} key={row} />
+                        <CustomRow row={row} key={row} productId={productId} fetch={fetch} />
                     ))}
                 </TableBody>
                 </Table>

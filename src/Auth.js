@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import {uri} from "./Url_base";
 import axios from "axios";
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken'
 class Auth{
     constructor(){
         this.authenticated=false

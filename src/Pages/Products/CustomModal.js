@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, Modal, Paper } from '@material-ui/core'
+import { Avatar, Button, CircularProgress, Grid, Modal, Paper } from '@material-ui/core'
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import UrlsTable from '../../Components/UrlsTable';
@@ -6,7 +6,12 @@ import CustomSpan from '../../Components/CustomSpan';
 import VariantsTable from '../../Components/VariantsTable';
 import AccessoriesTable from '../../Components/AccessoriesTable';
 import EmailModal from '../../Components/EmailModal';
-import img from '../../Assets/img/productPlaceHolder.png'
+import img from '../../Assets/img/productPlaceHolder.png';
+import {uri} from "../../Url_base";
+import axios from 'axios';
+import useToken from '../../Hooks/useToken';
+import Swal from 'sweetalert2'
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
 
@@ -28,13 +33,13 @@ const useStyles = makeStyles((theme)=>({
 const reducer = (state,action)=>{
   switch (action.type) {
     case 'moq':
-        return {...state,MOQ:action.value}
+        return {...state,moq:action.value}
         case 'moqcp':
-          return {...state,MOQCP:action.value}
+          return {...state,moqcp:action.value}
           case 'agentDesc':
-            return {...state,agent_desc:action.value}
+            return {...state,agentDesc:action.value}
             case 'samplePrice':
-             return {...state,samplePrice:action.value}
+             return {...state,price_sample:action.value}
      
   
     default:
@@ -44,23 +49,24 @@ const reducer = (state,action)=>{
 }
 
 
-function CustomModal({open,handleOpen,handleClose,product}) {
+function CustomModal({open,handleOpen,handleClose,product,fetch}) {
   const classes = useStyles();
+  const [setToken,getToken] = useToken();
 
 
   const initProduct = {
-    MOQ:product.moq,
-    MOQCP:product.moqcp,
-    samplePrice:product.price_sample,
-    agent_desc:product.agent_description,
+    moq:product.moq,
+    moqcp:product.moqcp,
+    price_sample:product.price_sample,
+    agentDesc:product.agent_description,
   }
 
   const [emailModal, setemailModal] = React.useState(false);
 
+  const [loading, setloading] = React.useState(false)
   const [productsInputs, dispatch] = React.useReducer(reducer, initProduct);
 
 
-  console.log('CHOSSED ::::: ',product)
   const lableSpan = {
     color:'#303030',
     opacity:'70%',
@@ -77,6 +83,34 @@ function CustomModal({open,handleOpen,handleClose,product}) {
 
   const handleOpeneEmailModal = ()=>{
     setemailModal(true)
+  }
+
+
+  const _updateProd = ()=>{
+    setloading(true)
+    axios.patch(`${uri.link}/products/${product._id}`,productsInputs,{
+      headers:{'auth-token':`${getToken()}`}
+    }).then( (response)=> {
+          setloading(false);
+          fetch();
+        })
+        .catch(error =>{
+          setloading(false);
+          handleClose();
+          Swal.fire({
+            title: 'Ops, an Error!',
+            text: "An error appear while updating",
+            icon: 'error',
+            confirmButtonText: 'OK',
+            backdrop: `
+                rgba(0,0,123,0.4)
+                url("/images/nyan-cat.gif")
+                left top
+                no-repeat
+              `
+          })
+        })
+   
   }
 
   return (
@@ -113,16 +147,22 @@ function CustomModal({open,handleOpen,handleClose,product}) {
           
                 <CustomSpan label={`${lang.category} :`} value={product.category.name} />
 
-                <CustomSpan label={`${lang.minim_q} :`} value={productsInputs.MOQ} input type='moq' handler={dispatch} disabled={product.type==='bolk'?false:true}  />
+                <CustomSpan label={`${lang.minim_q} :`} value={productsInputs.moq} input type='moq' handler={dispatch} disabled={product.type==='bolk'?false:true}  />
 
-                <CustomSpan label={`${lang.minim_p_q} :`} value={productsInputs.MOQCP} type='moqcp' input handler={dispatch} />
+                <CustomSpan label={`${lang.minim_p_q} :`} value={productsInputs.moqcp} type='moqcp' input handler={dispatch} />
 
-                <CustomSpan label={`${lang.sample} :`} value={productsInputs.samplePrice} type='samplePrice' input handler={dispatch} />
+                <CustomSpan label={`${lang.sample} :`} value={productsInputs.price_sample} type='samplePrice' input handler={dispatch} />
 
                 <CustomSpan label={`${lang.description} :`} value={product.description?product.description:''} textArea  disabled />
                 
-                <CustomSpan label={`${lang.agent_desc} :`} value={product.agent_desc?product.agent_desc:''} textArea type='agentDesc' handler={dispatch} />
-                <Button variant='contained'  style={{background:'black',color:'white',fontWeight:'bold',zIndex:999999999,float:'right',width:'200px'}}>Update product</Button>
+                <CustomSpan label={`${lang.agent_desc} :`} value={product.agentDesc?product.agentDesc:''} textArea type='agentDesc' handler={dispatch} />
+                {
+                    loading?
+                      <CircularProgress style={{float:'right'}} size={30} />
+                    :
+                    <Button variant='contained'  style={{background:'black',color:'white',fontWeight:'bold',zIndex:999999999,float:'right',width:'200px'}} onClick={_updateProd}>Update product</Button>
+
+                }
 
                 </div>
                 
@@ -134,13 +174,13 @@ function CustomModal({open,handleOpen,handleClose,product}) {
 
               <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px'}}>
                 <CustomSpan label={`${lang.variants_table} :`} />
-                <VariantsTable variants={product.variants?product.variants:[]} />
+                <VariantsTable variants={product.variants?product.variants:[]} options={product.options?product.options:[]} productId={product?._id} fetch={fetch} />
               </section>
 
               <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px'}}>
               
                 <CustomSpan label={`${lang.accessories_table} :`}  />
-                <AccessoriesTable accessories={product.accessories?product.accessories:[]} />
+                <AccessoriesTable accessories={product.accessories?product.accessories:[]} productId={product?._id}  fetch={fetch}/>
               </section>
             </Grid>
            

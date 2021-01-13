@@ -3,7 +3,11 @@ import React from 'react'
 import { Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CustomModal from '../../Pages/Products/CustomModal';
-
+import { motion } from "framer-motion"
+import axios from 'axios'
+import {uri} from '../../Url_base'
+import Swal from 'sweetalert2'
+import useToken from '../../Hooks/useToken';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -17,7 +21,16 @@ const useStyles = makeStyles((theme)=>({
       },
   }));
 
-function ProductCard({rows,filter,row,products}) {
+function ProductCard({rows,filter,row,products,fetch}) {
+
+    const [setToken,getToken] = useToken();
+
+ 
+        Object.keys(row).map(key=>{
+            if(typeof row[key] == 'undefined')
+                throw new Error(' SOME OBJECT KEYS ARE NULL ')
+        })
+    
     const classes = useStyles();
     const [mouseIn, setMouseIn] = React.useState(false)
     const style={
@@ -31,27 +44,61 @@ function ProductCard({rows,filter,row,products}) {
     const [open, setOpen] = React.useState(false);
 
         const handleOpenModal = () => {
+            _updateStatus();
             setOpen(true);
         };
 
         const handleCloseModal = () => {
             setOpen(false);
         };
+
+
+        const _updateStatus = ()=>{
+            if(row.status==='pending'){
+            axios.patch(`${uri.link}/products/${row._id}`,{
+                status:'processing'
+            },{
+              headers:{'auth-token':`${getToken()}`}
+            }).then( (response)=> {
+                //   setloading(false);
+                //   fetch();
+                })
+                .catch(error =>{
+                //   setloading(false);
+                  Swal.fire({
+                    title: 'Ops, an Error!',
+                    text: "An error appear while updating",
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        url("/images/nyan-cat.gif")
+                        left top
+                        no-repeat
+                      `
+                  })
+                })
+           
+          }
+        }
+
     return (
         <>
-       <Grid item sm={12} md={3} style={{
-           marginRight:'10px',
-       marginTop:'10px',
-       background:'rgb(243,245,247)',
-       padding:'6px',
-       borderRadius:'15px',
-       height:'250px',
-       display:'flex',
-       justifyContent:'space-around',
-  
+       <motion.Grid animate={{scale:1}} initial={{scale:0}} item sm={12} style={{
+            marginRight:'10px',
+            marginTop:'10px',
+            background:'rgb(243,245,247)',
+            padding:'6px',
+            borderRadius:'15px',
+            height:'250px',
+            width:'250px', // add to the sacle animation stay fix ( remoed md props )
+            display:'flex',
+            justifyContent:'space-around',
+
        flexDirection:'column'}}  onMouseEnter={()=>setMouseIn(true)} onMouseLeave={()=>setMouseIn(false)} onClick={handleOpenModal} >
-            <span style={{width:'55%',textAlign:'center',float:'right',alignSelf:'flex-end',background:'rgb(36,38,76)',padding:'3px',marginTop:'-10px',marginRight:'-5px',borderTopRightRadius:'15px',fontSize:'13px',borderBottomLeftRadius:'15px',color:'white',fontWeight:'bold'}}>
-                Qtt: 11345555
+            <span style={{textTransform:'capitalize',width:'50%',textAlign:'center',float:'right',alignSelf:'flex-end',background:'rgb(36,38,76)',padding:'3px',marginTop:'-10px',marginRight:'-5px',borderTopRightRadius:'15px',fontSize:'13px',borderBottomLeftRadius:'15px',color:'white',fontWeight:'bold'}}>
+     
+                {row.status}
             </span>
             <section style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
                 <Avatar style={style} alt={'haha'} src={'https://cdn.shopify.com/s/files/1/0223/3399/products/spiritual-rick-blanket-blanket-collectiontitle-429989_900x.jpg?v=1574386219'}  variant="square" className={classes.large} />
@@ -65,8 +112,8 @@ function ProductCard({rows,filter,row,products}) {
 
                 </section>
 
-       </Grid>
-                       <CustomModal open={open}  handleClose={handleCloseModal}  product={row} />
+       </motion.Grid>
+                       <CustomModal fetch={fetch} open={open}  handleClose={handleCloseModal}  product={row} />
                        </>
 
     )

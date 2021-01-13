@@ -9,17 +9,22 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LinkIcon from '@material-ui/icons/Link';
 import { Link } from 'react-router-dom';
-import { Grid, TextField } from '@material-ui/core'
+import { CircularProgress, Grid, TextField } from '@material-ui/core'
 import Button from '@material-ui/core/Button';
-
+import axios from 'axios'
+import {uri} from '../../Url_base'
+import useToken from '../../Hooks/useToken';
+import Swal from 'sweetalert2'
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
 
-function CustomRow({row}) {
+function CustomRow({row,productId,fetch}) {
+    const [setToken,getToken] = useToken();
 
     const [price, setPrice] = React.useState(row?.price?row.price:0);
     const [_disabled, set_disabled] = React.useState(true)
+    const [loading, setloading] = React.useState(false)
 
     const priceHandler = (value)=>{
         setPrice(value)
@@ -38,7 +43,34 @@ function CustomRow({row}) {
 
     const _persist = ()=>{
         console.log('price:',price,'variant:',row)
-    }
+        setloading(true)
+        axios.patch(`${uri.link}/products/${productId}/v/${row._id}`,
+        {
+            price:parseFloat(price)
+        },
+        {
+          headers:{'auth-token':`${getToken()}`}
+        }).then( (response)=> {
+              setloading(false);
+              fetch();
+            })
+            .catch(error =>{
+              setloading(false);
+              Swal.fire({
+                title: 'Ops, an Error!',
+                text: "An error appear while updating",
+                icon: 'error',
+                confirmButtonText: 'OK',
+                backdrop: `
+                    rgba(0,0,123,0.4)
+                    url("/images/nyan-cat.gif")
+                    left top
+                    no-repeat
+                  `
+              })
+            })
+       
+      }
 
     return (
         <TableRow key={row}>
@@ -60,7 +92,14 @@ function CustomRow({row}) {
                         </TableCell>
 
                         <TableCell align='center'>
-                            <Button variant="contained" size="small" disableElevation disabled={_disabled} onClick={_persist}>{lang.save}</Button>
+                            {
+                                loading?
+                                <CircularProgress  size={20} />
+
+                                :
+                                <Button variant="contained" size="small" disableElevation disabled={_disabled} onClick={_persist}>{lang.save}</Button>
+
+                            }
                     
                         </TableCell>
                     </TableRow>

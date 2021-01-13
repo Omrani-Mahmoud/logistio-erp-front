@@ -24,26 +24,44 @@ const useStyles = makeStyles({
         fontWeight:'bold'
     }
   });
-function VariantsTable({variants}) {
+function VariantsTable({variants,options,productId,fetch}) {
     const classes = useStyles();
 
-    console.log('VARIANTS :::',variants)
+    console.log('Options :::',options)
     return (
         <Grid item md={10} style={{marginTop:'5px',height:'183px',overflowY:'auto'}}>
                 <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                 <TableHead >
                     <TableRow>
-                        <TableCell align='center' className={classes.header} >{`${lang.option} 1`}</TableCell>
-                        <TableCell align='center' className={classes.header} >{`${lang.option} 2`}</TableCell>
-                        <TableCell align='center' className={classes.header} >{`${lang.option} 3`}</TableCell>
+                        {
+                            options.map(elem=>{
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+
+                            })
+                        }
+                        {
+                            options.length==1?
+                            <>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            </>
+                            :
+                            options.length==2?
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            :
+                            null
+                        }
+             
                         <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
                         <TableCell align='center' className={classes.header} >{lang.price}</TableCell>
+                        <TableCell align='center' className={classes.header} ></TableCell>
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {variants.map((row,index) => (
-                        <CustomRow row={row} key={index} />
+                        <CustomRow row={row} key={index} productId={productId} fetch={fetch} />
                     ))}
                 </TableBody>
                 </Table>
