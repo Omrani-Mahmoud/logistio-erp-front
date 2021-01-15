@@ -7,7 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Avatar, Grid, Select } from '@material-ui/core';
+import { Avatar, FormControlLabel, Grid, Select, Switch } from '@material-ui/core';
 import CustomModal from './CustomModal';
 import axios from 'axios';
 import {uri} from "../../Url_base";
@@ -81,10 +81,11 @@ function Products({open,handleCloseModal,handleOpenModal}) {
   const [value, setValue] = React.useState(0);
   const [products, setproducts] = React.useState([])
   const [searchValue, setsearchValue] = React.useState('');
-  const [selectValue, setselectValue] = React.useState('')
+  const [selectValue, setselectValue] = React.useState('');
+  const [isAccepted, setIsAccepted] = React.useState(false)
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log('VALUE::::',newValue)
+    setsearchValue('')
   };
     React.useEffect(() => {
         console.log('HERE FETCH PRODS')
@@ -203,45 +204,66 @@ function Products({open,handleCloseModal,handleOpenModal}) {
 
 
 
-    const filter_ = (value)=>{
+    const filter_ = (value) => {
       let data = [];
       let res = [];
-      data = products.filter((elem)=>{
-        return elem.type_shopping==value
+
+      data = products.filter((elem) => {
+        return elem.type_shopping == value;
       });
 
-      if(searchValue.length>0){
-        data = data.filter(elem=>{
-          return elem.sku.includes(searchValue)
-        })
+      if (searchValue.length > 0) {
+        data = data.filter((elem) => {
+          return elem.sku.includes(searchValue);
+        });
       }
-      if(selectValue.length>0){
-        data = data.filter(elem=>{
-          return elem.status == selectValue
-        })
+      if (selectValue.length > 0) {
+        data = data.filter((elem) => {
+          return elem.status == selectValue;
+        });
       }
-      console.log('RESSS ::: ::  ',res)
-      return data
-    }
+      console.log("RESSS ::: ::  ", data);
+      return data;
+    };
 
-    const filter_all = ()=>{
+    const filter_all = () => {
       let data = [];
-      if(searchValue.length>0){
-        data = products.filter(elem=>{
-          return elem.sku.includes(searchValue)
+      if (searchValue.length > 0) {
+        data = products.filter((elem) => {
+          return elem.sku.includes(searchValue);
+        });
+      } else {
+        return products;
+      }
+      console.log("RESSS ::: :: ALLL ", data);
+      return data;
+    };
+
+    const filter_by_status_all = ()=>{
+       return  filter_all().filter(elem=>{
+          if(selectValue.length>0){
+            return (elem.status===selectValue && elem.price_control.is_accepted===isAccepted)
+          }
+          else{
+            return elem.price_control.is_accepted===isAccepted
+          }
         })
-      }
-      else{
-        return products
-      }
-      console.log('RESSS ::: :: ALLL ',data)
-      return data
     }
 
-    const handleChangeSelect = (e)=>{
-      setselectValue(e.target.value)
-    }
+    const filter_by_status = (value)=>{
+      return  filter_(value).filter(elem=>{
+         if(selectValue.length>0){
+           return (elem.status===selectValue && elem.price_control.is_accepted===isAccepted)
+         }
+         else{
+           return elem.price_control.is_accepted===isAccepted
+         }
+       })
+   }
 
+    const handleChangeSelect = (e) => {
+      setselectValue(e.target.value);
+    };
     return (
         <Grid item md={12} style={{marginTop:'10px'}}>
                 {/* <TableContainer component={Paper}>
@@ -316,15 +338,25 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                                   onChange={handleChangeSelect}
                                 >
                                   <option aria-label="None" value="" />
-                                  <option value={'Pending'}>Pending</option>
-                                  <option value={'Processing'}>Processing</option>
-                                  <option value={'Validated'}>Validated</option>
-                                  <option value={'Refused'}>Refused</option>
+                                  <option value={'pending'}>Pending</option>
+                                  <option value={'processing'}>Processing</option>
+                                  <option value={'validated'}>Validated</option>
+                                  <option value={'refused'}>Refused</option>
                                  
                                 </Select>
                             </FormControl>
               </section>
-            <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'65vh',overflowY:'auto',justifyContent:filter_all().length>0?'start':'center'}}>
+              <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isAccepted}
+                        onChange={(e)=>setIsAccepted(e.target.checked)}
+                        color="primary"
+                      />
+                    }
+                    label="Accepted products"
+                />
+            <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status_all().length>0?'start':'center'}}>
               {
                 products.length>0?
 
@@ -334,12 +366,15 @@ function Products({open,handleCloseModal,handleOpenModal}) {
               //     else
               //     return elem.type===filter
               // })
-              filter_all().length>0?
-              filter_all().map(row=>{
+              filter_by_status_all().length>0?
+              filter_by_status_all().map(row=>{
+                // if(row.price_control.is_accepted===isAccepted)
                   return(
                     <ProductCardErrorHandler>
                         <ProductCard fetch={fetch_products} row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all' products={products} />
                     </ProductCardErrorHandler>)
+                    //  else
+                    //  return               <div style={{width:'100%',height:'200px'}}><EmptyArrayHolder text={lang.no_accepted_products}/></div>
                 })
                 : 
                 <EmptyArrayHolder text={lang.no_products}/>
@@ -353,31 +388,63 @@ function Products({open,handleCloseModal,handleOpenModal}) {
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-      <FormControl style={{margin:'10px'}}>
-                        <InputLabel htmlFor="input-with-icon-adornment" >{lang.search_by_sku}</InputLabel>
-                        <Input
-                        onChange={(e)=>setsearchValue(e.target.value)}
-                        id="input-with-icon-adornment"
-                        startAdornment={
-                            <InputAdornment position="start">
-                            <SearchIcon />
-                            </InputAdornment>
-                        }
+      <section style={{display:'flex',justifyContent:'space-between'}}>
+                <FormControl style={{margin:'10px'}}>
+                                  <InputLabel htmlFor="input-with-icon-adornment" >{lang.search_by_sku}</InputLabel>
+                                  <Input
+                                  onChange={(e)=>setsearchValue(e.target.value)}
+                                  id="input-with-icon-adornment"
+                                  startAdornment={
+                                      <InputAdornment position="start">
+                                      <SearchIcon />
+                                      </InputAdornment>
+                                  }
+                          />
+                          </FormControl>
+                          <FormControl variant="standard" style={{width:'200px'}}>
+                                <InputLabel htmlFor="filled-age-native-simple">Status</InputLabel>
+                                <Select
+                                  native
+                                  value={selectValue}
+                                  onChange={handleChangeSelect}
+                                >
+                                  <option aria-label="None" value="" />
+                                  <option value={'pending'}>Pending</option>
+                                  <option value={'processing'}>Processing</option>
+                                  <option value={'validated'}>Validated</option>
+                                  <option value={'refused'}>Refused</option>
+                                 
+                                </Select>
+                            </FormControl>
+              </section>
+              <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isAccepted}
+                        onChange={(e)=>setIsAccepted(e.target.checked)}
+                        color="primary"
+                      />
+                    }
+                    label="Accepted products"
                 />
-                </FormControl>
-          <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'65vh',overflowY:'auto',justifyContent:filter_('bulk').length>0?'start':'center'}}>
+          <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('bulk').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='bolk'/> */}
                 {
                 products.length>0?
                   
-                filter_('bulk').length>0?
+                filter_by_status('bulk').length>0?
 
-                filter_('bulk').map(row=>{
+                filter_by_status('bulk').map(row=>{
+
+                  // if(row.price_control.is_accepted===isAccepted)
                 return(
                         <ProductCardErrorHandler>
                             <ProductCard fetch={fetch_products} row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open}  products={products} />
                         </ProductCardErrorHandler>
                   )
+                  // else
+                  // return               <div style={{width:'100%',height:'200px'}}><EmptyArrayHolder text={lang.no_accepted_products}/></div>
+
               })
               :
               <EmptyArrayHolder text={lang.no_products}/>
@@ -390,31 +457,61 @@ function Products({open,handleCloseModal,handleOpenModal}) {
       </TabPanel>
 
       <TabPanel value={value} index={2}>
-      <FormControl style={{margin:'10px'}}>
-                        <InputLabel htmlFor="input-with-icon-adornment" >{lang.search_by_sku}</InputLabel>
-                        <Input
-                        onChange={(e)=>setsearchValue(e.target.value)}
-                        id="input-with-icon-adornment"
-                        startAdornment={
-                            <InputAdornment position="start">
-                            <SearchIcon />
-                            </InputAdornment>
-                        }
+      <section style={{display:'flex',justifyContent:'space-between'}}>
+                <FormControl style={{margin:'10px'}}>
+                                  <InputLabel htmlFor="input-with-icon-adornment" >{lang.search_by_sku}</InputLabel>
+                                  <Input
+                                  onChange={(e)=>setsearchValue(e.target.value)}
+                                  id="input-with-icon-adornment"
+                                  startAdornment={
+                                      <InputAdornment position="start">
+                                      <SearchIcon />
+                                      </InputAdornment>
+                                  }
+                          />
+                          </FormControl>
+                          <FormControl variant="standard" style={{width:'200px'}}>
+                                <InputLabel htmlFor="filled-age-native-simple">Status</InputLabel>
+                                <Select
+                                  native
+                                  value={selectValue}
+                                  onChange={handleChangeSelect}
+                                >
+                                  <option aria-label="None" value="" />
+                                  <option value={'pending'}>Pending</option>
+                                  <option value={'processing'}>Processing</option>
+                                  <option value={'validated'}>Validated</option>
+                                  <option value={'refused'}>Refused</option>
+                                 
+                                </Select>
+                            </FormControl>
+              </section>
+              <FormControlLabel
+                    control={
+                      <Switch
+                        checked={isAccepted}
+                        onChange={(e)=>setIsAccepted(e.target.checked)}
+                        color="primary"
+                      />
+                    }
+                    label="Accepted products"
                 />
-                </FormControl>
-                <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'65vh',overflowY:'auto',justifyContent:filter_('ds').length>0?'start':'center'}}>
+                <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('ds').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='drop_ship'/> */}
                 {
                 products.length>0?
                   
-                filter_('ds').length>0?
+                filter_by_status('ds').length>0?
 
-                filter_('ds').map(row=>{
+                filter_by_status('ds').map(row=>{
+                  // if(row.price_control.is_accepted===isAccepted)
                 return(
                         <ProductCardErrorHandler>
                             <ProductCard fetch={fetch_products} row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open}  products={products} />
                         </ProductCardErrorHandler>
                   )
+                  // else
+                  // return               <div style={{width:'100%',height:'200px'}}><EmptyArrayHolder text={lang.no_accepted_products}/></div>
               })
               :
               <EmptyArrayHolder text={lang.no_products}/>

@@ -75,12 +75,32 @@
     "drop_shipping":"Drop Shipping",
     "search_by_sku":"Search by SKU",
     "no_products":"No products match ..",
+    "no_accepted_products":"There are no accepted products yet...",
+
+
+
+    "search_by_name":"Search by product name",
+    "storage_info":"This section contains only the bulk products",
+    "new_stock":"new stock",
+    "save_it":"Save it",
+    "stock_form":"Stock Form",
+    "threshold":"Threshold",
+
+
 
 
     "send_mail":"Send Email",
     "mailing":"Mailing",
     "email_subject":"Email subject",
     "email_text":"Email Text",
-    "your_text_here":"your text here ..."
+    "your_text_here":"your text here ...",
     
+
+    "accepted":"Accepted",
+    "refused":"Refused",
+
+    "stock_table_error":"An error appeared while treating this table",
+    "product_error":"An error in this product"
+
+
 }

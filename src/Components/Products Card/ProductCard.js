@@ -8,6 +8,8 @@ import axios from 'axios'
 import {uri} from '../../Url_base'
 import Swal from 'sweetalert2'
 import useToken from '../../Hooks/useToken';
+import Flag from './Flag';
+import productPlaceHolder from '../../Assets/img/productPlaceHolder.png'
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -54,14 +56,14 @@ function ProductCard({rows,filter,row,products,fetch}) {
 
 
         const _updateStatus = ()=>{
-            if(row.status==='pending'){
+            if(row.status==='pending' && row.price_control.is_accepted===true){
             axios.patch(`${uri.link}/products/${row._id}`,{
                 status:'processing'
             },{
               headers:{'auth-token':`${getToken()}`}
             }).then( (response)=> {
                 //   setloading(false);
-                //   fetch();
+                   fetch();
                 })
                 .catch(error =>{
                 //   setloading(false);
@@ -82,29 +84,37 @@ function ProductCard({rows,filter,row,products,fetch}) {
           }
         }
 
+        const getImage_ = ()=>{
+            let img=  row?.media.map(file=>{
+                 if(file.type==='image')
+                 return file.link
+                 else
+                 return productPlaceHolder
+         
+             })
+             return img
+           }
     return (
         <>
-       <motion.Grid animate={{scale:1}} initial={{scale:0}} item sm={12} style={{
+       <motion.Grid animate={{scale:1}} initial={{scale:0}} transition={{type:'spring',duration:0.6}} item sm={12} style={{
             marginRight:'10px',
             marginTop:'10px',
             background:'rgb(243,245,247)',
             padding:'6px',
             borderRadius:'15px',
-            height:'250px',
+            height:'245px',
             width:'250px', // add to the sacle animation stay fix ( remoed md props )
             display:'flex',
             justifyContent:'space-around',
 
        flexDirection:'column'}}  onMouseEnter={()=>setMouseIn(true)} onMouseLeave={()=>setMouseIn(false)} onClick={handleOpenModal} >
-            <span style={{textTransform:'capitalize',width:'50%',textAlign:'center',float:'right',alignSelf:'flex-end',background:'rgb(36,38,76)',padding:'3px',marginTop:'-10px',marginRight:'-5px',borderTopRightRadius:'15px',fontSize:'13px',borderBottomLeftRadius:'15px',color:'white',fontWeight:'bold'}}>
-     
-                {row.status}
-            </span>
+            <Flag  status={row.status}/>
             <section style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-                <Avatar style={style} alt={'haha'} src={'https://cdn.shopify.com/s/files/1/0223/3399/products/spiritual-rick-blanket-blanket-collectiontitle-429989_900x.jpg?v=1574386219'}  variant="square" className={classes.large} />
+                <Avatar style={style} alt={'haha'} src={getImage_()}  variant="square" className={classes.large} />
                 <span style={{color:'#303030',fontWeight:'bold',textTransform:'capitalize',textAlign:'center'}}>{row.name}</span>
                 <span  style={{color:'#303030',opacity:'50%',textOverflow:'ellipsis',overflow:'hidden',display:'block',width:'70%',textAlign:'center'}}>{row.sku}</span>
-              
+                {/* <span  style={{color:row.price_control.is_accepted?'rgb(57,202,73)':'rgb(253,106,98)',borderRadius:'5px',textOverflow:'ellipsis',overflow:'hidden',display:'block',width:'70%',textAlign:'center',background:'white'}}>{row.price_control.is_accepted?lang.accepted:lang.refused}</span> */}
+
             </section>
             <section style={{paddingLeft:'5px',paddingRight:'5px'}}>
                 <span style={{textTransform:'capitalize',color:'#303030',fontWeight:'bold'}}>{row.type_shopping}</span>

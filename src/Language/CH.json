@@ -81,14 +81,31 @@
     "bolk":"散装",
     "drop_shipping":"下降运输",
     "search_by_sku":"按SKU搜索",
-    "no_products":"没有产品匹配..",
+    "no_products":"没有产品匹配...",
+    "no_accepted_products":"尚无可接受的产品...",
+
+
+    "search_by_name":"按产品名称搜索",
+    "storage_info":"本部分仅包含散装产品",
+    "new_stock":"新货",
+    "save_it":"保存",
+    "stock_form":"库存形式",
+    "threshold":"阈",
 
 
     "send_mail":"发电子邮件",
     "mailing":"邮寄",
     "email_subject":"电子邮件主题",
     "email_text":"电子邮件文字",
-    "your_text_here":"在这输入文字 ..."
+    "your_text_here":"在这输入文字 ...",
 
-    
+    "accepted":"公认",
+    "refused":"被拒绝",
+
+
+
+
+    "stock_table_error":"处理此表时出现错误",
+    "product_error":"该产品有误"
+
 }

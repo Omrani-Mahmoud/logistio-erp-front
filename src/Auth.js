@@ -50,7 +50,7 @@ class Auth{
         
       // })
              window.localStorage.setItem('erpT','expired');
-             his.push('/');
+             window.location.replace('/')
           
           }
 

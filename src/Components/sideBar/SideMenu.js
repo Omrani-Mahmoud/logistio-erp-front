@@ -18,6 +18,10 @@ import useRole from "../../Hooks/useRole";
 import { Switch, Route, Link } from 'react-router-dom';
 import '../../Assets/css/sideBarMenuItem.css';
 import logo from '../../Assets/img/Logistio white logo.svg';
+import {motion} from 'framer-motion'
+import SvgComponent from "../SvgComponent";
+
+
 const lngc = window.localStorage.getItem("lang")
   ? window.localStorage.getItem("lang")
   : "EN";
@@ -63,7 +67,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 function SideMenu({sections}) {
   
+  const svgVariants = {
+      hidden:{
+        rotate:-180,
+        opacity:0
+
+      },
+      visible:{
+        opacity:1,
+        rotate:0,
+        transition:{
+          delay:1,
+          duration:0.6
+        }
+      }
+  }
+
+  
+
+
   const classes = useStyles();
+
 
   console.log('SECTIONS SIDE BAR ::::',sections)
   return (
@@ -75,8 +99,11 @@ function SideMenu({sections}) {
       }}
       anchor="left"
     >
+
       <div style={{display:'flex',height:'80px',justifyContent:'center',alignItems:'center'}}>
         <img src={logo}  style={{height:'50px',width:'auto'}}/>
+        
+      
       </div>
       <div className={classes.toolbar} />
     

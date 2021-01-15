@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react'
 import SectionsTableContainer from '../../Components/Sections array/SectionsTableContainer';
 import InfoIcon from '@material-ui/icons/Info';
-
+import {motion} from 'framer-motion'
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -190,9 +190,12 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
             }
                 
             </Paper>
-            <Button variant="contained" color="primary" disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'rgb(120,135,235)'}} onClick={saveUser}>
+            <motion.Button whileHover={{scale:1.1,
+                                
+                              }} disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'rgb(120,135,235)',border:'0px',height:'30px',borderRadius:'5px',color:'white',cursor:'pointer',fontWeight:'bold'}} onClick={saveUser}>
               {lang.saveUser}
-            </Button>
+            </motion.Button>
+            
         </Container>
 
     )

@@ -11,11 +11,62 @@ import LockRoute from '../../Components/sideBar/LockRoute'
 import ProductsContainer from '../Products/ProductsContainer'
 import axios from 'axios'
 import {uri} from "../../Url_base";
+import StockContainer from '../Stock/StockContainer'
+import { motion } from "framer-motion"
 
 function Home() {
+
+
+    const sideMenuVariant = {
+        hidden:{
+            opacity:0,
+            x:'-100vw'
+        },
+        visible:{
+            opacity:1,
+            x:0,
+            transition:{
+                type:'tween',
+                // stiffness:40,
+                duration:1
+            }
+        }
+    }
+
+    const topBarVariant = {
+        hidden:{
+            opacity:0,
+            x:'100vw'
+        },
+        visible:{
+            opacity:1,
+            x:0,
+            transition:{
+                type:'tween',
+                duration:1
+                
+            }
+        }
+    }
+    const contentVariant = {
+        hidden:{
+            opacity:0,
+        },
+        visible:{
+            opacity:1,
+            transition:{
+                type:'tween',
+                duration:0.4,
+                delay:1
+                
+            }
+        }
+    }
+
+
     const user_context = React.useContext(ConnectedUser)
     const [sections, setsections] = React.useState([])
-
+   
 
     console.log('USER',user_context[0])
     React.useEffect(() => {
@@ -73,16 +124,21 @@ function Home() {
                 direction="row"
                 justify="flex-start"
                 alignItems="flex-start"
-                style={{flexWrap:'nowrap'}}
-                
+                style={{flexWrap:'nowrap',overflowX:'hidden',background:'white'}}
+            
                 >
-                <Grid item  style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',minHeight:'100vh',padding:'10px'}}>
+                <motion.Grid variants={sideMenuVariant} initial='hidden' animate='visible' item  style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',maxHeight:'100vh',padding:'10px'}}>
                     <SideMenu sections={sections} />
-                </Grid>
+                </motion.Grid>
+                {/* <Grid item  style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',minHeight:'100vh',padding:'10px'}}>
+                    <SideMenu sections={sections} />
+                </Grid> */}
                
-                <Grid  md={10} style={{padding:'16px 10px 10px 10px'}}>
-                <CustomAppBar user={user_context[0]} />
-                    <div style={{display:'flex',flexDirection:'column',backgroundColor:'white',height:'86vh'}}>
+                <Grid variants={sideMenuVariant} initial='hidden' animate='visible' item md={10} style={{padding:'16px 10px 10px 10px'}}>
+                    <motion.div  variants={topBarVariant} initial='hidden' animate='visible'>
+                        <CustomAppBar user={user_context[0]} />
+                    </motion.div>
+                    <motion.div variants={contentVariant} initial='hidden' animate='visible' style={{display:'flex',flexDirection:'column',backgroundColor:'white',height:'86vh'}}>
                   
                     <Switch>
                             <Route exact path='/home' component={Test}/>
@@ -97,11 +153,14 @@ function Home() {
                             <LockRoute sections={sections} name='product' path='/home/products'>
                                         <ProductsContainer />
                             </LockRoute>
+                            <LockRoute sections={sections} name='stock' path='/home/stock'>
+                                        <StockContainer />
+                            </LockRoute>
                             
                                 
                     </Switch>
                  
-                    </div>
+                    </motion.div>
                     
                 </Grid>
             </Grid>
