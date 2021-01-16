@@ -15,13 +15,11 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import StoreIcon from "@material-ui/icons/Store";
 import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 import useRole from "../../Hooks/useRole";
-import { Switch, Route, Link } from 'react-router-dom';
-import '../../Assets/css/sideBarMenuItem.css';
-import logo from '../../Assets/img/Logistio white logo.svg';
-import {motion} from 'framer-motion'
-import SvgComponent from "../SvgComponent";
-
-
+import { Switch, Route, Link, useLocation } from "react-router-dom";
+import "../../Assets/css/sideBarMenuItem.css";
+import logo from "../../Assets/img/Logistio white logo.svg";
+import { motion } from "framer-motion";
+import DashboardIcon from '@material-ui/icons/Dashboard';
 const lngc = window.localStorage.getItem("lang")
   ? window.localStorage.getItem("lang")
   : "EN";
@@ -32,29 +30,21 @@ const drawerWidth = 220;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-
   },
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    
-    
   },
   drawerPaper: {
     width: drawerWidth,
-    background:"rgb(36,37,77)",
-    borderRadius:'20px',
-    height:'95vh',
-    position:'relative',
-  
-
-    
-    
+    background: "rgb(36,37,77)",
+    borderRadius: "20px",
+    height: "95vh",
+    position: "relative",
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -62,34 +52,96 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
-    
   },
 }));
-function SideMenu({sections}) {
-  
-  const svgVariants = {
-      hidden:{
-        rotate:-180,
-        opacity:0
 
-      },
-      visible:{
-        opacity:1,
-        rotate:0,
-        transition:{
-          delay:1,
-          duration:0.6
-        }
-      }
+const init_activeRoute = {
+  home: false,
+  products: false,
+  stock: false,
+  users: false,
+  orders: false,
+  purchases: false,
+};
+
+const activeRouteReducer = (state, action) => {
+  switch (action.type) {
+    case "home":
+      return {
+        home: true,
+        products: false,
+        stock: false,
+        users: false,
+        orders: false,
+        purchases: false,
+      };
+    case "products":
+      return {
+        home: false,
+        products: true,
+        stock: false,
+        users: false,
+        orders: false,
+        purchases: false,
+      };
+    case "stock":
+      return {
+        home: false,
+        products: false,
+        stock: true,
+        users: false,
+        orders: false,
+        purchases: false,
+      };
+    case "users":
+      return {
+        home: false,
+        products: false,
+        stock: false,
+        users: true,
+        orders: false,
+        purchases: false,
+      };
+    case "orders":
+      return {
+        home: false,
+        products: false,
+        stock: false,
+        users: false,
+        orders: true,
+        purchases: false,
+      };
+    case "purchases":
+      return {
+        home: false,
+        products: false,
+        stock: false,
+        users: false,
+        orders: false,
+        purchases: true,
+      };
+
+    default:
+      return state;
   }
-
-  
-
-
+};
+function SideMenu({ sections }) {
   const classes = useStyles();
 
+  const [activeRoute, dispatch] = React.useReducer(
+    activeRouteReducer,
+    init_activeRoute
+  );
 
-  console.log('SECTIONS SIDE BAR ::::',sections)
+  let location = useLocation();
+  const activeStyle = { borderRight: "5px white solid" };
+  const notActiveStyle = { borderRight: "0px" };
+
+  const _isActiveRoute = (path) => {
+    dispatch({ type: path });
+  };
+
+  console.log("active========", activeRoute);
   return (
     <Drawer
       className={classes.drawer}
@@ -99,81 +151,147 @@ function SideMenu({sections}) {
       }}
       anchor="left"
     >
-
-      <div style={{display:'flex',height:'80px',justifyContent:'center',alignItems:'center'}}>
-        <img src={logo}  style={{height:'50px',width:'auto'}}/>
-        
-      
+      <div
+        style={{
+          display: "flex",
+          height: "80px",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <img src={logo} style={{ height: "50px", width: "auto" }} />
       </div>
       <div className={classes.toolbar} />
-    
-      <List style={{ padding: "10px", }}>
-        {useRole(sections,'product') && (
-          <Link to='/home/products' style={{textDecoration:'none',color:'white'}} >
-            <ListItem
-              button
-              key={lang.products}
-              style={{ padding: "10px" }}
-             
+
+      <List style={{ padding: "10px" }}>
+
+     
+          <motion.section
+            style={activeRoute.home ? activeStyle : notActiveStyle}
+            whileHover={{ scale: 1.05, originX: 0 }}
+          >
+            <Link
+              to="/home/"
+              style={{ textDecoration: "none", color: "white" }}
+              onClick={() => _isActiveRoute("home")}
             >
-              <ListItemIcon>
-                <LocalOfferIcon  className='sideBarMenuIcon' />
-              </ListItemIcon>
-              <ListItemText  primary={lang.products} />
-            </ListItem>
-          </Link>
+              <ListItem button key={lang.products} style={{ padding: "10px" }}>
+                <ListItemIcon>
+                  <DashboardIcon className="sideBarMenuIcon" />
+                </ListItemIcon>
+                <ListItemText primary={lang.home} />
+              </ListItem>
+            </Link>
+          </motion.section>
+     
+
+        {useRole(sections, "product") && (
+          <motion.section
+            style={activeRoute.products ? activeStyle : notActiveStyle}
+            whileHover={{ scale: 1.05, originX: 0 }}
+          >
+            <Link
+              to="/home/products"
+              style={{ textDecoration: "none", color: "white" }}
+              onClick={() => _isActiveRoute("products")}
+            >
+              <ListItem button key={lang.products} style={{ padding: "10px" }}>
+                <ListItemIcon>
+                  <LocalOfferIcon className="sideBarMenuIcon" />
+                </ListItemIcon>
+                <ListItemText primary={lang.products} />
+              </ListItem>
+            </Link>
+          </motion.section>
         )}
 
-        {useRole(sections,'stock') && (
-           <Link to='/home/stock' style={{textDecoration:'none',color:'white'}}>
-              <ListItem button key={lang.stock}  style={{ padding: "10px" }}>
+        {useRole(sections, "stock") && (
+          <motion.section
+            style={activeRoute.stock ? activeStyle : notActiveStyle}
+            whileHover={{ scale: 1.05, originX: 0 }}
+          >
+            <Link
+              to="/home/stock"
+              style={{ textDecoration: "none", color: "white" }}
+              onClick={() => _isActiveRoute("stock")}
+            >
+              <ListItem button key={lang.stock} style={{ padding: "10px" }}>
                 <ListItemIcon>
-                  <LocalConvenienceStoreIcon className='sideBarMenuIcon' />
+                  <LocalConvenienceStoreIcon className="sideBarMenuIcon" />
                 </ListItemIcon>
                 <ListItemText primary={lang.stock} />
               </ListItem>
-          </Link>
+            </Link>
+          </motion.section>
         )}
-        {useRole(sections,'orders') && (
-           <Link to='/home/orders' style={{textDecoration:'none',color:'white'}}>
-              <ListItem button key={lang.orders}  style={{ padding: "10px" }}>
+        {useRole(sections, "orders") && (
+          <motion.section
+            style={activeRoute.orders ? activeStyle : notActiveStyle}
+            whileHover={{ scale: 1.05, originX: 0 }}
+          >
+            <Link
+              to="/home/orders"
+              style={{ textDecoration: "none", color: "white" }}
+              onClick={() => _isActiveRoute("orders")}
+            >
+              <ListItem button key={lang.orders} style={{ padding: "10px" }}>
                 <ListItemIcon>
-                  <ShoppingCartIcon  className='sideBarMenuIcon'/>
+                  <ShoppingCartIcon className="sideBarMenuIcon" />
                 </ListItemIcon>
                 <ListItemText primary={lang.orders} />
               </ListItem>
-          </Link>
+            </Link>
+          </motion.section>
         )}
-        {useRole(sections,'purchases') && (
-           <Link to='/home/purchases' style={{textDecoration:'none',color:'white'}}>
-              <ListItem
-                button
-                key={lang.purchases}
-                style={{ padding: "10px" }}
-              >
+        {useRole(sections, "purchases") && (
+          <motion.section
+            style={activeRoute.purchases ? activeStyle : notActiveStyle}
+            whileHover={{ scale: 1.05, originX: 0 }}
+          >
+            <Link
+              to="/home/purchases"
+              style={{ textDecoration: "none", color: "white" }}
+              onClick={() => _isActiveRoute("purchases")}
+            >
+              <ListItem button key={lang.purchases} style={{ padding: "10px" }}>
                 <ListItemIcon>
-                  <StoreIcon className='sideBarMenuIcon' />
-                </ListItemIcon >
+                  <StoreIcon className="sideBarMenuIcon" />
+                </ListItemIcon>
                 <ListItemText primary={lang.purchases} />
               </ListItem>
             </Link>
+          </motion.section>
         )}
-        {useRole(sections,'user') && (
-           <Link to='/home/users' style={{textDecoration:'none',color:'white'}}>
-              <ListItem
-                button
-                key={lang.newUsers}
-                style={{ padding: "10px" }}
-              >
+        {useRole(sections, "user") && (
+          <motion.section
+            style={activeRoute.users ? activeStyle : notActiveStyle}
+            whileHover={{ scale: 1.05, originX: 0 }}
+          >
+            <Link
+              to="/home/users"
+              style={{ textDecoration: "none", color: "white" }}
+              onClick={() => _isActiveRoute("users")}
+            >
+              <ListItem button key={lang.newUsers} style={{ padding: "10px" }}>
                 <ListItemIcon>
-                  <SupervisorAccountIcon  className='sideBarMenuIcon' />
+                  <SupervisorAccountIcon className="sideBarMenuIcon" />
                 </ListItemIcon>
                 <ListItemText primary={lang.newUsers} />
               </ListItem>
-          </Link>
+            </Link>
+          </motion.section>
         )}
       </List>
-
+      <span
+        style={{
+          position: "absolute",
+          bottom: 0,
+          padding: "20px",
+          color: "white",
+        }}
+      >
+        © MartechLabs
+      </span>
     </Drawer>
   );
 }

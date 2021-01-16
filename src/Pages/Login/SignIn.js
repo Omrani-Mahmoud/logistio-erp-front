@@ -19,6 +19,8 @@ import {ConnectedUser}  from '../../App'
 import useToken from '../../Hooks/useToken';
 import useGetUser from '../../Hooks/useGetUser';
 import jwt from 'jsonwebtoken';
+import logo from '../../Assets/img/Logistio logo.svg';
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 const initialState = {
@@ -77,8 +79,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     marginBottom: theme.spacing(5),
-    background: 'linear-gradient(to right, rgb(57,109,228), rgb(224,227,238)	)',
-    width:50,
+    width:200,
     height:50
   },
   form: {
@@ -141,9 +142,7 @@ export default function SignIn(props) {
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square style={{padding:'50px'}}>
 
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <AssignmentIcon  fontSize='large'/>
-          </Avatar>
+          <Avatar className={classes.avatar} src={logo} variant='square' />
           <Typography component="h1" variant="h5" style={{fontWeight:'bolder',alignSelf:'flex-start'}}>
             {lang.signin}
           </Typography>

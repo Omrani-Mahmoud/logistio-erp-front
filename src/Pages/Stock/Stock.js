@@ -29,10 +29,11 @@ function Stock({stock,stockForm,dispatch,products,fetch}) {
         visible:{
             opacity:1,
             scale:1,
-            
+        },
 
-        }
     }
+    
+    
 
     const [addButon, setaddButon] = React.useState(false)
 
@@ -141,7 +142,7 @@ function Stock({stock,stockForm,dispatch,products,fetch}) {
                     
             </motion.Paper>
             }
-            <Paper elevation={3} style={{marginTop:'15px',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px',display:'flex',flexDirection:'column'}}>
+            <Paper elevation={3} style={{marginTop:'15px',height:'65vh',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px',display:'flex',flexDirection:'column'}}>
 
                 <StockTableErrorHandler>
                    <StockTable stocks={stock} />

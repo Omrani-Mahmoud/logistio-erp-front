@@ -50,12 +50,12 @@ function StockTable({stocks=[],fetch}) {
                     <Table className={classes.table} aria-label="simple table">
                     <TableHead >
                         <TableRow>
-                            <TableCell align='left' className={classes.header} >Product Image</TableCell>
-                            <TableCell align='center' className={classes.header} >Product name</TableCell>
-                            <TableCell align='center' className={classes.header} >Quantity</TableCell>
-                            <TableCell align='center' className={classes.header} >Threshold</TableCell>
-                            <TableCell align='center' className={classes.header} >eDIT</TableCell>
-                            <TableCell align='center' className={classes.header} >nOTIFY</TableCell>
+                            <TableCell align='left' className={classes.header} >{lang.product_img}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.product_name}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.threshold}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.edit}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.notify}</TableCell>
     
                         </TableRow>
                     </TableHead>

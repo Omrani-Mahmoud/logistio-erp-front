@@ -25,13 +25,15 @@
     "purchases":"Purchases",
     "save":"SAVE",
     "sample":"Sample price",
-
+    "home":"Home",
     "productsSection":"Products Section",
     "stockSection":"Stock Section",
     "ordersSection":"Orders Section",
     "purchasesSection":"Purchases Section",
     "roleName":"Role name",
 
+    "edit":"Edit",
+    "notify":"Notify",
 
     "entity":"Entity",
     "create":"Create",

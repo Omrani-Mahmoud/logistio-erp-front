@@ -22,6 +22,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import {motion} from 'framer-motion';
 import productPlaceHolder from '../../Assets/img/productPlaceHolder.png'
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -29,15 +30,11 @@ const lang = require(`../../Language/${lngc}.json`)
 function CustomRow({row,fetch,productId}) {
 
   const svgVariants = {
-    hidden:{
-      rotate:-180,
-
-    },
-    visible:{
-      rotate:0,
+   
+    hover:{
+      rotate:[0,-30,20,-20,10,-10,0],
       transition:{
-        delay:1,
-        duration:2
+        duration:1
       }
     }
 }
@@ -149,17 +146,18 @@ function CustomRow({row,fetch,productId}) {
 
                             }
                         </TableCell>
-                        <TableCell align='center' key={'ac7'}>
+                        <TableCell align='center' key={'ac7'} >
                         {
                                 loading?
                                 <CircularProgress  size={20} />
 
                                 :
                                 // <Button variant="contained" size="small" disableElevation disabled={false} onClick={_persist}>notify</Button>
-                                <IconButton   onClick={_notify} size='small' disabled={row.quantity === row.threshold?false:true} >
-                                  <NotificationsActiveIcon  fontSize="small" />
-                                </IconButton>
-
+                                <motion.section  variants={row.quantity === row.threshold?svgVariants:null}  whileHover="hover" style={{cursor:'pointer',marginLeft:'auto',marginRight:'auto',width:'30%'}}>
+                                    <IconButton onClick={_notify} size='small' disabled={row.quantity === row.threshold?false:true} >
+                                      <NotificationsActiveIcon  fontSize="small" />
+                                    </IconButton>
+                                </motion.section>
                             }
                         </TableCell>
                       

@@ -27,6 +27,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import { AnimatePresence } from 'framer-motion';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -441,6 +442,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                         <ProductCardErrorHandler>
                             <ProductCard fetch={fetch_products} row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open}  products={products} />
                         </ProductCardErrorHandler>
+
                   )
                   // else
                   // return               <div style={{width:'100%',height:'200px'}}><EmptyArrayHolder text={lang.no_accepted_products}/></div>

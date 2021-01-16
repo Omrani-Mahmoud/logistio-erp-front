@@ -1,8 +1,20 @@
 import React from 'react'
 import Products from './Products'
+import {motion} from 'framer-motion'
 
 function ProductsContainer() {
-
+  const contentVariant = {
+    hidden:{
+        scale:0,
+    },
+    visible:{
+        scale:1,
+        transition:{
+            type:'tween',
+            duration:0.4,  
+        }
+    },   
+}
 const [open, setOpen] = React.useState(false);
 
   const handleOpenModal = () => {
@@ -14,7 +26,9 @@ const [open, setOpen] = React.useState(false);
   };
 
     return (
-        <Products open={open} handleCloseModal={handleCloseModal} handleOpenModal={handleOpenModal} />
+      <motion.div variants={contentVariant} initial='hidden' animate='visible'>
+          <Products open={open} handleCloseModal={handleCloseModal} handleOpenModal={handleOpenModal} />
+      </motion.div>
     )
 }
 

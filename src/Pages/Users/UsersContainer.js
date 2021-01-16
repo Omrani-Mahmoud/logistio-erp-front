@@ -3,6 +3,7 @@ import useToken from '../../Hooks/useToken'
 import Users from './Users'
 import axios  from 'axios'
 import {uri} from "../../Url_base";
+import {motion} from 'framer-motion'
 
 
 const initUser = {
@@ -39,6 +40,18 @@ const reducer = (state,action)=>{
     }
 }
 function UsersContainer() {
+    const contentVariant = {
+        hidden:{
+            scale:0,
+        },
+        visible:{
+            scale:1,
+            transition:{
+                type:'tween',
+                duration:0.4,  
+            }
+        },   
+    }
     const [toggled, settoggled] = React.useState(false);
     const [selectedRole, setselectedRole] = React.useState('');
     const [newRole, setnewRole] = React.useState(false);
@@ -131,7 +144,9 @@ function UsersContainer() {
     }
 
     return (
-        <Users handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} resetSelectedRole={resetSelectedRole} />
+        <motion.div variants={contentVariant} initial='hidden' animate='visible'>
+            <Users handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} resetSelectedRole={resetSelectedRole} />
+        </motion.div>
     )
 }
 

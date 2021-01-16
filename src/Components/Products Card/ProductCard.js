@@ -25,6 +25,14 @@ const useStyles = makeStyles((theme)=>({
 
 function ProductCard({rows,filter,row,products,fetch}) {
 
+
+    const cardVariant = {
+        display:{scale:1},
+        hidden:{scale:0},
+        exit:{
+            scale:0
+        }
+    }
     const [setToken,getToken] = useToken();
 
  
@@ -41,7 +49,6 @@ function ProductCard({rows,filter,row,products,fetch}) {
         transition: '1s'
     }
 
-    console.log('PRODUCTS:::::',products)
 
     const [open, setOpen] = React.useState(false);
 
@@ -95,8 +102,8 @@ function ProductCard({rows,filter,row,products,fetch}) {
              return img
            }
     return (
-        <>
-       <motion.Grid animate={{scale:1}} initial={{scale:0}} transition={{type:'spring',duration:0.6}} item sm={12} style={{
+     <>
+       <motion.Grid variants={cardVariant} animate='display' initial='hidden'  item sm={12} style={{
             marginRight:'10px',
             marginTop:'10px',
             background:'rgb(243,245,247)',
@@ -124,8 +131,7 @@ function ProductCard({rows,filter,row,products,fetch}) {
 
        </motion.Grid>
                        <CustomModal fetch={fetch} open={open}  handleClose={handleCloseModal}  product={row} />
-                       </>
-
+</>
     )
 }
 

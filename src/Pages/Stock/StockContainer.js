@@ -3,8 +3,7 @@ import Stock from './Stock'
 import axios from 'axios'
 import {uri} from "../../Url_base";
 import useToken from '../../Hooks/useToken';
-
-
+import {motion} from 'framer-motion'
 const initStockValue = {
     product_name:'',
     quantity:0,
@@ -25,6 +24,19 @@ const reducer = (state,action)=>{
 }
 function StockContainer() {
     
+    const contentVariant = {
+        hidden:{
+            scale:0,
+        },
+        visible:{
+            scale:1,
+            transition:{
+                type:'tween',
+                duration:0.4,  
+            }
+        },   
+    }
+
     const [setToken,getToken] = useToken();
     const [stock, setstock] = React.useState([]);
     const [bulkProducts, setBulkProducts] = React.useState([]);
@@ -80,7 +92,10 @@ const getBulkProducts = (mounted)=>{
     }, [])
 
     return (
-        <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock}  />
+        
+        <motion.div variants={contentVariant} initial='hidden' animate='visible'>
+            <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock}  />
+        </motion.div>
     )
 }
 

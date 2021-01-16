@@ -18,7 +18,7 @@
     "subRole":"新子角色",
     "passwordGenerationHint":"密码将单独发送到此电子邮件.",
     "saveUser":"保存用户",
-
+    "home":"主页",
 
     
     "section":"部分",
@@ -27,7 +27,8 @@
     "orders":"订单",
     "purchases":"购买",
 
-
+    "edit":"编辑",
+    "notify":"通知",
 
     "productsSection":"产品部",
     "stockSection":"库存部",

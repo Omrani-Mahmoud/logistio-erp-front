@@ -5,17 +5,18 @@ import SideMenu from '../../Components/sideBar/SideMenu'
 import {ConnectedUser}  from '../../App'
 import jwt from 'jsonwebtoken';
 import UsersContainer from '../Users/UsersContainer'
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route, Link,useLocation } from 'react-router-dom';
 import Test from './Test'
 import LockRoute from '../../Components/sideBar/LockRoute'
 import ProductsContainer from '../Products/ProductsContainer'
 import axios from 'axios'
 import {uri} from "../../Url_base";
 import StockContainer from '../Stock/StockContainer'
-import { motion } from "framer-motion"
+import { motion,AnimatePresence } from "framer-motion"
 
 function Home() {
 
+    const location = useLocation();
 
     const sideMenuVariant = {
         hidden:{
@@ -138,30 +139,32 @@ function Home() {
                     <motion.div  variants={topBarVariant} initial='hidden' animate='visible'>
                         <CustomAppBar user={user_context[0]} />
                     </motion.div>
+                   
                     <motion.div variants={contentVariant} initial='hidden' animate='visible' style={{display:'flex',flexDirection:'column',backgroundColor:'white',height:'86vh'}}>
-                  
-                    <Switch>
-                            <Route exact path='/home' component={Test}/>
-                            {/* <Route  path='/home/orders'   render={(props) => (
-                                        <OrdersContainer {...props} isMobile={isMobile} />
-                                        )} /> */}
-                            
-                            <LockRoute sections={sections} name='user' path='/home/users'>
-                                        <UsersContainer />
-                            </LockRoute>
-
-                            <LockRoute sections={sections} name='product' path='/home/products'>
-                                        <ProductsContainer />
-                            </LockRoute>
-                            <LockRoute sections={sections} name='stock' path='/home/stock'>
-                                        <StockContainer />
-                            </LockRoute>
-                            
+                 
+                        <Switch>
+                                <Route exact path='/home' component={Test}/>
+                                {/* <Route  path='/home/orders'   render={(props) => (
+                                            <OrdersContainer {...props} isMobile={isMobile} />
+                                            )} /> */}
                                 
-                    </Switch>
+                                <LockRoute sections={sections} name='user' path='/home/users'>
+                                            <UsersContainer />
+                                </LockRoute>
+
+                                <LockRoute sections={sections} name='product' path='/home/products'>
+                                            <ProductsContainer />
+                                </LockRoute>
+                                <LockRoute sections={sections} name='stock' path='/home/stock'>
+                                            <StockContainer />
+                                </LockRoute>
+                                    
+                        </Switch>
+       
+
                  
                     </motion.div>
-                    
+                
                 </Grid>
             </Grid>
    

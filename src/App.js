@@ -5,6 +5,7 @@ import SignIn from './Pages/Login/SignIn';
 import ProtectedRoute from './ProtectedRoute';
 import Test from './Pages/Home/Test'
 import Home from './Pages/Home/Home';
+import { AnimatePresence } from 'framer-motion';
 
 
 const history = createBrowserHistory();
@@ -22,7 +23,9 @@ function App() {
     <ConnectedUser.Provider value={[user,setuser]} >
 
     <Router  history={history}>
-       <Switch>
+
+
+       <Switch >
         <Route component={SignIn} exact path='/'/> 
         <Route component={Test}  path='/test'/> 
         {/* <Route component={Home}  path='/home'/> */}
