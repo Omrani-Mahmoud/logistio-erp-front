@@ -1,5 +1,6 @@
 import React from 'react'
 import {ConnectedUser}  from '../../App'
+import Loader from '../../Components/Loader'
 function Test() {
     const context = React.useContext(ConnectedUser)
     console.log('name',context[0].name)
@@ -7,6 +8,7 @@ function Test() {
     return (
         <div>
             <h1>{context[0].userName}</h1>
+           
         </div>
     )
 }

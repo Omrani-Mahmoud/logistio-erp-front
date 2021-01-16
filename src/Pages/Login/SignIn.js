@@ -20,6 +20,7 @@ import useToken from '../../Hooks/useToken';
 import useGetUser from '../../Hooks/useGetUser';
 import jwt from 'jsonwebtoken';
 import logo from '../../Assets/img/Logistio logo.svg';
+import Loader from '../../Components/Loader';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
@@ -175,18 +176,25 @@ export default function SignIn(props) {
               onChange={(e)=>{dispatch({type:'password',value:e.target.value})}}
             />
             
-            <Button
+            {
+              !loading && 
+              <Button
                 onClick={AuthHandler}
                 fullWidth
                 variant="contained"
                 className={classes.submit}
-                style={loading?{display:'none'}:null}
+              
             >
               {lang.login}
             </Button>
-            <div style={{padding:'15px',textAlign:'center'}} hidden={!loading}>
-            <CircularProgress size={20} thickness={4} style={{color:'black'}}/>
+            }
+            {
+              loading && 
+              <div style={{textAlign:'center'}}>
+                <Loader />
             </div>
+            }
+            
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2" color='textSecondary'>

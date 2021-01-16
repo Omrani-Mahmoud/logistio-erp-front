@@ -14,6 +14,7 @@ import axios from 'axios'
 import {uri} from "../../Url_base";
 import useToken from '../../Hooks/useToken';
 import Swal from 'sweetalert2'
+import Loader from '../../Components/Loader';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
@@ -124,7 +125,7 @@ function Stock({stock,stockForm,dispatch,products,fetch}) {
                     <TextField label={lang.threshold}  type='number' style={{width:'300px', marginTop:'10px'}} onChange={(e)=>dispatch({type:'threshold',value:e.target.value})}/>
                     {
                         loading?
-                        <CircularProgress size={25} style={{alignSelf:'center'}} />
+                       <Loader />
                         :
                         <motion.Button
                     

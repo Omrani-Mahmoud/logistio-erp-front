@@ -17,6 +17,7 @@ class Auth{
       
         if(res.status===200)
         {
+          setter(false)
           console.log('here token',res)
 
             if(res.data && res.data.token){
@@ -29,6 +30,7 @@ class Auth{
         })
 
         .catch(err=>{
+          setter(false)
           console.log('error',err)
           Swal.fire({
             icon: 'error',
@@ -37,7 +39,7 @@ class Auth{
           })
        
         })
-        setter(false)
+   
     }
 
 

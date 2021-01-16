@@ -11,6 +11,7 @@ import {uri} from "../../Url_base";
 import axios from 'axios';
 import useToken from '../../Hooks/useToken';
 import Swal from 'sweetalert2'
+import Loader from '../../Components/Loader';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
@@ -158,7 +159,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch}) {
                 <CustomSpan label={`${lang.agent_desc} :`} value={product.agentDesc?product.agentDesc:''} textArea type='agentDesc' handler={dispatch} />
                 {
                     loading?
-                      <CircularProgress style={{float:'right'}} size={30} />
+                      <Loader />
                     :
                     <Button variant='contained'  style={{background:'black',color:'white',fontWeight:'bold',zIndex:999999999,float:'right',width:'200px'}} onClick={_updateProd}>Update product</Button>
 

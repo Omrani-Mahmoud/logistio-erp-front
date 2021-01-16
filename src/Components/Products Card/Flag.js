@@ -7,7 +7,7 @@ function Flag({status}) {
             // case 'pending':
             //     return 'rgb(255,243,207)'
                 case 'validated':
-                    return 'rgb(37,209,159)'
+                    return 'rgb(57,169,189)'
                     case 'pending':
                         return 'rgb(250,192,62)'
                         case 'processing':
