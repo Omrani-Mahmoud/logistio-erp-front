@@ -13,6 +13,7 @@ import axios from 'axios'
 import {uri} from "../../Url_base";
 import StockContainer from '../Stock/StockContainer'
 import { motion,AnimatePresence } from "framer-motion"
+import OrdersContainer from '../Orders/OrdersContainer'
 
 function Home() {
 
@@ -157,6 +158,10 @@ function Home() {
                                 </LockRoute>
                                 <LockRoute sections={sections} name='stock' path='/home/stock'>
                                             <StockContainer />
+                                </LockRoute>
+
+                                <LockRoute sections={sections} name='orders' path='/home/orders'>
+                                            <OrdersContainer />
                                 </LockRoute>
                                     
                         </Switch>

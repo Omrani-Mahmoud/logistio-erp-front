@@ -101,8 +101,20 @@
     "accepted":"Accepted",
     "refused":"Refused",
 
-    "stock_table_error":"An error appeared while treating this table",
-    "product_error":"An error in this product"
+    "price_accepted":"Price Accepted",
+    "price_refused":"Price Refused",
 
+    "stock_table_error":"An error appeared while treating this table",
+    "product_error":"An error in this product",
+
+    "order":"Order",
+
+
+    "shipping_adr":"Shipping Address",
+    "client_name":"Client Name",
+    "country":"Country",
+    "status":"Status",
+    "fullfillment_mode":"Fullfillment Mode",
+    "items_number":"Items Number"
 
 }

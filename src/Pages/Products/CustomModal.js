@@ -49,6 +49,33 @@ const reducer = (state,action)=>{
   }
 }
 
+const getBgColor = (status)=>{
+  switch (status) {
+      // case 'pending':
+      //     return 'rgb(255,243,207)'
+          case true:
+              return 'rgb(223,240,216)'
+              case false:
+                  return 'rgb(242,222,222)'
+  
+      default:
+        return 'rgb(243,245,247)' 
+      }
+}
+const getColor = (status)=>{
+  switch (status) {
+      // case 'pending':
+      //     return 'rgb(255,243,207)'
+          case true:
+              return 'rgb(103,153,122)'
+              case false:
+                  return 'rgb(170,72,71)'
+  
+      default:
+        return 'black' 
+
+  }
+}
 
 function CustomModal({open,handleOpen,handleClose,product,fetch}) {
   const classes = useStyles();
@@ -114,20 +141,26 @@ function CustomModal({open,handleOpen,handleClose,product,fetch}) {
    
   }
 
+
+  console.log('AAAAAAAA ============= ',product.price_control.is_accepted)
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
       style={{display:'flex',justifyContent:'center',alignItems:'center'}}
     >
     
           <Grid item md={10} >
            <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'white'}}>
-           
              <Grid item md={12} style={{display:'flex',flexDirection:'column'}}>
+             <span style={{color:getColor(product.price_control.is_accepted),fontSize:'14px',padding:'7px',background:getBgColor(product.price_control.is_accepted),borderRadius:'10px', marginTop:'10px',marginBottom:'10px',fontWeight:'bold'}}>
+               {
+                 product.price_control.is_accepted?lang.price_accepted:lang.price_refused
+               }
+             </span>
+
                <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px',display:'flex',flexDirection:'row'}}>
+
                 <div>
                   <Avatar  alt={product.name} src={product.img?product.img:img}  variant="square" className={classes.large} />
                       

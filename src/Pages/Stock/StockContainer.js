@@ -91,6 +91,9 @@ const getBulkProducts = (mounted)=>{
        }
     }, [])
 
+
+    console.log('STOCK',stock)
+
     return (
         
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
