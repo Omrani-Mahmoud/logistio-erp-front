@@ -48,10 +48,10 @@ function AddressTable({adrs=[]}) {
                     <Table className={classes.table} aria-label="simple table" h>
                     <TableHead >
                         <TableRow>
-                            <TableCell align='left' className={classes.header} >Address</TableCell>
-                            <TableCell align='center' className={classes.header} >Country</TableCell>
-                            <TableCell align='center' className={classes.header} >City </TableCell>
-                            <TableCell align='center' className={classes.header} >ZIP code</TableCell>
+                            <TableCell align='left' className={classes.header} >{lang.adr}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.country}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.city}</TableCell>
+                            <TableCell align='center' className={classes.header} >{lang.zip_code}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

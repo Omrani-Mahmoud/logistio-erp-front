@@ -92,6 +92,7 @@
     "save_it":"保存",
     "stock_form":"库存形式",
     "threshold":"阈",
+    "save":"保存",
 
 
     "send_mail":"发电子邮件",
@@ -116,9 +117,24 @@
 
     "shipping_adr":"送货地址",
     "client_name":"客户名称",
-    "country":"Country",
+    "country":"国家",
+    "city":"市",
+    "zip_code":"邮政编码",
+    "adr":"地址",
     "status":"国家",
     "fullfillment_mode":"履行模式",
-    "items_number":"项目编号"
+    "items_number":"项目编号",
+
+
+    "fullfillment_status":"履行状态",
+    "cli_info":"客户资料",
+    "cli_email":"客户电邮",
+    "cli_fn":"名字",
+    "cli_ln":"姓",
+    "shippingInfo":"运输信息",
+    "order_items":"订购项目",
+    "item_info":"物品信息",
+    "track_number":"追踪号码",
+    "shipping_price":"运费价格"
 
 }

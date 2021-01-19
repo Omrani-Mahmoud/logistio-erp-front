@@ -26,12 +26,19 @@ const useStyles = makeStyles({
 function Variants({variants=[],options=[]}) {
     const classes = useStyles();
 
+
+
+    console.log('OPTIONS::::::',options)
+
+    console.log('VARIANTS::::::',variants)
     return (
         // <Grid item md={10} style={{marginTop:'5px',height:'183px',overflowY:'auto'}}>
-                <TableContainer component={Paper} style={{background:'#f0f0f2',width:'100%'}}>
+                <TableContainer component={Paper} style={{background:'rgb(243,245,247)',width:'100%'}}>
                 <Table aria-label="simple table">
                 <TableHead >
                     <TableRow>
+                    <TableCell align='left' className={classes.header} >#ID</TableCell>
+
                         {
                             options.map(elem=>{
                                 return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
@@ -49,15 +56,37 @@ function Variants({variants=[],options=[]}) {
                             :
                             null
                         }
-             
-                        <TableCell align='center' className={classes.header} ></TableCell>
+                                 <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
+
 
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    <TableRow>
-                        <TableCell>aaa</TableCell>
-                    </TableRow>
+                        {
+                            variants.map(row=>{
+                               return   <TableRow>
+                                            <TableCell>
+                                                {row?.vid} 
+                                            </TableCell>
+
+                                            <TableCell align='center'>
+                                                {row.option1?row.option1:'-'} 
+                                            </TableCell>
+
+                                            <TableCell align='center'>
+                                                {row.option2?row.option2:'-'} 
+                                            </TableCell>
+
+                                            <TableCell align='center'>
+                                                {row.option3?row.option3:'-'} 
+                                            </TableCell>
+
+                                            <TableCell align='center'>
+                                                {row.quantity?row.quantity:'-'} 
+                                            </TableCell>
+                                         </TableRow>
+                            })
+                        }
                 </TableBody>
                 </Table>
             </TableContainer>

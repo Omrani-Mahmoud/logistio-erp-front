@@ -113,8 +113,27 @@
     "shipping_adr":"Shipping Address",
     "client_name":"Client Name",
     "country":"Country",
+    "city":"City",
+    "zip_code":"Zip code",
+    "adr":"Address",
     "status":"Status",
     "fullfillment_mode":"Fullfillment Mode",
-    "items_number":"Items Number"
+    "items_number":"Items Number",
+
+    "order_info":"Order Informations",
+    "fullfillment_status":"Fullfillment Status",
+    "cli_info":"Client Information",
+    "cli_email":"Client Email",
+    "cli_fn":"First Name",
+    "cli_ln":"Last Name",
+    "shippingInfo":"Shipping Information",
+    "order_items":"Order Items",
+    "item_info":"Item Information",
+    "track_number":"Tracking Number",
+    "shipping_price":"Shipping Price"
+
+
+
+    
 
 }

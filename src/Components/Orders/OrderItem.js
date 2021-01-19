@@ -24,9 +24,74 @@ import ClearIcon from '@material-ui/icons/Clear';
 import PaymentIcon from '@material-ui/icons/Payment'; 
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Variants from './Variants'
-function OrderItem({product}) {
+import { TextField } from '@material-ui/core';
+import {motion} from 'framer-motion'
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import useToken from '../../Hooks/useToken';
+import {uri} from '../../Url_base'
+const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
+const lang = require(`../../Language/${lngc}.json`)
 
+const initItemInfo = {
+    tracking_id:'',
+    order_price:''
+};
 
+const reducer = (state,action)=>{
+    switch (action.type) {
+        case 'tracking':
+            return {...state,tracking_id:action.value}
+            case 'price':
+                return {...state,order_price:action.value}
+        
+        default:
+            return state
+    }
+}
+function OrderItem({product,disabled,order_id}) {
+    const [setToken,getToken] = useToken();
+
+    const [itemInfo, dispatch] = React.useReducer(reducer, initItemInfo)
+
+    const _updateItem = ()=>{
+        axios.patch(`${uri.link}/orders/`, 
+            { 
+                id:order_id,
+                item:{
+                    id:product._id,
+                    tracking: itemInfo.tracking_id, 
+                    cost: itemInfo.order_price
+                }
+                            }, 
+        {
+            headers:{'auth-token':`${getToken()}`}
+    
+        }).then(res=>{
+                    res.status===200?
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: true,
+                      })
+                      :
+                      Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!',
+                      })
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+              })
+              
+        });
+        }
     console.log('PRODUC -->>> ',product)
     return (
 
@@ -37,7 +102,7 @@ function OrderItem({product}) {
           id="panel1a-header"
         >
             <section style={{width:'100%'}}>
-                <Avatar alt="gun" src={product?.product.media[0]?.link}  variant='square'/>
+                <Avatar alt="gun" src={product?.product?.media[0]?.link}  variant='square'/>
                 <Typography>{product.product.name}</Typography>
             </section>
             <div style={{marginLeft:'25px',width:'100%',display:'flex',alignItems:'flex-start',justifyContent:'space-between'}}>
@@ -47,17 +112,37 @@ function OrderItem({product}) {
             </div>
 
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails style={{display:'flex',flexDirection:'column'}}>
 
+        <Grid item md={12} style={{display:disabled?'none':'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
+                            <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>Item information</span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>Tracking number</b> :   <TextField  size='small' defaultValue={product.tracking_number} onChange={(e)=>{dispatch({type:'tracking',value:e.target.value})}}   />
+ </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>Shipping Price</b> :   <TextField  size='small' defaultValue={product.shipping_cost} onChange={(e)=>{dispatch({type:'price',value:e.target.value})}}/>
+ </span>
+                        
+ <motion.Button
+                    
+                    whileHover={{scale:1.1 }}
+                            variant="contained"
+                            
+                            style={{marginTop:'15px'}}
+                            onClick={_updateItem}
+                            style={{width:'300px',alignSelf:'center',background:'rgb(65,84,179)',border:'0px',borderRadius:'5px',height:'30px',marginTop:'15px',color:'white',cursor:'pointer',fontWeight:'bold'}}
+                        >
+                            {lang.save}
+                    </motion.Button>
+
+                    </Grid>
             <section >
-                <span style={{color:'#303030',opacity:'65%',marginRight:'5px'}}>Quantity :</span>
-                {product.quantity}
+                <span style={{color:'#303030',opacity:'65%',marginRight:'5px',fontWeight:'bold',fontSize:'14px',marginBottom:'10px'}}>{lang.quantity} :                {product.quantity}
+</span>
               
                 {/* style={{backgroundColor:'#f0f0f2',width:'200px',display:'flex',flexDirection:'column',height:'160px',padding:'10px',marginTop:'10px',justifyContent:'space-around'}} */}
                 {/* <Paper elevation={0}  style={{background:'red',width:'100%'}}  > */}
                         {/* here */}
-                        <Grid item md={10} style={{background:'red',width:'100%'}}>
-                            <Variants options={['aa','bb']} />
+                        <Grid item md={10} style={{width:'100%'}}>
+                            <Variants options={product.product.options} variants={product.product.variants} />
                         </Grid>
                 {/* </Paper> */}
             </section>
