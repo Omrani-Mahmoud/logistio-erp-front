@@ -14,6 +14,7 @@ import {uri} from "../../Url_base";
 import StockContainer from '../Stock/StockContainer'
 import { motion,AnimatePresence } from "framer-motion"
 import OrdersContainer from '../Orders/OrdersContainer'
+import PurchasesContainer from '../Purchases/PurchasesContainer'
 
 function Home() {
 
@@ -162,6 +163,10 @@ function Home() {
 
                                 <LockRoute sections={sections} name='orders' path='/home/orders'>
                                             <OrdersContainer />
+                                </LockRoute>
+
+                                <LockRoute sections={sections} name='purchases' path='/home/purchases'>
+                                            <PurchasesContainer />
                                 </LockRoute>
                                     
                         </Switch>

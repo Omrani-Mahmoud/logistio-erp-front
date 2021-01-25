@@ -30,13 +30,11 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 import useToken from '../../Hooks/useToken';
 import {uri} from '../../Url_base'
+import CustomSnackbar from '../CustomSnackBar';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
-const initItemInfo = {
-    tracking_id:'',
-    order_price:''
-};
+
 
 const reducer = (state,action)=>{
     switch (action.type) {
@@ -49,9 +47,13 @@ const reducer = (state,action)=>{
             return state
     }
 }
-function OrderItem({product,disabled,order_id}) {
+function OrderItem({product,disabled,order_id,fetch}) {
+    const initItemInfo = {
+        tracking_id:product.tracking_number?product.tracking_number:'',
+        order_price:product.shipping_cost?product.shipping_cost:0
+    };
     const [setToken,getToken] = useToken();
-
+    const [status, setStatus] = React.useState('')
     const [itemInfo, dispatch] = React.useReducer(reducer, initItemInfo)
 
     const _updateItem = ()=>{
@@ -69,33 +71,35 @@ function OrderItem({product,disabled,order_id}) {
     
         }).then(res=>{
                     res.status===200?
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Your work has been saved',
-                        showConfirmButton: true,
-                      })
-                      :
-                      Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Something went wrong!',
-                      })
+                    setStatus(200)
+                    // <CustomSnackbar  content='Order updated!' type="success"/>
+                    :
+                    setStatus('error')
+                    fetch(true)
+                    // <CustomSnackbar  content='Ops, order update failed!' type="error"/>
+
         })
         .catch(function (error) {
             // handle error
             console.log(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!',
-              })
+            setStatus('error')
+            // <CustomSnackbar  content='Ops, Server Error!' type="error"/>
+
               
         });
         }
-    console.log('PRODUC -->>> ',product)
     return (
 
         <Accordion >
+            {
+                status===200?
+                     <CustomSnackbar  content='Order updated!' type="success"/>
+                :
+                status==='error'?
+                     <CustomSnackbar  content='Ops, order update failed!' type="error"/>
+                :
+                null
+            }
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"

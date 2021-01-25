@@ -130,8 +130,13 @@
     "order_items":"Order Items",
     "item_info":"Item Information",
     "track_number":"Tracking Number",
-    "shipping_price":"Shipping Price"
+    "shipping_price":"Shipping Price",
+    "shipping_type":"Shipping type",
 
+
+
+    "purchase":"Purchase",
+    "item_variants":"Item Variants"
 
 
     

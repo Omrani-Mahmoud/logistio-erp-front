@@ -6,12 +6,13 @@ import CustomSpan from '../../Components/CustomSpan';
 import VariantsTable from '../../Components/VariantsTable';
 import AccessoriesTable from '../../Components/AccessoriesTable';
 import EmailModal from '../../Components/EmailModal';
-import img from '../../Assets/img/productPlaceHolder.png';
+import imgP from '../../Assets/img/productPlaceHolder.png';
 import {uri} from "../../Url_base";
 import axios from 'axios';
 import useToken from '../../Hooks/useToken';
 import Swal from 'sweetalert2'
 import Loader from '../../Components/Loader';
+import CustomSnackbar from '../../Components/CustomSnackBar';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
@@ -77,7 +78,7 @@ const getColor = (status)=>{
   }
 }
 
-function CustomModal({open,handleOpen,handleClose,product,fetch}) {
+function CustomModal({open,handleOpen,handleClose,product,fetch,img}) {
   const classes = useStyles();
   const [setToken,getToken] = useToken();
 
@@ -93,6 +94,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch}) {
 
   const [loading, setloading] = React.useState(false)
   const [productsInputs, dispatch] = React.useReducer(reducer, initProduct);
+  const [status, setStatus] = React.useState('');
 
 
   const lableSpan = {
@@ -121,9 +123,13 @@ function CustomModal({open,handleOpen,handleClose,product,fetch}) {
     }).then( (response)=> {
           setloading(false);
           fetch();
+          setStatus(200)
+          // <CustomSnackbar type='success' content='Product updated !' />
         })
         .catch(error =>{
           setloading(false);
+          // <CustomSnackbar type='error' content='Ops, order update failed!' />
+
           handleClose();
           Swal.fire({
             title: 'Ops, an Error!',
@@ -142,7 +148,6 @@ function CustomModal({open,handleOpen,handleClose,product,fetch}) {
   }
 
 
-  console.log('AAAAAAAA ============= ',product.price_control.is_accepted)
   return (
     <Modal
       open={open}
@@ -151,18 +156,24 @@ function CustomModal({open,handleOpen,handleClose,product,fetch}) {
     >
     
           <Grid item md={10} >
+            {
+              status===200?
+                <CustomSnackbar type='success' content='Product updated !' />
+              :
+              null
+            }
            <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'white'}}>
              <Grid item md={12} style={{display:'flex',flexDirection:'column'}}>
-             <span style={{color:getColor(product.price_control.is_accepted),fontSize:'14px',padding:'7px',background:getBgColor(product.price_control.is_accepted),borderRadius:'10px', marginTop:'10px',marginBottom:'10px',fontWeight:'bold'}}>
+             <span style={{color:getColor(product.price_control.is_accepted),fontSize:'14px',padding:'7px',background:getBgColor(product.price_control.is_accepted),borderRadius:'10px', marginTop:'10px',marginBottom:'10px',fontWeight:'bold',width:'300px',}}>
                {
-                 product.price_control.is_accepted?lang.price_accepted:lang.price_refused
+                 product.price_control.is_accepted?`${lang.price_accepted} ✅`:`${lang.price_refused} ❌`
                }
              </span>
 
                <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px',display:'flex',flexDirection:'row'}}>
 
                 <div>
-                  <Avatar  alt={product.name} src={product.img?product.img:img}  variant="square" className={classes.large} />
+                  <Avatar  alt={product.name} src={img()?img():imgP}  variant="square" className={classes.large} />
                       
                   </div>
                   <div style={{width:'100%'}}>

@@ -135,6 +135,11 @@
     "order_items":"订购项目",
     "item_info":"物品信息",
     "track_number":"追踪号码",
-    "shipping_price":"运费价格"
+    "shipping_price":"运费价格",
+    "shipping_type":"运输方式",
+
+    "purchase":"采购",
+    "item_variants":"项目变体"
+
 
 }

@@ -28,6 +28,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { AnimatePresence } from 'framer-motion';
+import Loader from '../../Components/Loader';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -83,19 +84,23 @@ function Products({open,handleCloseModal,handleOpenModal}) {
   const [products, setproducts] = React.useState([])
   const [searchValue, setsearchValue] = React.useState('');
   const [selectValue, setselectValue] = React.useState('');
-  const [isAccepted, setIsAccepted] = React.useState(false)
+  const [isAccepted, setIsAccepted] = React.useState(false);
+  const [loading, setloading] = React.useState(false);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setsearchValue('')
   };
     React.useEffect(() => {
         console.log('HERE FETCH PRODS')
+        setloading(true);
         let mounted = true;
 
     axios.get(`${uri.link}/products/`,{
         headers:{'auth-token':`${getToken()}`}
     })
        .then(function (response) {
+         setloading(false)
            if(mounted){
             console.log('PRODUCTS --->',response)
     
@@ -265,8 +270,19 @@ function Products({open,handleCloseModal,handleOpenModal}) {
     const handleChangeSelect = (e) => {
       setselectValue(e.target.value);
     };
+
+    const styleWhileLoading = {
+      display:'flex',
+      flexDirection:'column',
+      justifyContent:'center',
+      minHeight:'80vh'
+    }
     return (
-        <Grid item md={12} style={{marginTop:'10px'}}>
+        <Grid item md={12} style={loading?styleWhileLoading:{marginTop:'10px'}}>
+          {
+            loading && 
+              <Loader />
+          }
                 {/* <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                 <TableHead>
@@ -296,7 +312,9 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                 </Table>
             </TableContainer>
             <CustomModal open={open}  handleClose={handleCloseModal}  product={rows[0]} /> */}
-
+{
+  !loading && 
+<>
 <AppBar position="relative" color="white" style={{borderRadius:'10px'}} >
         <Tabs
           value={value}
@@ -530,7 +548,8 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                 <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all'/>
             </Grid>
       </TabPanel>
-
+      </>
+    }
       </Grid>
     )
 }

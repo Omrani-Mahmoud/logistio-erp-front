@@ -16,7 +16,6 @@ function ProductsContainer() {
     },   
 }
 const [open, setOpen] = React.useState(false);
-
   const handleOpenModal = () => {
     setOpen(true);
   };

@@ -113,6 +113,7 @@ function ProductCard({rows,filter,row,products,fetch}) {
             width:'250px', // add to the sacle animation stay fix ( remoed md props )
             display:'flex',
             justifyContent:'space-around',
+            cursor:'pointer',
 
        flexDirection:'column'}}  onMouseEnter={()=>setMouseIn(true)} onMouseLeave={()=>setMouseIn(false)} onClick={handleOpenModal} >
             <Flag  status={row.status}/>
@@ -130,7 +131,7 @@ function ProductCard({rows,filter,row,products,fetch}) {
                 </section>
 
        </motion.Grid>
-                       <CustomModal fetch={fetch} open={open}  handleClose={handleCloseModal}  product={row} />
+                       <CustomModal fetch={fetch} open={open}  handleClose={handleCloseModal}  product={row} img={getImage_} />
 </>
     )
 }

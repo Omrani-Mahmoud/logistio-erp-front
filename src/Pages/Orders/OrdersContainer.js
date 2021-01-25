@@ -4,10 +4,17 @@ import {motion} from 'framer-motion'
 import useToken from '../../Hooks/useToken';
 import axios from 'axios'
 import {uri} from "../../Url_base";
+import Loader from '../../Components/Loader';
 function OrdersContainer() {
     const [orders, setOrders] = React.useState([])
     const [setToken,getToken] = useToken();
+    const [loading, setLoading] = React.useState(false);
 
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+      };
     const contentVariant = {
         hidden:{
             scale:0,
@@ -24,10 +31,13 @@ function OrdersContainer() {
     
 
     const _fetch = (mounted)=>{
-        axios.get(`${uri.link}/orders/`,{
+        setLoading(true);
+        console.log('REFETCH HERE ------>')
+        axios.get(`${uri.link}/orders/filter_by/updated_at-desc`,{
             headers:{'auth-token':`${getToken()}`}
         })
            .then(function (response) {
+               setLoading(false)
                if(mounted){
                     console.log('ORDERS DATA',response.data)
                     setOrders(response.data)
@@ -35,6 +45,7 @@ function OrdersContainer() {
            })
            .catch(function (error) {
                // handle error
+               setLoading(false)
                console.log(error);
            });
     }
@@ -52,7 +63,7 @@ function OrdersContainer() {
     
     return (
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-             <Orders orders={orders} fetch={_fetch}/>
+                <Orders orders={orders} fetch={_fetch} loading={loading} handleDateChange={handleDateChange} selectedDate={selectedDate}/>
         </motion.div>
     )
 }

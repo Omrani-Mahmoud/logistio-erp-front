@@ -16,6 +16,7 @@ import axios from 'axios'
 import {uri} from '../../Url_base'
 import useToken from '../../Hooks/useToken';
 import Swal from 'sweetalert2'
+import CustomSnackbar from '../CustomSnackBar';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -26,7 +27,7 @@ function CustomRow({row,fetch,productId}) {
     const [price, setPrice] = React.useState(row?.price?row.price:0);
     const [_disabled, set_disabled] = React.useState(true)
     const [loading, setloading] = React.useState(false)
-
+    const [status, setStatus] = React.useState('')
     const priceHandler = (value)=>{
         setPrice(value)
     }
@@ -54,26 +55,38 @@ function CustomRow({row,fetch,productId}) {
         }).then( (response)=> {
               setloading(false);
               fetch()
+              setStatus(200)
             })
             .catch(error =>{
               setloading(false);
-              Swal.fire({
-                title: 'Ops, an Error!',
-                text: "An error appear while updating",
-                icon: 'error',
-                confirmButtonText: 'OK',
-                backdrop: `
-                    rgba(0,0,123,0.4)
-                    url("/images/nyan-cat.gif")
-                    left top
-                    no-repeat
-                  `
-              })
+              setStatus('error');
+            //   Swal.fire({
+            //     title: 'Ops, an Error!',
+            //     text: "An error appear while updating",
+            //     icon: 'error',
+            //     confirmButtonText: 'OK',
+            //     backdrop: `
+            //         rgba(0,0,123,0.4)
+            //         url("/images/nyan-cat.gif")
+            //         left top
+            //         no-repeat
+            //       `
+            //   })
             })
        
       }
 
     return (
+        <>
+        {
+            status===200?
+                <CustomSnackbar  content='Accessorie updated!' type="success"/>
+            :
+            status==='error'?
+                <CustomSnackbar  content='Ops, error while updating accessorie' type="error"/>
+            :
+            null
+        }
         <TableRow key={row}>
                         <TableCell align='center' key={'ac1'} >
                                 {row?.name?row.name:'-'}
@@ -112,6 +125,7 @@ function CustomRow({row,fetch,productId}) {
 
                       
                     </TableRow>
+                    </>
     )
 }
 

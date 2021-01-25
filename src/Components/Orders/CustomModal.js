@@ -9,6 +9,8 @@ import axios from 'axios'
 import {uri} from "../../Url_base";
 import useToken from '../../Hooks/useToken';
 import Swal from 'sweetalert2'
+import CustomSnackbar from '../CustomSnackBar';
+import InfoIcon from '@material-ui/icons/Info';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
 
@@ -26,8 +28,9 @@ const reducer = (state,action)=>{
             return state
     }
 }
-function CustomModal({open,handleClose,order}) {
+function CustomModal({open,handleClose,order,fetch}) {
 
+    const [status, setStatus] = React.useState('');
     console.log('aaaaaaaaaaaaaaaaaaaaaaa',order)
     const [setToken,getToken] = useToken();
     const initOrderInfo = {
@@ -35,6 +38,7 @@ function CustomModal({open,handleClose,order}) {
         order_price:order.shipping_cost?order.shipping_cost:0
     };
     const [orderInfo, dispatch] = React.useReducer(reducer, initOrderInfo)
+
     const spanColorbg = {
         background:'white',
         height:'30px',
@@ -43,12 +47,23 @@ function CustomModal({open,handleClose,order}) {
         display:'flex',
         alignItems:'center',
         padding:'5px'
+    }
+
+    const spanColorType = {
+        background:'white',
+        height:'30px',
+        borderRadius:'8px',
+        width:'100%',
+        display:'flex',
+        alignItems:'center',
+        padding:'5px',
+        marginBottom:'10px',
+        marginTop:'10px'
 
     }
 
 
     const _updateOrder = ()=>{
-        console.log('ORDER INFO',orderInfo)
     axios.patch(`${uri.link}/orders/`, 
 	    { 
             id:order._id,
@@ -59,21 +74,19 @@ function CustomModal({open,handleClose,order}) {
         headers:{'auth-token':`${getToken()}`}
 
     }).then(res=>{
-                res.status===200?
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Your work has been saved',
-                    showConfirmButton: true,
-                  })
-                  :
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                  })
+        if(res.status===200){
+            fetch(true);
+            setStatus(200)
+        }
+                // return  <CustomSnackbar  content='Order updated!!' type="success"/>
+            else
+            setStatus('error')
+                // return <CustomSnackbar  content='Ops, order update failed!' type="error"/>
+
     })
     .catch(function (error) {
         // handle error
+        handleClose()
         console.log(error);
         Swal.fire({
             icon: 'error',
@@ -81,7 +94,24 @@ function CustomModal({open,handleClose,order}) {
             text: 'Something went wrong!',
           })
           
+          
     });
+    }
+
+    const isItemDS = ()=>{
+        let isValid = false
+        order.order_items.map(item=>{
+            if(item.product.type_shopping==='ds')
+                isValid = true;
+            else
+                isValid = false;
+        })
+        return isValid
+    }
+
+
+    const create_purchase = ()=>{
+        console.log('create purchase ehre')
     }
 
     return (
@@ -92,14 +122,32 @@ function CustomModal({open,handleClose,order}) {
 
         >
             
+            
             <Grid item md={10} >
                 <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'rgb(243,245,247)',flexDirection:'column'}}>
                     <h1 style={{color:'#303030',opacity:'90%'}}>{lang.order}</h1>
+                    {
+                status===200?
+                <CustomSnackbar  content='Order updated!!' type="success"/>
+                :
+                status==='error'?
+                <CustomSnackbar  content='Ops, order update failed!' type="error"/>
+                : null
+            }
+            
                     <Grid item md={12} style={{display:'flex',justifyContent:"space-around",maxHeight:'50px',marginTop:'7px',marginBottom:'7px'}}>
                         <Grid item md={4}><span style={spanColorbg}><b>{lang.fullfillment_mode} </b> : {order.fulfillment_mode}</span></Grid>
                         <Grid item md={4}><span style={spanColorbg}><b>{lang.fullfillment_status}</b> : {order.status}</span></Grid>
+                    </Grid>
+
+                    <Grid item md={4} >
+                        <span style={spanColorType}><InfoIcon style={{marginRight:'10px',color:'rgb(146,203,247)'}}/><b>{lang.shipping_type} </b> : {order.shipping_type}</span>
 
                     </Grid>
+                    {
+                        order.status!=='fulfilled' && isItemDS() && 
+                        <Button variant="contained" style={{textTransform:'capitalize',fontWeight:'bold', marginBottom:'10px'}} color='default' onClick={create_purchase}>Create purchase</Button>
+                    }
 
                     <Grid item md={12} style={{display:order.fulfillment_mode==='fulfill_all'?'flex':'none',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.order_info}</span>
@@ -123,19 +171,19 @@ function CustomModal({open,handleClose,order}) {
                     </Grid>
                     <Grid item md={12} style={{display:'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.cli_info}</span>
-                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.cli_email}</b> : {order.client.email} </span>
-                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.cli_fn}</b> : {order.client.first_name} </span>
-                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.cli_ln}</b> : {order.client.last_name} </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.cli_email}</b> : {order.shipping_infos[0].email} </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.cli_fn}</b> : {order.shipping_infos[0].first_name} </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.cli_ln}</b> : {order.shipping_infos[0].last_name} </span>
 
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'15px',marginBottom:'10px',marginTop:'15px'}}>{lang.shippingInfo}</span>
 
-                                <AddressTable adrs={order.shipping_adress} />
+                                <AddressTable adrs={order.shipping_infos} />
 
                     </Grid>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px',marginTop:'10px'}}>{lang.order_items}</span>
                             {
                                 order.order_items.map(row=>{
-                                        return   <OrderItem product={row} disabled={order.fulfillment_mode==='fulfill_all'?true:false} order_id={order._id} />
+                                        return   <OrderItem product={row} disabled={order.fulfillment_mode==='fulfill_all'?true:false} order_id={order._id} fetch={fetch} />
 
                                 })
                             }

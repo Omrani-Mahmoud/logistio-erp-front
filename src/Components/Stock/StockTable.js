@@ -40,9 +40,12 @@ function StockTable({stocks=[],fetch}) {
             throw new Error('Error appeared while filtring data')
         }
     })
+
+
+    console.log('STOCK TABLE -----> ',stocks)
     return (
         <Grid item md={12} style={{marginTop:'5px',height:'385px',overflowY:'auto',marginBottom:'10px'}}>
-                            <TextField id="standard-basic" label={lang.search_by_name} style={{width:'300px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
+                            <TextField id="standard-basic"  label={lang.search_by_name} style={{width:'300px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
                 
                 {
                     filtredData.length>0?

@@ -22,13 +22,14 @@ import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import {motion} from 'framer-motion';
 import productPlaceHolder from '../../Assets/img/productPlaceHolder.png'
+import StatusBadge from '../StatusBadge';
 import CustomModal from './CustomModal';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
 
-function CustomRow({row,fetch,productId}) {
+function CustomRow({row}) {
   const [open, setOpen] = React.useState(false);
 
 const handleClose = ()=>{
@@ -49,26 +50,32 @@ console.log('ROWWW CUSTOM -> ',row)
     return (
       <>
               <TableRow key={row} hover onClick={handleOpen} style={{cursor:'pointer'}}>
-              <TableCell align='center' key={'ac1'} >
-                  {row.shipping_infos[0].address}
+              <TableCell align='left' key={'p1'} >
+                  {row._id}
               </TableCell>
-              <TableCell align='center' key={'ac1'} >
-                  {`${row.shipping_infos[0].first_name} ${row.shipping_infos[0].last_name}` }
+
+              <TableCell align='center' key={'p2'} >
+                  {new Date(row.date).toDateString()}
               </TableCell>
-              <TableCell align='center' key={'ac1'} >
-                  {`${row.shipping_infos[0].country} / ${row.shipping_infos[0].city}`}
+
+              <TableCell align='center' key={'p3'} >
+                  {row.sku}
               </TableCell>
-              <TableCell align='center' key={'ac1'} >
-                  {row.status}
+
+              <TableCell align='center' key={'p4'} >
+                  {row.quantity}
               </TableCell>
-              <TableCell align='center' key={'ac1'} >
-                  {row.fulfillment_mode}
+
+              <TableCell align='center' key={'p5'} >
+                  {`${row.client.first_name} ${row.client.last_name}` }
               </TableCell>
-              <TableCell align='center' key={'ac1'} >
-                  {row.order_items.length}
+
+             
+              <TableCell align='center' key={'p6'} >
+                  <StatusBadge status={row.status} />
               </TableCell>
           </TableRow>
-                      <CustomModal open={open} handleClose={handleClose} order={row} fetch={fetch} />
+                      <CustomModal  open={open} handleClose={handleClose} purchase={row}  />
 </>
     )
 }
