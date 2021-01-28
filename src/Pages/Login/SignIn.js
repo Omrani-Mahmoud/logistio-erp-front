@@ -136,6 +136,14 @@ export default function SignIn(props) {
 
 }
 
+
+React.useEffect(() => {
+  if(auth.isAuthenticated())
+      history.push('/home')
+    
+
+}, [])
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -201,11 +209,11 @@ export default function SignIn(props) {
                 {lang.forgotPass}
                 </Link>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Link href="#" variant="body2" color='textSecondary'> 
                  {`${lang.noAccount} ${lang.signUp}`}
                 </Link>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Box mt={5}>
               <Copyright />

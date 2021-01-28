@@ -110,6 +110,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
        })
        .catch(function (error) {
            // handle error
+           setloading(false)
            console.log(error);
        });
        return ()=>{
@@ -328,10 +329,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
           <Tab label={lang.allProducts} {...a11yProps(0)} />
           <Tab label={lang.bolk} {...a11yProps(1)} />
           <Tab label={lang.drop_shipping} {...a11yProps(2)} />
-          <Tab label="Item Four" {...a11yProps(3)} />
-          <Tab label="Item Five" {...a11yProps(4)} />
-          <Tab label="Item Six" {...a11yProps(5)} />
-          <Tab label="Item Seven" {...a11yProps(6)} />
+          
         </Tabs>
       </AppBar>
 
@@ -350,17 +348,17 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                           />
                           </FormControl>
                           <FormControl variant="standard" style={{width:'200px'}}>
-                                <InputLabel htmlFor="filled-age-native-simple">Status</InputLabel>
+                                <InputLabel htmlFor="filled-age-native-simple">{lang.status}</InputLabel>
                                 <Select
                                   native
                                   value={selectValue}
                                   onChange={handleChangeSelect}
                                 >
                                   <option aria-label="None" value="" />
-                                  <option value={'pending'}>Pending</option>
-                                  <option value={'processing'}>Processing</option>
-                                  <option value={'validated'}>Validated</option>
-                                  <option value={'refused'}>Refused</option>
+                                  <option value={'pending'}>{lang.pending}</option>
+                                  <option value={'processing'}>{lang.processing}</option>
+                                  <option value={'validated'}>{lang.validated}</option>
+                                  <option value={'refused'}>{lang.refused}</option>
                                  
                                 </Select>
                             </FormControl>
@@ -373,7 +371,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                         color="primary"
                       />
                     }
-                    label="Accepted products"
+                    label={lang.accepted_product}
                 />
             <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status_all().length>0?'start':'center'}}>
               {
@@ -421,17 +419,18 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                           />
                           </FormControl>
                           <FormControl variant="standard" style={{width:'200px'}}>
-                                <InputLabel htmlFor="filled-age-native-simple">Status</InputLabel>
+                                <InputLabel htmlFor="filled-age-native-simple">{lang.status}</InputLabel>
                                 <Select
                                   native
                                   value={selectValue}
                                   onChange={handleChangeSelect}
                                 >
                                   <option aria-label="None" value="" />
-                                  <option value={'pending'}>Pending</option>
-                                  <option value={'processing'}>Processing</option>
-                                  <option value={'validated'}>Validated</option>
-                                  <option value={'refused'}>Refused</option>
+
+                                  <option value={'pending'}>{lang.pending}</option>
+                                  <option value={'processing'}>{lang.processing}</option>
+                                  <option value={'validated'}>{lang.validated}</option>
+                                  <option value={'refused'}>{lang.refused}</option>
                                  
                                 </Select>
                             </FormControl>
@@ -444,7 +443,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                         color="primary"
                       />
                     }
-                    label="Accepted products"
+                    label={lang.accepted_product}
                 />
           <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('bulk').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='bolk'/> */}
@@ -491,17 +490,18 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                           />
                           </FormControl>
                           <FormControl variant="standard" style={{width:'200px'}}>
-                                <InputLabel htmlFor="filled-age-native-simple">Status</InputLabel>
+                                <InputLabel htmlFor="filled-age-native-simple">{lang.status}</InputLabel>
                                 <Select
                                   native
                                   value={selectValue}
                                   onChange={handleChangeSelect}
                                 >
                                   <option aria-label="None" value="" />
-                                  <option value={'pending'}>Pending</option>
-                                  <option value={'processing'}>Processing</option>
-                                  <option value={'validated'}>Validated</option>
-                                  <option value={'refused'}>Refused</option>
+
+                                  <option value={'pending'}>{lang.pending}</option>
+                                  <option value={'processing'}>{lang.processing}</option>
+                                  <option value={'validated'}>{lang.validated}</option>
+                                  <option value={'refused'}>{lang.refused}</option>
                                  
                                 </Select>
                             </FormControl>
@@ -514,7 +514,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                         color="primary"
                       />
                     }
-                    label="Accepted products"
+                    label={lang.accepted_product}
                 />
                 <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('ds').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='drop_ship'/> */}

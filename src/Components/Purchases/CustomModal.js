@@ -113,6 +113,9 @@ function CustomModal({open,handleClose,purchase}) {
 
         {option1:'red',option2:'s',option3:'coton'},
         {option1:'green',option2:'xs',option3:'coton'},
+        {option1:'black',option2:'xl',option3:'coton'},
+        {option1:'red',option2:'s',option3:'coton'},
+        {option1:'green',option2:'xs',option3:'coton'},
         {option1:'black',option2:'xl',option3:'coton'}
     ]
 
@@ -142,15 +145,15 @@ function CustomModal({open,handleClose,purchase}) {
                         <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.large} variant='square' />
                         <section style={{display:"flex",flexDirection:'column',padding:'10px'}}>
                             <StatusBadge status={purchase.status} align='center' marginBottom='10px' />
-                            <span><b>Product name</b> : aaa </span>
-                            <span><b>Quantity</b> : aaa </span>
-                            <span><b>Sku</b> : aaa </span>
+                            <span><b>{lang.product_name}</b> : aaa </span>
+                            <span><b>{lang.quantity}</b> : aaa </span>
+                            <span><b>{lang.sku}</b> : aaa </span>
                         </section>
                         </section>
                         
                         <h4 style={{color:'#303030',opacity:'90%',marginLeft:'15px'}}>{lang.item_variants}</h4>
 
-                        <section style={{display:'flex',padding:'15px',background:'white',borderRadius:'15px',marginTop:'20px',justifyContent:'center'}}>
+                        <section style={{display:'flex',padding:'15px',background:'white',borderRadius:'15px',marginTop:'20px',justifyContent:'center',height:'290px'}}>
                             {/* <VariantsTable variants={purchase.variants} options={purchase.options} /> */}
                             <VariantsTable variants={variant} options={options} />
 

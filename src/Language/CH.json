@@ -84,6 +84,8 @@
     "search_by_sku":"按SKU搜索",
     "no_products":"没有产品匹配...",
     "no_accepted_products":"尚无可接受的产品...",
+    "no_purchases":"找不到购买...",
+
 
 
     "search_by_name":"按产品名称搜索",
@@ -139,7 +141,29 @@
     "shipping_type":"运输方式",
 
     "purchase":"采购",
-    "item_variants":"项目变体"
+    "item_variants":"项目变体",
+    "client":"客户",
+    "submission_date":"提交日期",
+    "date":"日期",
+    "color":"颜色",
+    "size":"尺寸",
+    "type_v":"类型",
+    "new_role":"新角色 ?",
+    "fulfill_all":"全部履行",
+    "partial_fulfill":"部分履行",
+    "unfulfilled":"未实现",
+    "fulfilled":"完成",
+    "none":"没有",
+    "accepted_product":"接受产品",
+    "pending":"待定",
+    "processing":"处理中",
+    "validated":"已验证"
+
+
+    
+    
+    
+
 
 
 }

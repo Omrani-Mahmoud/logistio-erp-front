@@ -89,7 +89,7 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
           format="dd/MM/yyyy"
           margin="normal"
           id="date-picker-inline"
-          label="Date"
+          label={lang.date}
           value={selectedDate}
           onChange={handleDateChange}
           KeyboardButtonProps={{
@@ -98,9 +98,9 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
         />
         </Grid>
         </MuiPickersUtilsProvider>
-                            <TextField size='small' id="standard-basic" label='Country Name' style={{width:'300px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
+                            <TextField size='small' id="standard-basic" label={lang.country} style={{width:'300px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
                             <FormControl variant="outlined" size='small' style={{width:'250px',float:'right',marginTop:'7px'}}>
-                                    <InputLabel id="demo-simple-select-outlined-label">Fullfillment Status</InputLabel>
+                                    <InputLabel id="demo-simple-select-outlined-label">{lang.fullfillment_status}</InputLabel>
                                             <Select
                                             
                                             labelId="demo-simple-select-outlined-label"
@@ -109,14 +109,14 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                                             onChange={handleChangeStatus}
                                             label="Fullfillment Status">
                                                 <MenuItem value="">
-                                                    <em>None</em>
+                                                    <em>{lang.none}</em>
                                                 </MenuItem>
-                                                <MenuItem value={'unfulfilled'}>Unfulfilled</MenuItem>
-                                                <MenuItem value={'fulfilled'}>Fulfilled</MenuItem>
+                                                <MenuItem value={'unfulfilled'}>{lang.unfulfilled}</MenuItem>
+                                                <MenuItem value={'fulfilled'}>{lang.fulfilled}</MenuItem>
                                             </Select>
                             </FormControl>
                             <FormControl variant="outlined" size='small' style={{width:'250px',float:'right',marginTop:'7px',marginRight:'20px'}}>
-                                    <InputLabel id="demo-simple-select-outlined-label">Fullfillment Mode</InputLabel>
+                                    <InputLabel id="demo-simple-select-outlined-label">{lang.fullfillment_mode}</InputLabel>
                                             <Select
                                             
                                             labelId="demo-simple-select-outlined-label"
@@ -125,10 +125,10 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                                             onChange={handleChange}
                                             label="Fullfillment mode">
                                                 <MenuItem value="">
-                                                    <em>None</em>
+                                                    <em>{lang.none}</em>
                                                 </MenuItem>
-                                                <MenuItem value={'fulfill_all'}>Fulfill All</MenuItem>
-                                                <MenuItem value={'partially_fulfilled'}>partial fulfillment</MenuItem>
+                                                <MenuItem value={'fulfill_all'}>{lang.fulfill_all}</MenuItem>
+                                                <MenuItem value={'partially_fulfilled'}>{lang.partial_fulfill}</MenuItem>
                                             </Select>
                             </FormControl>
                 {
@@ -154,7 +154,7 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                 </TableContainer>
                 :
 
-                <EmptyArrayHolder text="No orders here " />
+                <EmptyArrayHolder text={lang.no_orders} />
                 }
                
       </Grid>

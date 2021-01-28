@@ -68,7 +68,7 @@ class Auth{
     }
    
     var current_time = Date.now() / 1000;
-    if(Object.keys(user).length>0){
+    if(user && Object.keys(user).length>0){
       if ( user.exp < current_time) 
           value = false;
       else

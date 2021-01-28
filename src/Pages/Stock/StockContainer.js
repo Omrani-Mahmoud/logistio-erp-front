@@ -40,20 +40,23 @@ function StockContainer() {
     const [setToken,getToken] = useToken();
     const [stock, setstock] = React.useState([]);
     const [bulkProducts, setBulkProducts] = React.useState([]);
-
+    const [loading, setLoading] = React.useState(false)
     const [stockForm, dispatch] =React.useReducer(reducer, initStockValue)
 
 
 const getStock = (mounted)=>{
+    setLoading(true)
     axios.get(`${uri.link}/storage/`,{
         headers:{'auth-token':`${getToken()}`}
     })
        .then(function (response) {
+           setLoading(false)
            if(mounted){
                 setstock(response.data)
            }
        })
        .catch(function (error) {
+            setLoading(false)
            // handle error
            console.log(error);
        });
@@ -97,7 +100,7 @@ const getBulkProducts = (mounted)=>{
     return (
         
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-            <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock}  />
+            <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock} loadingStock={loading} />
         </motion.div>
     )
 }

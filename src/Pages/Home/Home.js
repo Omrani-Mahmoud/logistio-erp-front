@@ -15,6 +15,7 @@ import StockContainer from '../Stock/StockContainer'
 import { motion,AnimatePresence } from "framer-motion"
 import OrdersContainer from '../Orders/OrdersContainer'
 import PurchasesContainer from '../Purchases/PurchasesContainer'
+import Overview from './Overview'
 
 function Home() {
 
@@ -145,7 +146,7 @@ function Home() {
                     <motion.div variants={contentVariant} initial='hidden' animate='visible' style={{display:'flex',flexDirection:'column',backgroundColor:'white',height:'86vh'}}>
                  
                         <Switch>
-                                <Route exact path='/home' component={Test}/>
+                                <Route exact path='/home' component={Overview}/>
                                 {/* <Route  path='/home/orders'   render={(props) => (
                                             <OrdersContainer {...props} isMobile={isMobile} />
                                             )} /> */}

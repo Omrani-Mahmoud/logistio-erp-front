@@ -4,6 +4,7 @@ import Loader from '../../Components/Loader'
 import PurchasesTable from '../../Components/Purchases/PurchasesTable'
 
 function Purchases({data,loading,selectedDate,handleDateChange}) {
+
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'100%'}} >
 

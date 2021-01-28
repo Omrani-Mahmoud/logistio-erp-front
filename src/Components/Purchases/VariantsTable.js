@@ -27,16 +27,20 @@ const useStyles = makeStyles({
 function VariantsTable({variants=[],options=[]}) {
     const classes = useStyles();
 
+    const get_header_name = (v)=>{
+            return lang[v]
+    }
+
     console.log('Options :::',options)
     return (
-        <Grid item md={10} style={{marginTop:'5px',height:'183px',overflowY:'auto'}}>
+        <Grid item md={10} style={{marginTop:'5px',height:'255px',overflowY:'auto'}}>
                 <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                <TableHead >
+                <Table  className={classes.table} aria-label="simple table">
+                <TableHead  >
                     <TableRow>
                         {
                             options.map(elem=>{
-                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+                                return   <TableCell align='center' className={classes.header} >{get_header_name(elem.name)}</TableCell>
 
                             })
                         }

@@ -20,6 +20,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import 'date-fns';
+import EmptyArrayHolder from '../EmptyArrayHolder';
 
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
@@ -45,7 +46,7 @@ function PurchasesTable({purchases=[],fetch,selectedDate,handleDateChange}) {
           format="dd/MM/yyyy"
           margin="normal"
           id="date-picker-inline"
-          label="Date"
+          label={lang.date}
           value={selectedDate}
           onChange={handleDateChange}
           KeyboardButtonProps={{
@@ -54,16 +55,19 @@ function PurchasesTable({purchases=[],fetch,selectedDate,handleDateChange}) {
         />
         </Grid>
         </MuiPickersUtilsProvider>
+        {
+          purchases.length>0?
+        
                 <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                 <TableHead >
                     <TableRow>
                         <TableCell align='left' className={classes.header} >#ID</TableCell>
-                        <TableCell align='center' className={classes.header} >Submission Date</TableCell>
-                        <TableCell align='center' className={classes.header} >SKU</TableCell>
-                        <TableCell align='center' className={classes.header} >QUANTITY</TableCell>
-                        <TableCell align='center' className={classes.header} >Client</TableCell>
-                        <TableCell align='center' className={classes.header} >Status</TableCell>
+                        <TableCell align='center' className={classes.header} >{lang.submission_date}</TableCell>
+                        <TableCell align='center' className={classes.header} >{lang.sku}</TableCell>
+                        <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
+                        <TableCell align='center' className={classes.header} >{lang.client}</TableCell>
+                        <TableCell align='center' className={classes.header} >{lang.status}</TableCell>
 
                     </TableRow>
                 </TableHead>
@@ -74,6 +78,10 @@ function PurchasesTable({purchases=[],fetch,selectedDate,handleDateChange}) {
                 </TableBody>
                 </Table>
             </TableContainer>
+            :
+            <EmptyArrayHolder text={lang.no_purchases} />
+     
+                    }
       </Grid>
     )
 }

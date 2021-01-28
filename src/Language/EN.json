@@ -78,6 +78,9 @@
     "search_by_sku":"Search by SKU",
     "no_products":"No products match ..",
     "no_accepted_products":"There are no accepted products yet...",
+    "no_orders":"No orders found...",
+    "no_purchases":"No purchases found...",
+
 
 
 
@@ -136,9 +139,23 @@
 
 
     "purchase":"Purchase",
-    "item_variants":"Item Variants"
+    "item_variants":"Item Variants",
+    "client":"Client",
+    "submission_date":"Submission Date",
+    "date":"Date",
+    "color":"Color",
+    "size":"Size",
+    "type_v":"Type",
 
-
-    
+    "new_role":"New role ?",
+    "fulfill_all":"Fulfill all",
+    "partial_fulfill":"Partial Fulfillment",
+    "unfulfilled":"Unfulfilled",
+    "fulfilled":"Fulfilled",
+    "none":"None",
+    "accepted_product":"Accepted products",
+    "pending":"Pending",
+    "processing":"Processing",
+    "validated":"Validated"
 
 }

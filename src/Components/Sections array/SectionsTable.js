@@ -11,15 +11,28 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-
+import { Checkbox, FormControlLabel } from '@material-ui/core';
+import {motion} from 'framer-motion';
 
 const lngc = window.localStorage.getItem("lang")
   ? window.localStorage.getItem("lang")
   : "EN";
 const lang = require(`../../Language/${lngc}.json`);
 
-function SectionsTable({choosedSection,handleChoosedSectionChange}) {
+function SectionsTable({choosedSection,handleChoosedSectionChange,rows,dispatcher}) {
 
+  const contentVariant = {
+    hidden:{
+        scale:0,
+    },
+    visible:{
+        scale:1,
+        transition:{
+            type:'tween',
+            duration:0.3,  
+        }
+    },   
+}
     const headerStyle={
             fontWeight:'bold'
     }
@@ -34,18 +47,10 @@ function SectionsTable({choosedSection,handleChoosedSectionChange}) {
       }
 
 
-    const rows = [
-        createData('action or whatever', 'checkbox here', 'checkbox here','checkbox here', 'checkbox here'),
-        createData('action or whatever', 'checkbox here', 'checkbox here','checkbox here', 'checkbox here'),
-        createData('action or whatever', 'checkbox here', 'checkbox here','checkbox here', 'checkbox here'),
-        createData('action or whatever', 'checkbox here', 'checkbox here','checkbox here', 'checkbox here'),
-        createData('action or whatever', 'checkbox here', 'checkbox here','checkbox here', 'checkbox here'),
-
-      ];
       const classes = useStyles();
 
     return (
-      <>
+      <motion.div variants={contentVariant} initial='hidden' animate='visible' >
       <FormControl className={classes.formControl} size='small' style={{width:'30%',marginBottom:'30px'}}>
         <InputLabel id="demo-simple-select-label">{lang.section}</InputLabel>
         <Select
@@ -54,9 +59,10 @@ function SectionsTable({choosedSection,handleChoosedSectionChange}) {
           value={choosedSection}
           onChange={handleChoosedSectionChange}
         >
-          <MenuItem value={10}>section1</MenuItem>
-          <MenuItem value={20}>section3</MenuItem>
-          <MenuItem value={30}>section4</MenuItem>
+          <MenuItem value={'products'}>Products</MenuItem>
+          <MenuItem value={'stock'}>Stock</MenuItem>
+          <MenuItem value={'orders'}>Orders</MenuItem>
+          <MenuItem value={'purchases'}>Purchases</MenuItem>
         </Select>
       </FormControl>
 
@@ -65,29 +71,25 @@ function SectionsTable({choosedSection,handleChoosedSectionChange}) {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell style={headerStyle}>{lang.entity}</TableCell>
-            <TableCell style={headerStyle} >{lang.create}</TableCell>
-            <TableCell style={headerStyle}>{lang.read}</TableCell>
-            <TableCell style={headerStyle} >{lang.update}</TableCell>
-            <TableCell style={headerStyle} >{lang.delete}</TableCell>
+            <TableCell style={headerStyle}>Access</TableCell>            
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
+            
+              <TableCell align="left">
+              <FormControlLabel
+                control={<Checkbox checked={row.isChecked} onChange={()=>dispatcher(row.id,'')} name="checkedA" color="primary" />}
+                label={row.description}
+              />
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-    </>
+    </motion.div>
     )
 }
 

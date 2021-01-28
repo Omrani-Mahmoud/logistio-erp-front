@@ -8,7 +8,7 @@ function StatusBadge({status,align='left',marginBottom='0px'}) {
                 return 'rgb(250,192,62)'
                 case 'processing':
                     return '#717786'
-                    case 'palidated':
+                    case 'validated':
                         return 'rgb(57,169,189)'
             default:
                 return null

@@ -18,7 +18,7 @@ import Loader from '../../Components/Loader';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
-function Stock({stock,stockForm,dispatch,products,fetch}) {
+function Stock({stock,stockForm,dispatch,products,fetch,loadingStock}) {
     const [setToken,getToken] = useToken();
     const [loading, setloading] = React.useState(false);
 
@@ -96,6 +96,7 @@ function Stock({stock,stockForm,dispatch,products,fetch}) {
           addButon  && 
       
             <motion.Paper variants={formStockVariant} initial='hidden' animate='visible'  elevation={3} style={{marginTop:'35px',marginBottom:'20px',background:'rgb(243,245,247',borderRadius:'15px',padding:'18px',flexDirection:'column',display:'flex'}} >
+                   
                    <span style={{fontWeight:'bold',color:'#303030',opacity:'80%'}}>{lang.stock_form}</span>
                     <FormControl style={{width:'300px'}}>
                             {/* <InputLabel >Product Name</InputLabel>
@@ -143,11 +144,17 @@ function Stock({stock,stockForm,dispatch,products,fetch}) {
                     
             </motion.Paper>
             }
-            <Paper elevation={3} style={{marginTop:'15px',height:'65vh',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px',display:'flex',flexDirection:'column'}}>
+            <Paper elevation={3} style={{marginTop:'15px',height:'65vh',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px',display:'flex',flexDirection:'column',justifyContent:loadingStock?'center':null}}>
 
-                <StockTableErrorHandler>
-                   <StockTable stocks={stock} />
-                </StockTableErrorHandler>
+                {
+                    loadingStock?
+                    <Loader />
+                    :
+                    <StockTableErrorHandler>
+                        <StockTable stocks={stock} />
+                    </StockTableErrorHandler>
+                }
+                
             </Paper>
         </Container>
 
@@ -155,3 +162,14 @@ function Stock({stock,stockForm,dispatch,products,fetch}) {
 }
 
 export default Stock
+
+
+
+
+
+// {
+//     loading?
+//          <Loader />
+//      :
+     
+// }

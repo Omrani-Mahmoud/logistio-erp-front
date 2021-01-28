@@ -43,7 +43,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
 
     console.log('roles:::::',roles)
     return (
-        <Container maxWidth="lg" style={{display:'flex',flexDirection:'column'}} >
+        <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'86vh'}} >
              
             <Paper elevation={3} style={{marginTop:'35px',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px'}}>
                 <Grid item md={12} style={{ padding:'10px'}}>
@@ -60,7 +60,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
                 </Grid>
             </Paper>
             
-          <FormControlLabel style={{color:'#303030'}}
+          {/* <FormControlLabel style={{color:'#303030'}}
         control={
             <Switch
             checked={toggled}
@@ -70,7 +70,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
       />
         }
         label={lang.subRole}
-      />
+      /> */}
             
             <Paper elevation={3} style={{marginTop:'10px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px'}}>
 
@@ -99,7 +99,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
                           color="primary"
                         />
                       }
-                      label="New role ?"
+                      label={lang.new_role}
                     />
                     {
                       !isNew?
@@ -180,22 +180,26 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
                                    label={lang.purchasesSection}
                                  />
                      </section>
+                     
                    </Grid>
+                   
                     }
                   
                
                 
-                    
+                   
                </Grid>
             }
-                
             </Paper>
+            
+            <Grid md={12} style={{display:'flex',justifyContent:'center'}}>
             <motion.Button whileHover={{scale:1.1,
                                 
                               }} disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'rgb(120,135,235)',border:'0px',height:'30px',borderRadius:'5px',color:'white',cursor:'pointer',fontWeight:'bold'}} onClick={saveUser}>
               {lang.saveUser}
             </motion.Button>
             
+            </Grid>
         </Container>
 
     )
