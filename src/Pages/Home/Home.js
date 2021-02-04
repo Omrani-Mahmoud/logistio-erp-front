@@ -16,6 +16,7 @@ import { motion,AnimatePresence } from "framer-motion"
 import OrdersContainer from '../Orders/OrdersContainer'
 import PurchasesContainer from '../Purchases/PurchasesContainer'
 import Overview from './Overview'
+import Profile from '../Settings/Profile'
 
 function Home() {
 
@@ -150,6 +151,7 @@ function Home() {
                                 {/* <Route  path='/home/orders'   render={(props) => (
                                             <OrdersContainer {...props} isMobile={isMobile} />
                                             )} /> */}
+                                <Route path='/home/profile' component={Profile}/>
                                 
                                 <LockRoute sections={sections} name='user' path='/home/users'>
                                             <UsersContainer />

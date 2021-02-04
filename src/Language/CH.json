@@ -159,7 +159,18 @@
     "accepted_product":"接受产品",
     "pending":"待定",
     "processing":"处理中",
-    "validated":"已验证"
+    "validated":"已验证",
+
+
+
+    "save_password":"保存密码",
+    "user_profile":"用户资料",
+    "current_password":"当前密码",
+    "new_password":"新密码",
+    "confirm_password":"确认密码",
+    "video_upload":"视频上传"
+
+
 
 
     

@@ -1,8 +1,9 @@
 import React from 'react'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { TextField } from '@material-ui/core';
+import InputBase from '@material-ui/core/InputBase';
 
-function CustomSpan({label,value,textArea,disabled,input,type,handler=null}) {
+function CustomSpan({label,value,textArea,disabled,input,type,handler=null,media}) {
 
 
 
@@ -26,7 +27,11 @@ function CustomSpan({label,value,textArea,disabled,input,type,handler=null}) {
               <TextareaAutosize  disabled={disabled} aria-label="empty textarea" placeholder="Empty" defaultValue={value} rowsMin={4} onChange={(e)=>{handler({type:type,value:e.target.value})}} />
                :
                input?
-               <TextField id="outlined-basic" label="" variant="outlined"  size='small' defaultValue={value} onChange={(e)=>{handler({type:type,value:e.target.value})}} disabled={disabled} />
+               <TextField id="outlined-basic"  label="" variant="outlined"  size='small' defaultValue={value} onChange={(e)=>{handler({type:type,value:e.target.value})}} disabled={disabled} />
+               :
+               media?
+               <TextField id="outlined-basic" type='file' label="" variant="outlined"  size='small' defaultValue={value} onChange={(e)=>{handler({type:type,value:e.target.files[0]})}}/>
+              //  onChange={(e)=>{handler({type:type,value:e.target.value})}
                :
               <span style={valueSpan} >{value}</span>
             }

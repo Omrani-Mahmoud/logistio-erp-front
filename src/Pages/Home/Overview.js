@@ -12,6 +12,12 @@ import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import '../../Assets/css/Overview.css';
+
+import axios from 'axios'
+import useToken from '../../Hooks/useToken';
+import {uri} from "../../Url_base";
+
 
 
 function useOutsideAlerter(ref, toggleDate) {
@@ -35,6 +41,8 @@ function useOutsideAlerter(ref, toggleDate) {
 
 function Overview() {
     const wrapperRef = useRef(null);
+    const [setToken,getToken] = useToken();
+    const [productsStats, setproductsStats] = useState({});
     const [toggleDate, setToggleDate] = useState(false);
     const [currentFocus, setCurrentFocus] = useState([]);
     const [chosedDate, setChosedDate] = useState([{
@@ -42,8 +50,44 @@ function Overview() {
         endDate: new Date(),
         key: 'selection'
       }]);
+      const [activeBtn, setActiveBtn] = useState(window.localStorage.getItem("activeBtn") ? JSON.parse(window.localStorage.getItem("activeBtn")) : {
+        today: 1, last7days: 0, last30day: 0, last60day: 0, month: 0, other: 0
+      });
     useOutsideAlerter(wrapperRef, setToggleDate);
 
+    const mnths = [{ num: 0, add: 2 },
+    { num: 1, add: 0 },
+    { num: 2, add: 2 },
+    { num: 3, add: 1 },
+    { num: 4, add: 2 },
+    { num: 5, add: 1 },
+    { num: 6, add: 2 },
+    { num: 7, add: 2 },
+    { num: 8, add: 1 },
+    { num: 9, add: 2 },
+    { num: 10, add: 1 },
+    { num: 11, add: 2 }
+    ]
+
+  const getToAddOnMonths = (int) => {
+    let res = 0;
+    mnths.map(x => {
+      if (x.num === int)
+        res = x.add;
+    })
+    return res
+  }
+     // Handl the choice of the user , date buttons : today , last 7 days , ect ...
+  const buttonHandler = (startDate, endDate) => {
+    setChosedDate([{
+      startDate: startDate,
+      endDate: endDate,
+      key: 'selection'
+    }]);
+    setToggleDate(false)
+    window.localStorage.setItem("start", startDate);
+    window.localStorage.setItem("end", endDate);
+  };
     const context = React.useContext(ConnectedUser);
     const data = {
         labels: ['13/02', '14/02', '15/02', '16/02','17/02', '18/02', '19/02', '20/02','21/02', '22/02', '23/02', '24/02','25/02', '26/02', '27/02'],
@@ -108,16 +152,47 @@ function Overview() {
     //     },
     //   }
 
-    const [state, setState] = React.useState([
-        {
-          startDate: new Date(),
-          endDate: null,
-          key: 'selection'
-        }
-      ])
+  
 
-    console.log('MONTH IS ======>',useMonth())
+
+    const _fetchProducts = (mounted)=>{
+        // setLoading(true);
+        console.log('REFETCH HERE ------>')
+        axios.get(`${uri.link}/stats/overall`,{
+            headers:{'auth-token':`${getToken()}`}
+        })
+           .then(function (response) {
+            //    setLoading(false)
+               if(mounted){
+                    console.log('DASHBOARD DATA',response.data)
+                    // setOrders(response.data)
+                    setproductsStats(response.data)
+               }
+           })
+           .catch(function (error) {
+               // handle error
+            //    setLoading(false)
+               console.log(error);
+           });
+    }
+
+    
+    React.useEffect(() => {
+        let mounted = true;
+        _fetchProducts(mounted)
+       return ()=>{
+           mounted=false
+       }
+    }, [])
+
+
+      useEffect(() => {
+          if(currentFocus[1]===0)
+            setToggleDate(false)
+      }, [currentFocus])
       
+
+      console.log('CHOSED',chosedDate)
     return (
             <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'100%'}}>
                     <h3>Overview</h3>
@@ -126,17 +201,17 @@ function Overview() {
                     <CustomCard type='Unfulfilled Orders' number={2408}>
                         <LocalMallIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
-                    <CustomCard type='Refused Products' number={105}>
+                    <CustomCard type='Refused Products' number={productsStats.refused_prods}>
                         <SyncDisabledIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
-                    <CustomCard type='Pending Products' number={301}>
+                    <CustomCard type='Pending Products' number={productsStats.pending_prods}>
                         <SyncProblemIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
                     <CustomCard type='Order treatment time' number='3 Days'>
                         <UpdateIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
                 </Grid>
-                <div ref={wrapperRef} style={{marginTop:'50px'}}>
+                <div ref={wrapperRef} style={{marginTop:'50px',width:'220px'}}>
             <Button style={{background:'#35478C',color:'white'}} variant='contained' onClick={() => setToggleDate(!toggleDate)} >
 
               {chosedDate[0] !== null
@@ -174,6 +249,99 @@ function Overview() {
                             rangeColors={["#35478C"]}
                         />
                     </div>
+                    <div className="calendarDiv">
+                    <div className="btnCalendarContainer">
+                      <Button
+
+                        className={activeBtn.today ? "dateBtns activeBtnDate" : "dateBtns"}
+                        onClick={() => {
+                          buttonHandler(new Date(new Date()),
+
+                            new Date(new Date()));
+                          ;
+                          setActiveBtn({ today: 1, last7days: 0, last30day: 0, last60day: 0, month: 0, other: 0 })
+                          window.localStorage.setItem("activeBtn", JSON.stringify({ today: 1, last7days: 0, last30day: 0, last60day: 0, month: 0, other: 0 }));
+                        }}
+                      >
+                        Today
+      </Button>
+
+                      <Button
+
+                        className={activeBtn.last7days ? "dateBtns activeBtnDate" : "dateBtns"}
+                        onClick={() => {
+                          buttonHandler(
+                            new Date(new Date(
+                              new Date().getTime() - 6 * 24 * 60 * 60 * 1000
+                            )),
+                            new Date(new Date())
+                          );
+                          setActiveBtn({ today: 0, last7days: 1, last30day: 0, last60day: 0, month: 0, other: 0 })
+                          window.localStorage.setItem("activeBtn", JSON.stringify({ today: 0, last7days: 1, last30day: 0, last60day: 0, month: 0, other: 0 }));
+
+                        }}
+                      >
+                        Last 7 Days
+      </Button>
+
+                      <Button
+
+                        className={activeBtn.last30day ? "dateBtns activeBtnDate" : "dateBtns"}
+                        onClick={() => {
+                          buttonHandler(
+                            new Date(new Date(
+                              new Date().getTime() - 29 * 24 * 60 * 60 * 1000
+                            )),
+                            new Date(new Date())
+                          );
+                          setActiveBtn({ today: 0, last7days: 0, last30day: 1, last60day: 0, month: 0, other: 0 })
+                          window.localStorage.setItem("activeBtn", JSON.stringify({ today: 0, last7days: 0, last30day: 1, last60day: 0, month: 0, other: 0 }));
+
+                        }}
+                      >
+                        Last 30 Days
+      </Button>
+
+                      <Button
+
+                        className={activeBtn.last60day ? "dateBtns activeBtnDate" : "dateBtns"}
+                        onClick={() => {
+                          buttonHandler(
+                            new Date(new Date(
+                              new Date().getTime() - 59 * 24 * 60 * 60 * 1000
+                            )),
+                            new Date(new Date())
+                          );
+                          setActiveBtn({ today: 0, last7days: 0, last30day: 0, last60day: 1, month: 0, other: 0 })
+                          window.localStorage.setItem("activeBtn", JSON.stringify({ today: 0, last7days: 0, last30day: 0, last60day: 1, month: 0, other: 0 }));
+
+                        }}
+                      >
+                        Last 60 Days
+      </Button>
+
+                      <Button
+
+                        className={activeBtn.month ? "dateBtns activeBtnDate" : "dateBtns"}
+                        onClick={() => {
+                          buttonHandler(
+                            new Date(new Date(
+                              new Date().getFullYear(),
+                              new Date().getMonth(),
+                              getToAddOnMonths(new Date().getMonth())
+                            )),
+
+                            new Date(new Date())
+                          );
+                          setActiveBtn({ today: 0, last7days: 0, last30day: 0, last60day: 0, month: 1, other: 0 })
+                          window.localStorage.setItem("activeBtn", JSON.stringify({ today: 0, last7days: 0, last30day: 0, last60day: 0, month: 1, other: 0 }));
+
+                        }}
+                      >
+                        This month
+      </Button>
+                    </div>
+                    </div>    
                 </div>
                 </div>)}
                 </div>
@@ -181,7 +349,7 @@ function Overview() {
                 <div style={{display:'flex',marginTop:'25px',justifyContent:'space-around'}}>
                     <Grid item md={6} style={{padding:'10px'}}> 
                         {/* <h3 style={{color:'rgb(36,38,76)'}}>Last 15 days Orders </h3> */}
-                        <Paper elevation={3} style={{display:'flex',height:'300px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}>
+                        <Paper elevation={3} style={{display:'flex',height:'340px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}>
                             <section style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center',height:'30px',marginBottom:'10px'}}>
                                 <h3 style={{color:'rgb(36,38,76)'}}>Last 15 days Orders </h3>
                                 <section style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
@@ -199,7 +367,7 @@ function Overview() {
 
                     <Grid item md={6} style={{padding:'10px'}}>
  
-                        <Paper elevation={3} style={{display:'flex',height:'300px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}>
+                        <Paper elevation={3} style={{display:'flex',height:'340px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}>
                            
                     <div style={{height:'20px',alignItems:'center',display:'flex',padding:'8px',width:'90%',justifyContent:'flex-start'}}>
                                 <SupervisedUserCircleIcon  style={{marginRight:'10px',color:'rgb(36,38,76)',fontSize:'30px'}}/>

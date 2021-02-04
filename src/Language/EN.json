@@ -157,6 +157,17 @@
     "accepted_product":"Accepted products",
     "pending":"Pending",
     "processing":"Processing",
-    "validated":"Validated"
+    "validated":"Validated",
+
+
+    "save_password":"Save password",
+    "user_profile":"User Profile",
+    "current_password":"Current password",
+    "new_password":"New password",
+    "confirm_password":"Confirm password",
+    "video_upload":"Video upload"
+
+
+    
 
 }

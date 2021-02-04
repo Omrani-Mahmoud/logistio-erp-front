@@ -1,0 +1,65 @@
+.calendarDiv {
+    /* background-color: rgb(243, 245, 247); */
+    background-color: white;
+    padding-top: 6%;
+    /* border-right:solid 1px rgb(208,208,208); */
+    box-shadow: 5px 0 5px -5px rgb(208,208,208);
+  }
+  .btnCalendarContainer {
+    width: 200px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .btnDate {
+    background-color: white !important;
+    /* border: solid 1.5px rgb(80, 214, 192) !important;
+    color: rgb(80, 214, 192) !important ; */
+  }
+  
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+  /* .dateBtns{
+      background-color:transparent  !important;
+      border: solid 1.5px rgb(228,232,236)!important;
+      color:rgb(160,171,186)!important ;
+      margin-bottom:5px !important;
+      margin-left: 3px !important;
+      margin-right: 3px !important;
+    } */
+  .dateBtns:first-of-type {
+    border-top: solid 0.5px #eff2f7 !important;
+  }
+  .dateBtns {
+    border-right: none !important;
+    background: white !important;
+    color: black !important;
+    font-weight: normal !important;
+    border-left: none !important;
+    border-top: none !important;
+    border-bottom: solid 0.5px #eff2f7 !important;
+    width: 100%;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  .dateBtns:hover {
+    background-color: rgb(243, 245, 247) !important;
+    border: none !important;
+    color: #7FB2F0 !important ;
+  }
+  .activeBtnDate {
+    background-color: white !important;
+    /* border: solid 1.5px rgb(135, 228, 212) !important; */
+    color: #35478C !important ;
+    font-weight: bolder !important;
+  }
+  .calenderDivStyle {
+    position: absolute;
+    display: flex;
+    flex-direction: row-reverse;
+    box-shadow: 4px 8px 20px rgb(179, 179, 179) !important;
+    z-index: 999999;
+  }

@@ -37,8 +37,9 @@ function ProductCard({rows,filter,row,products,fetch}) {
 
  
         Object.keys(row).map(key=>{
-            if(typeof row[key] == 'undefined')
-                throw new Error(' SOME OBJECT KEYS ARE NULL ')
+             if(typeof row[key] == 'undefined'){
+                throw new Error(' SOME OBJECT KEYS ARE NULL  OR UNDEFINED')
+                }
         })
     
     const classes = useStyles();
@@ -99,7 +100,17 @@ function ProductCard({rows,filter,row,products,fetch}) {
                  return productPlaceHolder
          
              })
-             return img
+             return img[0]
+           };
+           const getImages_ = ()=>{
+               let res = [];
+                 row?.media.map(file=>{
+                 if(file.type==='image')
+                 res.push(file.link)
+                 else
+                 res.push(productPlaceHolder)
+             })
+             return res
            }
     return (
      <>
@@ -131,7 +142,7 @@ function ProductCard({rows,filter,row,products,fetch}) {
                 </section>
 
        </motion.Grid>
-                       <CustomModal fetch={fetch} open={open}  handleClose={handleCloseModal}  product={row} img={getImage_} />
+                       <CustomModal fetch={fetch} open={open}  handleClose={handleCloseModal}  product={row} img={getImage_} imgs={getImages_} />
 </>
     )
 }

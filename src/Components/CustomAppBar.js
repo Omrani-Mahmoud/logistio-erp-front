@@ -11,14 +11,16 @@ import  avatar from '../Assets/img/avatar.png';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import { motion } from "framer-motion"
+import Divider from '@material-ui/core/Divider';
 
 import auth from '../Auth'
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`);
 
@@ -40,12 +42,17 @@ export default function CustomAppBar({user}) {
         setisMenuOpen(event.currentTarget)
   }
   const handleMenuClose = ()=>{
-    auth.logout()
+    // auth.logout()
         setisMenuOpen(null)
 }
 
 const logout_ = ()=>{
-  auth.logout(history)
+  auth.logout()
+}
+
+const _profile = ()=>{
+  handleMenuClose()
+  history.push('/home/profile')
 }
 
 const [isEnglish, setIsEnglish] = React.useState(window.localStorage.getItem('lang')=='CH'?false:true);
@@ -80,7 +87,8 @@ const handleChange = (event) => {
       />
             <section style={{display:'flex',width:'250px',alignItems:'center',padding:'3px',cursor:'pointer',marginLeft:'20px'}} >
                 <Avatar alt="avatar" src={avatar} className={classes.large}/>
-                <span style={{color:'#303030'}} onClick={handleMenuOpen}>{`${lang.hello}, ${user?.userName}!`}</span>
+                <span style={{color:'#303030'}} onClick={handleMenuOpen}>{`${lang.hello}, ${user?.userName}`}</span>
+                <ExpandMoreIcon />
                 
             </section>
             <Menu
@@ -91,9 +99,11 @@ const handleChange = (event) => {
                     anchorEl={isMenuOpen}
                     open={Boolean(isMenuOpen)}
                     onClose={handleMenuClose}
-                    style={{marginTop:'24px'}}
+                    style={{marginTop:'24px',textAlign:'center'}}
                     >
-                    <MenuItem onClick={logout_}><ExitToAppIcon color="primary" fontSize='small' color='action' />{lang.logout}</MenuItem>
+                    <MenuItem style={{width:'150px',textAlign:'center',fontSize:'13px',paddingLeft:'38%',color:'#303030',opacity:'55%'}} onClick={_profile}>Profile</MenuItem>
+                    <Divider variant="middle" />
+                    <MenuItem style={{width:'150px',textAlign:'center',fontSize:'13px',paddingLeft:'38%',color:'#303030',opacity:'55%'}} onClick={logout_}>{lang.logout}</MenuItem>
                     
                     </Menu>
         </div>

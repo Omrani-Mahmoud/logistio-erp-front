@@ -209,11 +209,11 @@ React.useEffect(() => {
                 {lang.forgotPass}
                 </Link>
               </Grid>
-              <Grid item>
+              {/* <Grid item>
                 <Link href="#" variant="body2" color='textSecondary'> 
                  {`${lang.forgot_pass}`}
                 </Link>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Box mt={5}>
               <Copyright />
