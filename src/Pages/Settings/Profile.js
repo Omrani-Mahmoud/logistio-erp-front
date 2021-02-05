@@ -117,7 +117,10 @@ function Profile() {
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'100%'}}>
             <h1 style={{color:'rgb(36,38,76)',paddingTop:'50px',fontWeight:'normal'}}>{lang.user_profile}</h1>
-            <span style={{background:'#303030',borderRadius:'10px',width:'100%',padding:'10px',color:'white-smoke',fontWeight:'bold'}}>ℹ️ Please update your password now.</span>
+            {
+                location.state === 'new' && 
+                <span style={{background:'#303030',borderRadius:'10px',width:'100%',padding:'10px',color:'white',fontWeight:'bold'}}>ℹ️ Please update your password now.</span>
+            }
             {
                 passwords.error && 
                     <CustomSnackbar type='error' content="passwords doesn't match each others" />
