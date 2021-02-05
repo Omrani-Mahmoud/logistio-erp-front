@@ -135,7 +135,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
     moqcp:product.moqcp,
     price_sample:product.price_sample,
     agentDesc:product.agent_description,
-    media:''
+    media:product.media
   }
 
   const [emailModal, setemailModal] = React.useState(false);
@@ -198,7 +198,17 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
   console.log('IMAGES LISTTTT',imgs())
 
   const get_status = ()=>{
-
+        switch (product.status) {
+            case 'pending':
+              return `${lang.pending} ⚠️ `;
+            case 'processing':
+              return `${lang.processing}🕓` ;
+            case 'validated':
+              return `${lang.validated} ✅`;
+            case 'refused':
+              return `${lang.refused}😱`;
+            default: return '-'
+        }
   }
 
   return (
@@ -228,7 +238,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
 
 
              <span style={{color:getColor(product.price_control.is_accepted),fontSize:'14px',padding:'7px',background:getBgColor(product.price_control.is_accepted),borderRadius:'10px', marginTop:'10px',marginBottom:'10px',fontWeight:'bold',width:'300px',}}>
-               {product.status}
+               {get_status()}
                
              </span>
 

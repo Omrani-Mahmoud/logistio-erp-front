@@ -24,7 +24,7 @@ class Auth{
                 //window.localStorage.setItem("tuabalsilennufh","maomhdni")
                 // window.localStorage.setItem("token",res.data.token);
                 this.authenticated=true;
-                cb(res.data.token)
+                cb(res.data.token,res.data.ch_auth)
             }
           }
         })

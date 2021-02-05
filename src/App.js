@@ -7,7 +7,6 @@ import Password_reset from './Pages/Home/Password_reset'
 import Home from './Pages/Home/Home';
 import { AnimatePresence } from 'framer-motion';
 
-
 const history = createBrowserHistory();
 export const ConnectedUser = React.createContext();
 
@@ -17,6 +16,7 @@ function App() {
 
 
  
+  
   return (
 
     <BrowserRouter>

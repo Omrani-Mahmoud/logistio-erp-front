@@ -28,7 +28,7 @@ function Variants({variants=[],options=[]}) {
 
 
 
-    console.log('OPTIONS::::::',options)
+    console.log('OPTIONS::::::',options.reverse())
 
     console.log('VARIANTS::::::',variants)
     return (
@@ -38,10 +38,26 @@ function Variants({variants=[],options=[]}) {
                 <TableHead >
                     <TableRow>
                     <TableCell align='left' className={classes.header} >#ID</TableCell>
+                        
+                    {
+                            options.map(elem=>{
+                                if(elem.type==='option1')
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
 
+                            })
+                        }
                         {
                             options.map(elem=>{
+                                if(elem.type==='option2')
                                 return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+
+                            })
+                        }
+                        {
+                            options.map(elem=>{
+                                if(elem.type==='option3')
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+
                             })
                         }
                         {

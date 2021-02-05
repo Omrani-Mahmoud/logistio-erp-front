@@ -11,6 +11,7 @@ import  avatar from '../../Assets/img/avatar.png';
 import axios from 'axios';
 import {uri} from "../../Url_base";
 import useToken from '../../Hooks/useToken';
+import { useLocation } from "react-router-dom";
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
@@ -60,7 +61,7 @@ function Profile() {
     const [passwords, dispatch] = React.useReducer(reducer, initPassword)
     const [status, setStatus] = React.useState('');
     const [setToken,getToken] = useToken();
-
+    const location = useLocation();
     console.log('CONETXT HERE',context)
     const styleInputPassword = {
         marginBottom:'10px',
@@ -84,7 +85,6 @@ function Profile() {
         }
         else{
             dispatch({type:'error',value:true})
-
         }
        
     }
@@ -92,15 +92,15 @@ function Profile() {
     const _persist = ()=>{
         verify()
         if(passwords.error === false || passwords.error !== ''  ){
-            axios.post(`${uri.link}/password_reset`, {
-                username:context[0].userName,
-
-
-              })
-              .then(function (res) {
+            axios.patch(`${uri.link}/users/${context[0].userName}`, {
+                password:passwords.new
+              },
+              {
+                headers:{'auth-token':`${getToken()}`}
+              }).then(function (res) {
                 if(res.status===200){
                     setStatus(200);
-                    setToken(res.data.token)
+                    // setToken(res.data.token)
                 }
                     else
                     setStatus('error')
@@ -117,6 +117,7 @@ function Profile() {
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'100%'}}>
             <h1 style={{color:'rgb(36,38,76)',paddingTop:'50px',fontWeight:'normal'}}>{lang.user_profile}</h1>
+            <span style={{background:'#303030',borderRadius:'10px',width:'100%',padding:'10px',color:'white-smoke',fontWeight:'bold'}}>ℹ️ Please update your password now.</span>
             {
                 passwords.error && 
                     <CustomSnackbar type='error' content="passwords doesn't match each others" />

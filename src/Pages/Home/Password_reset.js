@@ -10,6 +10,8 @@ import logo from '../../Assets/img/Logistio logo.svg';
 import { makeStyles } from '@material-ui/core/styles';
 
 
+const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
+const lang = require(`../../Language/${lngc}.json`)
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -60,11 +62,12 @@ const _reset = ()=>{
                         : null
                     }
                         <Grid item md = {6}>
-                            <Paper elevation={0} style={{display:'flex',flexDirection:'column',padding:'15px',justifyContent:'space-around',alignItems:'center',height:'50vh'}} >
+                            <Paper elevation={0} style={{display:'flex',flexDirection:'column',padding:'15px',justifyContent:'space-around',alignItems:'center',height:'60vh'}} >
                                 <Avatar className={classes.avatar} src={logo} variant='square' />
-                                <TextField id="outlined-basic" label="New Password" variant="outlined" onChange={(e)=>setpassword(e.target.value)} fullWidth/>
-                                <Button variant="contained" color="primary" onClick={_reset} fullWidth>
-                                    Change password
+                                <TextField id="outlined-basic" label={lang.new_password} variant="outlined" onChange={(e)=>setpassword(e.target.value)} fullWidth/>
+                                <span style={{color:'#303030',opacity:'50%',alignSelf:'flex-start',marginTop:'-65px',fontSize:"13px"}}>{lang.reset_hint}</span>
+                                <Button variant="contained" style={{background:'black',color:'white'}} onClick={_reset} fullWidth>
+                                    {lang.change_password}
                                 </Button>
                             </Paper>
                         </Grid>

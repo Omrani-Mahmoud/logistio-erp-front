@@ -166,8 +166,22 @@
     "new_password":"New password",
     "confirm_password":"Confirm password",
     "video_upload":"Video upload",
-    "reset_password":"Reset Password"
+    "reset_password":"Reset Password",
+    "change_password":"Change Password",
+    "reset_hint":"After this step, you will able to connect with the new password!",
 
+
+    "orders_this_day":"Orders this day",
+    "top_clients":"Top 4 clients",
+    "unfill_orders":"Unfulfilled Orders",
+    "refused_products":"Refused Products",
+    "pending_products":"Pending Products",
+    "order_time":"Order treatment time",
+    "days":"Days",
+    "client1":"Client one",
+    "client2":"Client two",
+    "client3":"Client three",
+    "client4":"Client four"
 
     
 

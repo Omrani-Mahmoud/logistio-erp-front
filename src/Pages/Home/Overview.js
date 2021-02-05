@@ -13,12 +13,12 @@ import { DateRange } from 'react-date-range';
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import '../../Assets/css/Overview.css';
-
 import axios from 'axios'
 import useToken from '../../Hooks/useToken';
 import {uri} from "../../Url_base";
 
-
+const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
+const lang = require(`../../Language/${lngc}.json`);
 
 function useOutsideAlerter(ref, toggleDate) {
     useEffect(() => {
@@ -198,16 +198,16 @@ function Overview() {
                     <h3>Overview</h3>
 
                 <Grid item md={12} style={{display:'flex',maxHeight:'153px'}}> 
-                    <CustomCard type='Unfulfilled Orders' number={2408}>
+                    <CustomCard type={lang.unfill_orders} number={2408}>
                         <LocalMallIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
-                    <CustomCard type='Refused Products' number={productsStats.refused_prods}>
+                    <CustomCard type={lang.refused_products} number={productsStats.refused_prods}>
                         <SyncDisabledIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
-                    <CustomCard type='Pending Products' number={productsStats.pending_prods}>
+                    <CustomCard type={lang.pending_products} number={productsStats.pending_prods}>
                         <SyncProblemIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
-                    <CustomCard type='Order treatment time' number='3 Days'>
+                    <CustomCard type={lang.order_time} number='3 Days'>
                         <UpdateIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
                 </Grid>
@@ -354,7 +354,7 @@ function Overview() {
                                 <h3 style={{color:'rgb(36,38,76)'}}>Last 15 days Orders </h3>
                                 <section style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
                                     <div style={{background:'rgb(36,38,76)',width:'7px',height:'7px',borderRadius:'100%',marginRight:'5px'}}></div>
-                                    <span style={{fontSize:'13px',color:'rgb(36,38,76)'}}>Orders this day</span>
+                                    <span style={{fontSize:'13px',color:'rgb(36,38,76)'}}>{lang.orders_this_day}</span>
                                 </section>
                             </section>
                             <Line
@@ -371,17 +371,17 @@ function Overview() {
                            
                     <div style={{height:'20px',alignItems:'center',display:'flex',padding:'8px',width:'90%',justifyContent:'flex-start'}}>
                                 <SupervisedUserCircleIcon  style={{marginRight:'10px',color:'rgb(36,38,76)',fontSize:'30px'}}/>
-                                <span style={{fontSize:'20px',color:'#303030',color:'rgb(36,38,76)'}}><b>Top 4 Clients</b></span>
+                                <span style={{fontSize:'20px',color:'#303030',color:'rgb(36,38,76)'}}><b>{lang.top_clients}</b></span>
                             </div>
                             <Grid item md={12} style={{marginTop:'10px',display:'flex'}}>
                                 <secion style={{width:'75%',justifyContent:'center',alignItems:'center',display:'flex'}}>
                                     <Doughnut data={data2} options={optionsPie}/>
                                 </secion>
                                 <section style={{width:'25%',justifyContent:'center',alignItems:'flex-start',display:'flex',flexDirection:'column'}}>
-                                    <li  style={{color:'#16193B',fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>Client one</span></li>
-                                    <li  style={{color:'#35478C',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>Client two</span></li>
-                                    <li  style={{color:'#4E7AC7',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>Client three</span></li>
-                                    <li  style={{color:'#7FB2F0',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>Client four</span></li>
+                                    <li  style={{color:'#16193B',fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client1}</span></li>
+                                    <li  style={{color:'#35478C',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client2}</span></li>
+                                    <li  style={{color:'#4E7AC7',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client3}</span></li>
+                                    <li  style={{color:'#7FB2F0',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client4}</span></li>
                                 </section>
                             </Grid>
                         </Paper>

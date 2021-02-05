@@ -132,12 +132,15 @@ export default function SignIn(props) {
 
   const AuthHandler = ()=>{
       setloading(true);
-    auth.login(userInfo,setloading,(token)=>{
+    auth.login(userInfo,setloading,(token,ch)=>{
         setToken(token);
         console.log('DECODED__token:::',jwt.decode(token))
         // history.push('/home');
         user_context[1]({userName:jwt.decode(token).username,role:jwt.decode(token).role});
-        history.push('/home');
+        if(ch)
+          history.push({pathname:'/home/profile',state:'new'});
+        else
+          history.push('/home');
     })
 
 }

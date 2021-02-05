@@ -169,9 +169,23 @@
     "new_password":"新密码",
     "confirm_password":"确认密码",
     "video_upload":"视频上传",
-    "reset_password":"重设密码"
+    "reset_password":"重设密码",
+    "change_password":"更改密码",
+    "reset_hint":"完成此步骤后，您将可以使用新密码进行连接!",
 
 
+
+    "orders_this_day":"今天下单",
+    "top_clients":"前四名客户",
+    "unfill_orders":"未完成的订单",
+    "refused_products":"拒绝产品",
+    "pending_products":"待定产品",
+    "order_time":"订单处理时间",
+    "days":"天",
+    "client1":"客户一",
+    "client2":"客户二",
+    "client3":"客户三",
+    "client4":"客户四"
 
 
 

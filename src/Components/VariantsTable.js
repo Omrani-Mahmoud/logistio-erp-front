@@ -36,6 +36,21 @@ function VariantsTable({variants,options,productId,fetch}) {
                     <TableRow>
                         {
                             options.map(elem=>{
+                                if(elem.type==='option1')
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+
+                            })
+                        }
+                        {
+                            options.map(elem=>{
+                                if(elem.type==='option2')
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+
+                            })
+                        }
+                        {
+                            options.map(elem=>{
+                                if(elem.type==='option3')
                                 return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
 
                             })
@@ -49,6 +64,13 @@ function VariantsTable({variants,options,productId,fetch}) {
                             :
                             options.length==2?
                             <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            :
+                            options.length==0?
+                            <>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            </>
                             :
                             null
                         }
