@@ -6,7 +6,7 @@ import {ConnectedUser}  from '../../App'
 import jwt from 'jsonwebtoken';
 import UsersContainer from '../Users/UsersContainer'
 import { Switch, Route, Link,useLocation } from 'react-router-dom';
-import Test from './Test'
+import Test from './Password_reset'
 import LockRoute from '../../Components/sideBar/LockRoute'
 import ProductsContainer from '../Products/ProductsContainer'
 import axios from 'axios'

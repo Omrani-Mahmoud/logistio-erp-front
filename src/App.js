@@ -3,7 +3,7 @@ import { Router, Route, Switch, Redirect,BrowserRouter } from "react-router-dom"
 import { createBrowserHistory } from "history";
 import SignIn from './Pages/Login/SignIn';
 import ProtectedRoute from './ProtectedRoute';
-import Test from './Pages/Home/Test'
+import Password_reset from './Pages/Home/Password_reset'
 import Home from './Pages/Home/Home';
 import { AnimatePresence } from 'framer-motion';
 
@@ -27,7 +27,8 @@ function App() {
 
        <Switch >
         <Route component={SignIn} exact path='/'/> 
-        <Route component={Test}  path='/test'/> 
+        <Route component={Password_reset}  path='/password_reset/:id'/>
+
         {/* <Route component={Home}  path='/home'/> */}
         <ProtectedRoute  component={Home}  path='/home' />
 

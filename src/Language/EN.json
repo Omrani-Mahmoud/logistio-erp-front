@@ -165,7 +165,8 @@
     "current_password":"Current password",
     "new_password":"New password",
     "confirm_password":"Confirm password",
-    "video_upload":"Video upload"
+    "video_upload":"Video upload",
+    "reset_password":"Reset Password"
 
 
     

@@ -84,7 +84,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
   const [products, setproducts] = React.useState([])
   const [searchValue, setsearchValue] = React.useState('');
   const [selectValue, setselectValue] = React.useState('');
-  const [isAccepted, setIsAccepted] = React.useState(false);
+  const [isAccepted, setIsAccepted] = React.useState(0);
   const [loading, setloading] = React.useState(false);
 
   const handleChange = (event, newValue) => {
@@ -252,7 +252,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
             return (elem.status===selectValue && elem.price_control.is_accepted===isAccepted)
           }
           else{
-            return elem.price_control.is_accepted===isAccepted
+            return elem
           }
         })
     }
@@ -263,7 +263,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
            return (elem.status===selectValue && elem.price_control.is_accepted===isAccepted)
          }
          else{
-           return elem.price_control.is_accepted===isAccepted
+           return elem
          }
        })
    }
@@ -363,16 +363,16 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                                 </Select>
                             </FormControl>
               </section>
-              <FormControlLabel
+              {/* <FormControlLabel
                     control={
                       <Switch
                         checked={isAccepted}
-                        onChange={(e)=>setIsAccepted(e.target.checked)}
+                        onChange={(e)=>setIsAccepted(e.target.checked?1:0)}
                         color="primary"
                       />
                     }
                     label={lang.accepted_product}
-                />
+                /> */}
             <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status_all().length>0?'start':'center'}}>
               {
                 products.length>0?
@@ -435,16 +435,16 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                                 </Select>
                             </FormControl>
               </section>
-              <FormControlLabel
+              {/* <FormControlLabel
                     control={
                       <Switch
                         checked={isAccepted}
-                        onChange={(e)=>setIsAccepted(e.target.checked)}
+                        onChange={(e)=>setIsAccepted(e.target.checked?1:0)}
                         color="primary"
                       />
                     }
                     label={lang.accepted_product}
-                />
+                /> */}
           <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('bulk').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='bolk'/> */}
                 {
@@ -506,16 +506,16 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                                 </Select>
                             </FormControl>
               </section>
-              <FormControlLabel
+              {/* <FormControlLabel
                     control={
                       <Switch
                         checked={isAccepted}
-                        onChange={(e)=>setIsAccepted(e.target.checked)}
+                        onChange={(e)=>setIsAccepted(e.target.checked?1:0)}
                         color="primary"
                       />
                     }
                     label={lang.accepted_product}
-                />
+                /> */}
                 <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('ds').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='drop_ship'/> */}
                 {

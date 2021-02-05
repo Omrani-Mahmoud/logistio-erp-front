@@ -8,6 +8,9 @@ import img from '../../Assets/img/Logistio - logomark.png'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import  avatar from '../../Assets/img/avatar.png';
+import axios from 'axios';
+import {uri} from "../../Url_base";
+import useToken from '../../Hooks/useToken';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
@@ -55,6 +58,8 @@ const reducer = (state,action)=>{
 function Profile() {
     const context = React.useContext(ConnectedUser);
     const [passwords, dispatch] = React.useReducer(reducer, initPassword)
+    const [status, setStatus] = React.useState('');
+    const [setToken,getToken] = useToken();
 
     console.log('CONETXT HERE',context)
     const styleInputPassword = {
@@ -86,8 +91,24 @@ function Profile() {
 
     const _persist = ()=>{
         verify()
-        if(passwords.error === false || passwords.error !== ''  )
-            console.log('PASSWORDS ----->',passwords)
+        if(passwords.error === false || passwords.error !== ''  ){
+            axios.post(`${uri.link}/password_reset`, {
+                username:context[0].userName,
+
+
+              })
+              .then(function (res) {
+                if(res.status===200){
+                    setStatus(200);
+                    setToken(res.data.token)
+                }
+                    else
+                    setStatus('error')
+              })
+              .catch(function (error) {
+                  setStatus('error')
+              });
+        }
     }
 
     const classes = useStyles();
@@ -101,6 +122,15 @@ function Profile() {
                     <CustomSnackbar type='error' content="passwords doesn't match each others" />
             }
                 <Paper elevation={0} style={{marginTop:'15px',background:'rgb(243,245,247)',borderRadius:'15px',padding:'30px',display:'flex',flexDirection:'row',height:'400px',justifyContent:'center',alignItems:'center'}}>
+                    {
+                        status===200?
+                        <CustomSnackbar  content='Password updated!!' type="success"/>
+                        :
+                        status==='error'?
+                        <CustomSnackbar  content='Ops, password update failed!' type="error"/>
+                        : null
+                    }
+                    
                     <Grid item md={4} style={{display:'flex',flexDirection:'column',alignItems:'center',borderRadius:'10px',padding:'15px'}}>
                         {/* <TextField style={styleInput} id="username" label="Username"   variant='filled' disabled defaultValue={context[0].userName} />
                         <TextField style={styleInput} id="email" label="Email" disabled variant='filled' /> */}

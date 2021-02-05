@@ -21,7 +21,11 @@ import useGetUser from '../../Hooks/useGetUser';
 import jwt from 'jsonwebtoken';
 import logo from '../../Assets/img/Logistio logo.svg';
 import Loader from '../../Components/Loader';
-
+import CustomSnackbar from '../../Components/CustomSnackBar';
+import axios from 'axios'
+import {uri} from "../../Url_base";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { IconButton } from '@material-ui/core';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 const initialState = {
@@ -121,6 +125,8 @@ export default function SignIn(props) {
   const [userInfo, dispatch] = React.useReducer(reducer, initialState);
   let history = useHistory();
   const [loading, setloading] = React.useState(false);
+  const [status, setStatus] = React.useState('');
+  const [forgotPass, setforgotPass] = React.useState(false);
 
   
 
@@ -136,6 +142,25 @@ export default function SignIn(props) {
 
 }
 
+const _reset = ()=>{
+
+      axios.post(`${uri.link}/password_reset`, {
+          username:userInfo.username,
+        })
+        .then(function (res) {
+          if(res.status===200){
+              setStatus(200);
+              console.log('RESTE RESPONSE -------->',res.data)
+          }
+              else
+              setStatus('error')
+        })
+        .catch(function (error) {
+            setStatus('error')
+        });
+}
+
+
 
 React.useEffect(() => {
   if(auth.isAuthenticated())
@@ -147,6 +172,15 @@ React.useEffect(() => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
+      {
+                        status===200?
+                        <CustomSnackbar  content='An email has been sent!' type="success"/>
+                        :
+                        status==='error'?
+                        <CustomSnackbar  content='Ops, password update failed!' type="error"/>
+                        : null
+                    }
+                    
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square style={{padding:'50px'}}>
 
@@ -155,34 +189,38 @@ React.useEffect(() => {
           <Typography component="h1" variant="h5" style={{fontWeight:'bolder',alignSelf:'flex-start'}}>
             {lang.signin}
           </Typography>
+          {
+              !forgotPass?
+            
           <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="userName"
-              label={lang.userName}
-              name="userName"
-              autoComplete="userName"
-              autoFocus
-              className={classes.txtInput}
-              onChange={(e)=>{dispatch({type:'userName',value:e.target.value})}}
-            />
-            <TextField
+              
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="userName"
+                  label={lang.userName}
+                  name="userName"
+                  autoComplete="userName"
+                  autoFocus
+                  className={classes.txtInput}
+                  onChange={(e)=>{dispatch({type:'userName',value:e.target.value})}}
+                />
+                <TextField
 
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label={lang.password}
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              className={classes.txtInput}
-              onChange={(e)=>{dispatch({type:'password',value:e.target.value})}}
-            />
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label={lang.password}
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  className={classes.txtInput}
+                  onChange={(e)=>{dispatch({type:'password',value:e.target.value})}}
+                />
             
             {
               !loading && 
@@ -205,7 +243,7 @@ React.useEffect(() => {
             
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" color='textSecondary'>
+                <Link onClick={()=>{setforgotPass(true)}} variant="body2" color='textSecondary'>
                 {lang.forgotPass}
                 </Link>
               </Grid>
@@ -219,6 +257,45 @@ React.useEffect(() => {
               <Copyright />
             </Box>
           </form>
+          :
+          <form className={classes.form} noValidate>
+              
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="userName"
+            label={lang.userName}
+            name="userName"
+            autoComplete="userName"
+            autoFocus
+            className={classes.txtInput}
+            onChange={(e)=>{dispatch({type:'userName',value:e.target.value})}}
+          />
+          {
+              !loading && 
+              <Button
+                onClick={_reset}
+                fullWidth
+                variant="contained"
+                className={classes.submit}
+            >
+              {lang.reset_password}
+            </Button>
+            
+            }
+            {
+              loading && 
+              <div style={{textAlign:'center'}}>
+                <Loader />
+            </div>
+            }
+            <IconButton aria-label="delete" className={classes.margin} onClick={()=>setforgotPass(false)}>
+                <ArrowBackIcon fontSize="large" />
+            </IconButton>
+          </form>
+}
         </div>
         <span style={{color:'#303030',float:'right',opacity:'50%'}}>v1.1.0</span>
       </Grid>

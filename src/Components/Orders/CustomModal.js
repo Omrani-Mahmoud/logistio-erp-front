@@ -31,7 +31,6 @@ const reducer = (state,action)=>{
 function CustomModal({open,handleClose,order,fetch}) {
 
     const [status, setStatus] = React.useState('');
-    console.log('aaaaaaaaaaaaaaaaaaaaaaa',order)
     const [setToken,getToken] = useToken();
     const initOrderInfo = {
         tracking_id:order.tracking_number?order.tracking_number:'',

@@ -64,7 +64,7 @@ function ProductCard({rows,filter,row,products,fetch}) {
 
 
         const _updateStatus = ()=>{
-            if(row.status==='pending' && row.price_control.is_accepted===true){
+            if(row.status==='pending' && row.price_control.is_accepted===1){
             axios.patch(`${uri.link}/products/${row._id}`,{
                 status:'processing'
             },{

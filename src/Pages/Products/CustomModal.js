@@ -197,6 +197,10 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
 
   console.log('IMAGES LISTTTT',imgs())
 
+  const get_status = ()=>{
+
+  }
+
   return (
     <Modal
       open={open}
@@ -224,9 +228,8 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
 
 
              <span style={{color:getColor(product.price_control.is_accepted),fontSize:'14px',padding:'7px',background:getBgColor(product.price_control.is_accepted),borderRadius:'10px', marginTop:'10px',marginBottom:'10px',fontWeight:'bold',width:'300px',}}>
-               {
-                 product.price_control.is_accepted?`${lang.price_accepted} ✅`:`${lang.price_refused} ❌`
-               }
+               {product.status}
+               
              </span>
 
                <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px',display:'flex',flexDirection:'row'}}>
