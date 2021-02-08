@@ -45,14 +45,15 @@ class Auth{
 
 
     logout(his){
-      // axios({ method: 'post', url: uri.link+'user/logout', headers: { 'Authorization': 'Bearer ' + window.localStorage.getItem("token") } }).then(res=>{
-      //   window.localStorage.setItem('token','');
-      //   window.localStorage.removeItem('tuabalsilennufh');
-      //   his.push('/');
-        
-      // })
-             window.localStorage.setItem('erpT','expired');
-             window.location.replace('/')
+      axios({ method: 'post',
+              url:`${uri.link}/logout`,
+              headers: { 'auth-token': window.localStorage.getItem("erpT") } })
+          .then(res=>{
+
+            window.localStorage.setItem('erpT','expired');
+            window.location.replace('/')
+              
+      })
           
           }
 
