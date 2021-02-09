@@ -35,14 +35,16 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
 
     const [isNew, setisNew] = React.useState(false)
     
+    const user_list_header = {
+        fontWeight: 'bold',
+        color:'#303030',
+        opacity:'90%'
+    }
 
     const handle_newRole = (e) =>{
       setisNew(e.target.checked);
       resetSelectedRole()
     }
-
-
-    console.log('roles:::::',roles);
 
     let usersList  = [
       {
@@ -69,10 +71,10 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
                         <Table className={classes.table} aria-label="simple table">
                         <TableHead >
                             <TableRow>
-                                <TableCell align='center' className={classes.header} >{lang.userName}</TableCell>
-                                <TableCell align='center' className={classes.header} >{lang.email}</TableCell>
-                                <TableCell align='center' className={classes.header} >{lang.status}</TableCell>
-                                <TableCell align='left' className={classes.header}></TableCell>
+                                <TableCell align='center' style={user_list_header} >{lang.userName}</TableCell>
+                                <TableCell align='center' style={user_list_header} >{lang.email}</TableCell>
+                                <TableCell align='center' style={user_list_header} >{lang.status}</TableCell>
+                                <TableCell align='left' ></TableCell>
 
                             </TableRow>
                         </TableHead>
