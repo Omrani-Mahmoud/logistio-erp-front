@@ -64,7 +64,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'86vh'}} >
 
             <Paper elevation={3} style={{marginTop:'35px',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px'}}>
-            <span style={{color:'#303030',fontWeight:'bold',opacity:'60%',padding:'10px 0 0 10px'}}>{lang.userslist} </span>
+                 <span style={{color:'#303030',fontWeight:'bold',opacity:'80%',fontSize:'18px',padding:'10px 0 0 7px'}}>{lang.userslist}</span>
 
                 <Grid item md={12} style={{ padding:'10px',height:'300px',overflowY:'auto'}}>
                       <TableContainer  component={Paper}>
@@ -89,7 +89,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
             </Paper>
 
             <Grid item md = {12} style={{background:'rgb(243,245,247)',padding:'15px',borderRadius:'15px'}}> 
-                              <span style={{color:'#303030',fontWeight:'bold',opacity:'80%',fontSize:'18px'}}>User Form</span>
+                              <span style={{color:'#303030',fontWeight:'bold',opacity:'80%',fontSize:'18px'}}>{lang.userForm}</span>
             <Paper elevation={3} style={{marginTop:'35px',marginBottom:'30px',background:'white',borderRadius:'15px',padding:'10px'}}>
                 <Grid item md={12} style={{ padding:'10px'}}>
                     <span style={{color:'#303030',fontWeight:'bold',opacity:'60%'}}>{lang.addUser} </span>
