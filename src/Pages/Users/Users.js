@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, TextField,Switch, FormControlLabel, FormHelperText, Checkbox, Button } from '@material-ui/core'
+import { Container, Grid, Paper, TextField,Switch, FormControlLabel, FormHelperText, Checkbox, Button, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -9,6 +9,7 @@ import React from 'react'
 import SectionsTableContainer from '../../Components/Sections array/SectionsTableContainer';
 import InfoIcon from '@material-ui/icons/Info';
 import {motion} from 'framer-motion'
+import UserListRow from '../../Components/user/UserListRow';
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -41,11 +42,53 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
     }
 
 
-    console.log('roles:::::',roles)
+    console.log('roles:::::',roles);
+
+    let usersList  = [
+      {
+        username:'username 1',
+        email:'username1@gmail.com'
+      },
+      {
+        username:'username 2',
+        email:'username2@gmail.com'
+      },
+      {
+        username:'username 3',
+        email:'username3@gmail.com'
+      }
+    ]
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'86vh'}} >
-             
+
             <Paper elevation={3} style={{marginTop:'35px',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px'}}>
+            <span style={{color:'#303030',fontWeight:'bold',opacity:'60%',padding:'10px 0 0 10px'}}>{lang.userslist} </span>
+
+                <Grid item md={12} style={{ padding:'10px',height:'300px',overflowY:'auto'}}>
+                      <TableContainer  component={Paper}>
+                        <Table className={classes.table} aria-label="simple table">
+                        <TableHead >
+                            <TableRow>
+                                <TableCell align='center' className={classes.header} >{lang.userName}</TableCell>
+                                <TableCell align='center' className={classes.header} >{lang.email}</TableCell>
+                                <TableCell align='center' className={classes.header} >{lang.status}</TableCell>
+                                <TableCell align='left' className={classes.header}></TableCell>
+
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {usersList.map((row,index) => (
+                                <UserListRow user={row} key={row} />
+                            ))}
+                        </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Grid>
+            </Paper>
+
+            <Grid item md = {12} style={{background:'rgb(243,245,247)',padding:'15px',borderRadius:'15px'}}> 
+                              <span style={{color:'#303030',fontWeight:'bold',opacity:'80%',fontSize:'18px'}}>User Form</span>
+            <Paper elevation={3} style={{marginTop:'35px',marginBottom:'30px',background:'white',borderRadius:'15px',padding:'10px'}}>
                 <Grid item md={12} style={{ padding:'10px'}}>
                     <span style={{color:'#303030',fontWeight:'bold',opacity:'60%'}}>{lang.addUser} </span>
                     <Grid item md={8} style={{display:'flex',flexDirection:'column',padding:'15px'}}>
@@ -71,8 +114,8 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
         }
         label={lang.subRole}
       /> */}
-            
-            <Paper elevation={3} style={{marginTop:'10px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px'}}>
+
+            <Paper elevation={3} style={{marginTop:'10px',background:'white',borderRadius:'15px',padding:'10px'}}>
 
 
             {
@@ -199,6 +242,7 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
               {lang.saveUser}
             </motion.Button>
             
+            </Grid>
             </Grid>
         </Container>
 
