@@ -87,8 +87,8 @@ const handleChange = (event) => {
       />
             <section style={{display:'flex',width:'250px',alignItems:'center',padding:'3px',cursor:'pointer',marginLeft:'20px'}} >
                 <Avatar alt="avatar" src={avatar} className={classes.large}/>
-                <span style={{color:'#303030'}} onClick={handleMenuOpen}>{`${lang.hello}, ${user?.userName}`}</span>
-                <ExpandMoreIcon />
+                <span style={{color:'#303030',display:'flex',alignItems:'center'}} onClick={handleMenuOpen}>{`${lang.hello}, ${user?.userName}`}<ExpandMoreIcon /></span>
+         
                 
             </section>
             <Menu

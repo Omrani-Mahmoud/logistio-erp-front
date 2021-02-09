@@ -11,14 +11,14 @@ import {
 
 
 
-const _check  = (array,value)=>{
+const _check  = async (array,value)=>{
   let valid = false;
-  array.map(obj =>{
+  array && array.map(obj =>{
     console.log('OBJ',obj)
       if(obj.name===value){
         valid = true
-
       }
+
   })
   return valid
 }
@@ -26,30 +26,30 @@ function LockRoute({children,name,sections,...rest}) {
     return (
         <Route
           {...rest}
-          render={({ location }) =>
-            typeof sections ==='object'?
-            _check(sections,name)? (
+          render={ ({ location }) =>
+            typeof sections ==='object'  &&
+              _check(sections,name)? (
               children
             ) : (
               <Redirect
                 to={{
-                  pathname: "/home",
+                  pathname: _check(sections,name)?location.pathname:'/home',
                   state: { from: location }
                 }}
               />
             )
-            :
-            sections==='all'? (
-              children
-            ):
-            (
-              <Redirect
-                to={{
-                  pathname: "/home",
-                  state: { from: location }
-                }}
-              />
-            )
+            // :
+            // sections==='all'? (
+            //   children
+            // ):
+            // (
+            //   <Redirect
+            //     to={{
+            //       pathname: location.pathname,
+            //       state: { from: location }
+            //     }}
+            //   />
+            // )
           }
         />
       );
