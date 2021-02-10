@@ -189,7 +189,16 @@
 
 
     "userslist" : "用户列表",
-    "userForm":"用户表格"
+    "userForm":"用户表格",
+    "remove_account":"删除帐户",
+
+    "logitio_client":"Logistio客户信息",
+    "logistio_client_username":"Logistio 客户用户名",
+    "logistio_client_fullname":"Logistio 客户全名",
+    "logistio_client_email":"Logistio 客户电子邮件",
+    "logistio_client_store":"Shopify商店"
+
+
 
 
 

@@ -70,6 +70,13 @@ function Variants({variants=[],options=[]}) {
                             options.length==2?
                             <TableCell align='center' className={classes.header} >{'-'}</TableCell>
                             :
+                            options.length==0?
+                            <>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            </>
+                            :
                             null
                         }
                                  <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>

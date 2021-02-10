@@ -37,7 +37,7 @@ function StockTable({stocks=[],fetch}) {
             return row.product.name.includes(searchInput)
 
         } catch (error) {
-            throw new Error('Error appeared while filtring data')
+            throw new Error('Error appeared while filtring data or PRODUCT is NULL')
         }
     })
 

@@ -185,7 +185,19 @@
 
 
     "userslist" : "Users List",
-    "userForm":"User Form"
+    "userForm":"User Form",
+    "remove_account":"Remove Account",
+
+
+    "logitio_client":"Logistio Client Information",
+    "logistio_client_username":"Logistio client username",
+    "logistio_client_fullname":"Logistio client full name",
+    "logistio_client_email":"Logistio client email",
+    "logistio_client_store":"Shopify Store"
+
+
+
+
 
     
 

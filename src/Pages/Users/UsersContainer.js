@@ -59,6 +59,7 @@ function UsersContainer() {
     const [user, dispatch] = React.useReducer(reducer, initUser)
     const [setToken,getToken] = useToken();
     const [roles, setroles] = React.useState([])
+    const [users, setUsers] = React.useState([])
 
     const handleToggled = (event)=>{
         settoggled(event.target.checked)
@@ -143,9 +144,33 @@ function UsersContainer() {
         console.log('to send :::: ',userToSend)
     }
 
+    React.useEffect(() => {
+        let mounted = true;
+    axios.get(`${uri.link}/users/`,{
+        headers:{'auth-token':`${getToken()}`}
+    })
+       .then(function (response) {
+           if(mounted){
+                console.log('USERS ------------------>',response);
+                let filtred  = response.data.filter(user=>{
+                       return  user.is_deleted === false
+                })
+                setUsers(filtred)
+                
+           }
+       })
+       .catch(function (error) {
+           // handle error
+           console.log(error);
+       });
+       return ()=>{
+           mounted=false
+       }
+    }, [])
+
     return (
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-            <Users handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} resetSelectedRole={resetSelectedRole} />
+            <Users usersList={users} handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} resetSelectedRole={resetSelectedRole} />
         </motion.div>
     )
 }

@@ -25,6 +25,7 @@ class Auth{
                 cb(res.data.token,res.data.ch_auth)
             }
           }
+       
         })
 
         .catch(err=>{
@@ -33,7 +34,7 @@ class Auth{
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'Something went wrong!',
+            text: `${err.response.data.message && err.response.status===401 ? err.response.data.message:'Something went wrong!'}`,
           })
        
         })

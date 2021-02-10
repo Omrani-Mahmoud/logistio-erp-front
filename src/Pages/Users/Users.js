@@ -26,7 +26,7 @@ const lngc = window.localStorage.getItem("lang")
 const lang = require(`../../Language/${lngc}.json`);
 
 
-function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user,saveUser,resetSelectedRole}) {
+function Users({usersList,toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user,saveUser,resetSelectedRole}) {
     const textFStyle = {
         marginBottom:'7px'
     }
@@ -46,20 +46,20 @@ function Users({toggled,handleToggled,handleDropDownRoleChange,roles,selectedRol
       resetSelectedRole()
     }
 
-    let usersList  = [
-      {
-        username:'username 1',
-        email:'username1@gmail.com'
-      },
-      {
-        username:'username 2',
-        email:'username2@gmail.com'
-      },
-      {
-        username:'username 3',
-        email:'username3@gmail.com'
-      }
-    ]
+    // let usersList  = [
+    //   {
+    //     username:'username 1',
+    //     email:'username1@gmail.com'
+    //   },
+    //   {
+    //     username:'username 2',
+    //     email:'username2@gmail.com'
+    //   },
+    //   {
+    //     username:'username 3',
+    //     email:'username3@gmail.com'
+    //   }
+    // ]
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'86vh'}} >
 

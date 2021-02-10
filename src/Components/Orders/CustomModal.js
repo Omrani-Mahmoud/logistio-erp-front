@@ -113,6 +113,8 @@ function CustomModal({open,handleClose,order,fetch}) {
         console.log('create purchase ehre')
     }
 
+
+    console.log("ORDER --------->",order)
     return (
         <Modal
             open={open}
@@ -166,6 +168,15 @@ function CustomModal({open,handleClose,order,fetch}) {
                         >
                             {lang.save_it}
                     </motion.Button>
+
+                    </Grid>
+                    <Grid item md={12} style={{display:'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
+                            <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.logitio_client}</span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_store}</b> : {order.client.username} </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_username}</b> : {order.client.username} </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_fullname}</b> : {`${order.client.first_name} ${order.client.last_name}` } </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_email}</b> : {order.client.email} </span>
+
 
                     </Grid>
                     <Grid item md={12} style={{display:'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px'}}>

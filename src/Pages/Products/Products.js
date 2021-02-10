@@ -373,7 +373,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                     }
                     label={lang.accepted_product}
                 /> */}
-            <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status_all().length>0?'start':'center'}}>
+            <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'63vh',overflowY:'auto',justifyContent:filter_by_status_all().length>0?'start':'center'}}>
               {
                 products.length>0?
 
@@ -445,7 +445,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                     }
                     label={lang.accepted_product}
                 /> */}
-          <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('bulk').length>0?'start':'center'}}>
+          <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'63vh',overflowY:'auto',justifyContent:filter_by_status('bulk').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='bolk'/> */}
                 {
                 products.length>0?
@@ -516,7 +516,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                     }
                     label={lang.accepted_product}
                 /> */}
-                <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'58vh',overflowY:'auto',justifyContent:filter_by_status('ds').length>0?'start':'center'}}>
+                <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'63vh',overflowY:'auto',justifyContent:filter_by_status('ds').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='drop_ship'/> */}
                 {
                 products.length>0?
