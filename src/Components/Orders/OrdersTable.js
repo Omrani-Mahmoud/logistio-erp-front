@@ -137,6 +137,7 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                     <Table className={classes.table} aria-label="simple table" h>
                     <TableHead >
                         <TableRow>
+                            <TableCell align='left' className={classes.header} >#ID</TableCell>
                             <TableCell align='left' className={classes.header} >{lang.shipping_adr}</TableCell>
                             <TableCell align='center' className={classes.header} >{lang.client_name}</TableCell>
                             <TableCell align='center' className={classes.header} >{lang.country} </TableCell>

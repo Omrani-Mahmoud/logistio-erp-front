@@ -1,6 +1,6 @@
 import React from 'react'
 
-function StatusBadge({status,align='left',marginBottom='0px'}) {
+function StatusBadge({status='-',align='left',marginBottom='0px'}) {
 
     const _getColor = ()=>{
         switch (status.toLowerCase()) {
@@ -15,7 +15,7 @@ function StatusBadge({status,align='left',marginBottom='0px'}) {
         }
     }
     return (
-       <span style={{background:_getColor(),padding:'4px',borderRadius:'5px',color:'white',fontWeight:'bold',fontSize:'12px',textAlign:align,marginBottom:marginBottom}}>{status}</span>
+       <span style={{background:_getColor(),padding:'4px',borderRadius:'5px',color:status!=='-'?'white':'black',fontWeight:'bold',fontSize:'12px',textAlign:align,marginBottom:marginBottom}}>{status?status:'-'}</span>
     )
 }
 

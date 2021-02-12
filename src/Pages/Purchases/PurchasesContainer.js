@@ -82,18 +82,18 @@ function PurchasesContainer() {
         }
     ]
 
-    // React.useEffect(() => {
-    //     console.log('HERE FETCH PURCHASES')
-    //     let mounted = true;
-    //         _fetch(mounted)
-    //    return ()=>{
-    //        mounted=false
-    //    }
-    // }, [])
+    React.useEffect(() => {
+        console.log('HERE FETCH PURCHASES')
+        let mounted = true;
+            _fetch(mounted)
+       return ()=>{
+           mounted=false
+       }
+    }, [])
 
     return (
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-            <Purchases data = {fake} loading={loading} handleDateChange={handleDateChange} selectedDate={selectedDate}/>
+            <Purchases data = {purchases} loading={loading} handleDateChange={handleDateChange} selectedDate={selectedDate}/>
         </motion.div>
     )
 }

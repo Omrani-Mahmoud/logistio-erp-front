@@ -50,6 +50,9 @@ console.log('ROWWW CUSTOM -> ',row)
       <>
               <TableRow key={row} hover onClick={handleOpen} style={{cursor:'pointer'}}>
               <TableCell align='center' key={'ac1'} >
+                  {row.order_id?row.order_id:'-'}
+              </TableCell>
+              <TableCell align='center' key={'ac1'} >
                   {row.shipping_infos[0].address}
               </TableCell>
               <TableCell align='center' key={'ac1'} >

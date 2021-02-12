@@ -53,6 +53,10 @@ class Auth{
             window.location.replace('/')
               
       })
+      .catch(e=>{
+        window.localStorage.setItem('erpT','expired');
+        window.location.replace('/')
+      })
           
           }
 

@@ -38,9 +38,24 @@ function VariantsTable({variants=[],options=[]}) {
                 <Table  className={classes.table} aria-label="simple table">
                 <TableHead  >
                     <TableRow>
+                    {
+                            options.map(elem=>{
+                                if(elem.type==='option1')
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+
+                            })
+                        }
                         {
                             options.map(elem=>{
-                                return   <TableCell align='center' className={classes.header} >{get_header_name(elem.name)}</TableCell>
+                                if(elem.type==='option2')
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
+
+                            })
+                        }
+                        {
+                            options.map(elem=>{
+                                if(elem.type==='option3')
+                                return   <TableCell align='center' className={classes.header} >{elem.name}</TableCell>
 
                             })
                         }
@@ -53,6 +68,13 @@ function VariantsTable({variants=[],options=[]}) {
                             :
                             options.length==2?
                             <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            :
+                            options.length==0?
+                            <>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            <TableCell align='center' className={classes.header} >{'-'}</TableCell>
+                            </>
                             :
                             null
                         }

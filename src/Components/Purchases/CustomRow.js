@@ -51,20 +51,17 @@ console.log('ROWWW CUSTOM -> ',row)
       <>
               <TableRow key={row} hover onClick={handleOpen} style={{cursor:'pointer'}}>
               <TableCell align='left' key={'p1'} >
-                  {row._id}
+                  {row.purchase_id?row.purchase_id:'-'}
               </TableCell>
 
               <TableCell align='center' key={'p2'} >
-                  {new Date(row.date).toDateString()}
+                  {new Date().toDateString()}
               </TableCell>
 
               <TableCell align='center' key={'p3'} >
-                  {row.sku}
+                  {row.product.sku}
               </TableCell>
 
-              <TableCell align='center' key={'p4'} >
-                  {row.quantity}
-              </TableCell>
 
               <TableCell align='center' key={'p5'} >
                   {`${row.client.first_name} ${row.client.last_name}` }

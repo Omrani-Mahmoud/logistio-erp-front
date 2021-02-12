@@ -272,7 +272,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
           
                 <CustomSpan label={`${lang.category} :`} value={product.category.name} />
 
-                <CustomSpan label={`${lang.minim_q} :`} value={productsInputs.moq} input type='moq' handler={dispatch} disabled={product.type==='bolk'?false:true}  />
+                <CustomSpan label={`${lang.minim_q} :`} value={productsInputs.moq} input type='moq' handler={dispatch} disabled={product.type!=='standard'?false:true}  />
 
                 <CustomSpan label={`${lang.minim_p_q} :`} value={productsInputs.moqcp} type='moqcp' input handler={dispatch} />
 

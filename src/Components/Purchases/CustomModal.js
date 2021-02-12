@@ -137,17 +137,16 @@ function CustomModal({open,handleClose,purchase}) {
             
             <Grid item md={10} >
                 <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'rgb(243,245,247)',flexDirection:'column'}}>
-                    <h1 style={{color:'#303030',opacity:'90%'}}>{`${lang.purchase} #${purchase._id}`}</h1>
+                    <h1 style={{color:'#303030',opacity:'90%'}}>{`${lang.purchase} #${purchase.purchase_id}`}</h1>
                    
                     <Grid item md={12}>
-                        <span style={{padding:'10px',background:'white',borderRadius:'10px',marginBottom:'35px',fontWeight:'bold'}}>{new Date(purchase.date).toDateString()}</span>
+                        <span style={{padding:'10px',background:'white',borderRadius:'10px',marginBottom:'35px',fontWeight:'bold'}}>{new Date().toDateString()}</span>
                         <section style={{display:'flex',padding:'15px',background:'white',borderRadius:'15px',marginTop:'20px'}}>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.large} variant='square' />
+                        <Avatar alt="Remy Sharp" src={purchase.product.media[0].link} className={classes.large} variant='square' />
                         <section style={{display:"flex",flexDirection:'column',padding:'10px'}}>
                             <StatusBadge status={purchase.status} align='center' marginBottom='10px' />
-                            <span><b>{lang.product_name}</b> : aaa </span>
-                            <span><b>{lang.quantity}</b> : aaa </span>
-                            <span><b>{lang.sku}</b> : aaa </span>
+                            <span><b>{lang.product_name}</b> :{purchase.product.name}  </span>
+                            <span><b>{lang.sku}</b> : {purchase.product.sku} </span>
                         </section>
                         </section>
                         
@@ -155,7 +154,7 @@ function CustomModal({open,handleClose,purchase}) {
 
                         <section style={{display:'flex',padding:'15px',background:'white',borderRadius:'15px',marginTop:'20px',justifyContent:'center',height:'290px'}}>
                             {/* <VariantsTable variants={purchase.variants} options={purchase.options} /> */}
-                            <VariantsTable variants={variant} options={options} />
+                            <VariantsTable variants={purchase.product_variants} options={purchase.product.options} />
 
                         </section>
                     </Grid>

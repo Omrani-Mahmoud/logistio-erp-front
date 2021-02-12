@@ -113,6 +113,12 @@ function CustomModal({open,handleClose,order,fetch}) {
         console.log('create purchase ehre')
     }
 
+    // const get_client_store = ()=>{
+    //    let storeId =  order.order_items[0].store_id;
+    //    let store = order.client.accounts.filter(elem => elem.id===storeId);
+    //    return `${store.name} ${store.url?`(${store.url})`:''}`
+
+    // }
 
     console.log("ORDER --------->",order)
     return (
@@ -126,7 +132,7 @@ function CustomModal({open,handleClose,order,fetch}) {
             
             <Grid item md={10} >
                 <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'rgb(243,245,247)',flexDirection:'column'}}>
-                    <h1 style={{color:'#303030',opacity:'90%'}}>{lang.order}</h1>
+                    <h1 style={{color:'#303030',opacity:'90%'}}>{lang.order} {`#${order.order_id}`}</h1>
                     {
                 status===200?
                 <CustomSnackbar  content='Order updated!!' type="success"/>
@@ -172,7 +178,7 @@ function CustomModal({open,handleClose,order,fetch}) {
                     </Grid>
                     <Grid item md={12} style={{display:'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.logitio_client}</span>
-                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_store}</b> : {order.client.username} </span>
+                            <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_store}</b> : maaa </span>
                             <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_username}</b> : {order.client.username} </span>
                             <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_fullname}</b> : {`${order.client.first_name} ${order.client.last_name}` } </span>
                             <span style={{marginLeft:'7px',marginBottom:'7px'}}><b>{lang.logistio_client_email}</b> : {order.client.email} </span>
