@@ -101,6 +101,31 @@ class Auth{
 
     }
 
+    check_auth(){
+      console.log('CHECK HERE ')
+
+        axios.get(`${uri.link}/auth_ch`,{
+
+              headers: { 'auth-token': window.localStorage.getItem("erpT") }
+            })
+              .then(res=>{  
+                console.log('RES CHECK HERE ---->',res)
+                  if(res.status!==202){
+                    window.localStorage.removeItem('erpT');
+                    window.location.replace('/');
+                    
+                  }
+                  
+                
+              })
+              .catch(err=>{
+                window.localStorage.removeItem('erpT');
+                window.location.replace('/');
+
+
+              })
+    }
+
 
 }
 

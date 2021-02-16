@@ -14,6 +14,8 @@ import {uri} from "../../Url_base";
 import StockContainer from '../Stock/StockContainer'
 import { motion,AnimatePresence } from "framer-motion"
 import OrdersContainer from '../Orders/OrdersContainer'
+import auth from '../../Auth';
+
 import PurchasesContainer from '../Purchases/PurchasesContainer'
 import Overview from './Overview'
 import Profile from '../Settings/Profile'
@@ -91,6 +93,17 @@ function Home() {
         
       }, [user_context[0]])
 
+
+      
+      React.useEffect(() => {
+          const sr  = auth.check_auth();
+        const check___ = setInterval(() => {
+            auth.check_auth()
+          }, 5000);
+    
+        return () => clearInterval(check___);
+      }, []);
+      
     // React.useEffect(() => {
     //     let mounted = true;
     //     if(sections.length<0){
