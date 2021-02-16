@@ -146,7 +146,7 @@ function OrderItem({product,disabled,order_id,fetch}) {
                 {/* <Paper elevation={0}  style={{background:'red',width:'100%'}}  > */}
                         {/* here */}
                         <Grid item md={10} style={{width:'100%'}}>
-                            <Variants options={product.product.options} variants={product.product.variants} />
+                            <Variants options={product.product.options} variants={product.product_variants} />
                         </Grid>
                 {/* </Paper> */}
             </section>

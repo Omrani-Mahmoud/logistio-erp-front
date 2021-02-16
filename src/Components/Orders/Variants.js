@@ -89,7 +89,7 @@ function Variants({variants=[],options=[]}) {
                             variants.map(row=>{
                                return   <TableRow>
                                             <TableCell>
-                                                {row?.vid} 
+                                                {row?.vid?row?.vid:'-'} 
                                             </TableCell>
 
                                             <TableCell align='center'>
