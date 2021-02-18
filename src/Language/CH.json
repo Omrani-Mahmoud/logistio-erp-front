@@ -196,7 +196,10 @@
     "logistio_client_username":"Logistio 客户用户名",
     "logistio_client_fullname":"Logistio 客户全名",
     "logistio_client_email":"Logistio 客户电子邮件",
-    "logistio_client_store":"Shopify商店"
+    "logistio_client_store":"Shopify商店",
+
+
+    "product_sku":"SKU"
 
 
 

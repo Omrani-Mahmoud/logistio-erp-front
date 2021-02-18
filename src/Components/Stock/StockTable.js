@@ -15,6 +15,7 @@ import AttachmentsLink from '../AttachmentsLink';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import CustomRow from './CustomRow';
 import EmptyArrayHolder from '../EmptyArrayHolder'
+import Item from './Item'
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -49,26 +50,30 @@ function StockTable({stocks=[],fetch}) {
                 
                 {
                     filtredData.length>0?
-                    <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                    <TableHead >
-                        <TableRow>
-                            <TableCell align='left' className={classes.header} >{lang.product_img}</TableCell>
-                            <TableCell align='center' className={classes.header} >{lang.product_name}</TableCell>
-                            <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
-                            <TableCell align='center' className={classes.header} >{lang.threshold}</TableCell>
-                            <TableCell align='center' className={classes.header} >{lang.edit}</TableCell>
-                            <TableCell align='center' className={classes.header} >{lang.notify}</TableCell>
+                //     <TableContainer component={Paper}>
+                //     <Table className={classes.table} aria-label="simple table">
+                //     <TableHead >
+                //         <TableRow>
+                //             <TableCell align='left' className={classes.header} >{lang.product_img}</TableCell>
+                //             <TableCell align='center' className={classes.header} >{lang.product_name}</TableCell>
+                //             <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
+                //             <TableCell align='center' className={classes.header} >{lang.threshold}</TableCell>
+                //             <TableCell align='center' className={classes.header} >{lang.edit}</TableCell>
+                //             <TableCell align='center' className={classes.header} >{lang.notify}</TableCell>
     
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {filtredData.map((row,index) => (
-                            <CustomRow row={row} key={row}  fetch={fetch} />
-                        ))}
-                    </TableBody>
-                    </Table>
-                </TableContainer>
+                //         </TableRow>
+                //     </TableHead>
+                //     <TableBody>
+                //         {filtredData.map((row,index) => (
+                //             <CustomRow row={row} key={row}  fetch={fetch} />
+                //         ))}
+                //     </TableBody>
+                //     </Table>
+                // </TableContainer>
+                filtredData.map((row,index) => (
+                            <Item  row = {row}/>
+
+                            ))
                 :
 
                 <EmptyArrayHolder text={lang.no_products} />

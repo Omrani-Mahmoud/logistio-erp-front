@@ -28,9 +28,6 @@ function Variants({variants=[],options=[]}) {
 
 
 
-    console.log('OPTIONS::::::',options.reverse())
-
-    console.log('VARIANTS::::::',variants)
     return (
         // <Grid item md={10} style={{marginTop:'5px',height:'183px',overflowY:'auto'}}>
                 <TableContainer component={Paper} style={{background:'rgb(243,245,247)',width:'100%'}}>

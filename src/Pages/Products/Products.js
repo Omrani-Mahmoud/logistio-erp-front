@@ -225,12 +225,13 @@ function Products({open,handleCloseModal,handleOpenModal}) {
         });
       }
       if (selectValue.length > 0) {
+        console.log('VALUE HERE ',selectValue)
         data = data.filter((elem) => {
           return elem.status == selectValue;
         });
       }
-      console.log("RESSS ::: ::  ", data);
-      return data;
+      res=data
+      return res;
     };
 
     const filter_all = () => {
@@ -249,7 +250,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
     const filter_by_status_all = ()=>{
        return  filter_all().filter(elem=>{
           if(selectValue.length>0){
-            return (elem.status===selectValue && elem.price_control.is_accepted===isAccepted)
+            return (elem.status===selectValue ) //&& elem.price_control.is_accepted===isAccepted
           }
           else{
             return elem
@@ -260,7 +261,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
     const filter_by_status = (value)=>{
       return  filter_(value).filter(elem=>{
          if(selectValue.length>0){
-           return (elem.status===selectValue && elem.price_control.is_accepted===isAccepted)
+           return (elem.status===selectValue ) //&& elem.price_control.is_accepted===isAccepted
          }
          else{
            return elem

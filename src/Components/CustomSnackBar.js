@@ -33,6 +33,11 @@ export default function CustomSnackbar({content,type}) {
     setOpen(false);
   };
 
+  // const check___ = setInterval(() => {
+  //   if(open){
+  //     setOpen()
+  //   }
+  // }, 5000);
   return (
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{
         vertical: 'bottom',

@@ -128,6 +128,7 @@ function ProductCard({rows,filter,row,products,fetch}) {
 
        flexDirection:'column'}}  onMouseEnter={()=>setMouseIn(true)} onMouseLeave={()=>setMouseIn(false)} onClick={handleOpenModal} >
             <Flag  status={row.status}/>
+      
             <section style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
                 <Avatar style={style} alt={'haha'} src={getImage_()}  variant="square" className={classes.large} />
                 <span style={{color:'#303030',fontWeight:'bold',textTransform:'capitalize',textAlign:'center'}}>{row.name}</span>

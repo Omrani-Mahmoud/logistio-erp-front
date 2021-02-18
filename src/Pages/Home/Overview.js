@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Paper } from '@material-ui/core'
+import { Button, Container, Dialog, DialogTitle, Grid, Paper } from '@material-ui/core'
 import React,{useEffect,useState,useRef} from 'react'
 import {ConnectedUser}  from '../../App'
 import CustomCard from '../../Components/CustomCard'
@@ -16,10 +16,11 @@ import '../../Assets/css/Overview.css';
 import axios from 'axios'
 import useToken from '../../Hooks/useToken';
 import {uri} from "../../Url_base";
-
+import LinkIcon from '@material-ui/icons/Link';
+import { Link } from 'react-router-dom';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
-
+const colors=['#16193B','#35478C','#4E7AC7','#7FB2F0']
 function useOutsideAlerter(ref, toggleDate) {
     useEffect(() => {
       /**
@@ -45,6 +46,22 @@ function Overview() {
     const [productsStats, setproductsStats] = useState({});
     const [toggleDate, setToggleDate] = useState(false);
     const [currentFocus, setCurrentFocus] = useState([]);
+    const [orders, setOrders] = useState({});
+    const [activeCLient, setActiveClient] = useState({})
+    
+    const [open, setopen] = useState(false);
+    const handleClose = () => {
+      setopen(false)
+    };
+    const handleOpen = cli=>{
+      productsStats?.clients?.map(cl =>{
+        if(cl.client.uname===cli){
+          setActiveClient(cl.client.accs)
+        }
+    })
+      setopen(true)
+    }
+
     const [chosedDate, setChosedDate] = useState([{
         startDate: new Date(),
         endDate: new Date(),
@@ -88,6 +105,28 @@ function Overview() {
     window.localStorage.setItem("start", startDate);
     window.localStorage.setItem("end", endDate);
   };
+
+  const _getDataforDonutsChart = ()=>{
+    let res = [];
+      productsStats?.clients?.map(cli =>{
+          res.push(cli.count)
+      })
+
+      return res
+  }
+
+
+  const _getClientNameforDonutsChart = ()=>{
+    let res = [];
+      productsStats?.clients?.map(cli =>{
+          res.push(cli.client.uname)
+      })
+
+      return res
+  }
+
+
+
     const context = React.useContext(ConnectedUser);
     const data = {
         labels: ['13/02', '14/02', '15/02', '16/02','17/02', '18/02', '19/02', '20/02','21/02', '22/02', '23/02', '24/02','25/02', '26/02', '27/02'],
@@ -104,11 +143,11 @@ function Overview() {
       };
 
       const data2 = {
-        labels: ['Client one', 'Client two', 'Client three', 'Client four'],
+        labels: _getClientNameforDonutsChart(),
         datasets: [
           {
             label: '# Client Orders',
-            data: [8, 19, 53, 15],
+            data: _getDataforDonutsChart(),
             fill: false,
             backgroundColor: ['#16193B','#35478C','#4E7AC7','#7FB2F0'],
             borderColor: ['#16193B','#35478C','#4E7AC7','#7FB2F0'],
@@ -153,7 +192,11 @@ function Overview() {
     //   }
 
   
-
+    function addDays(date, days) {
+      var result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
 
     const _fetchProducts = (mounted)=>{
         // setLoading(true);
@@ -176,6 +219,26 @@ function Overview() {
            });
     }
 
+    const _fetch15daysOrders = (mounted)=>{
+      // setLoading(true);
+      console.log('REFETCH HERE ------>')
+      axios.get(`${uri.link}/stats/overall`,{
+          headers:{'auth-token':`${getToken()}`}
+      })
+         .then(function (response) {
+          //    setLoading(false)
+             if(mounted){
+                  console.log(' OORDERS DATA',response.data)
+                  setOrders(response.data)
+                  
+             }
+         })
+         .catch(function (error) {
+             // handle error
+          //    setLoading(false)
+             console.log(error);
+         });
+  }
     
     React.useEffect(() => {
         let mounted = true;
@@ -184,6 +247,14 @@ function Overview() {
            mounted=false
        }
     }, [])
+
+    React.useEffect(() => {
+      let mounted = true;
+      _fetch15daysOrders(mounted)
+     return ()=>{
+         mounted=false
+     }
+  }, [])
 
 
       useEffect(() => {
@@ -198,7 +269,7 @@ function Overview() {
                     <h3>Overview</h3>
 
                 <Grid item md={12} style={{display:'flex',maxHeight:'153px'}}> 
-                    <CustomCard type={lang.unfill_orders} number={2408}>
+                    <CustomCard type={lang.unfill_orders} number={productsStats.unfulfilled_orders}>
                         <LocalMallIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
                     <CustomCard type={lang.refused_products} number={productsStats.refused_prods}>
@@ -207,12 +278,12 @@ function Overview() {
                     <CustomCard type={lang.pending_products} number={productsStats.pending_prods}>
                         <SyncProblemIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
-                    <CustomCard type={lang.order_time} number='3 Days'>
+                    <CustomCard type={lang.order_time} number={productsStats.order_tr_time}>
                         <UpdateIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
                 </Grid>
                 <div ref={wrapperRef} style={{marginTop:'50px',width:'220px'}}>
-            <Button style={{background:'#35478C',color:'white'}} variant='contained' onClick={() => setToggleDate(!toggleDate)} >
+            <Button style={{background:'#35478C',color:'white',width:'250px'}} variant='contained' onClick={() => setToggleDate(!toggleDate)} >
 
               {chosedDate[0] !== null
                 ? [
@@ -247,10 +318,11 @@ function Overview() {
                             ranges={chosedDate}
                             dragSelectionEnabled={true}
                             rangeColors={["#35478C"]}
+                            maxDate={addDays(chosedDate[0].startDate,15)}
                         />
                     </div>
                     <div className="calendarDiv">
-                    <div className="btnCalendarContainer">
+                    {/* <div className="btnCalendarContainer">
                       <Button
 
                         className={activeBtn.today ? "dateBtns activeBtnDate" : "dateBtns"}
@@ -340,7 +412,7 @@ function Overview() {
                       >
                         This month
       </Button>
-                    </div>
+                    </div> */}
                     </div>    
                 </div>
                 </div>)}
@@ -378,15 +450,34 @@ function Overview() {
                                     <Doughnut data={data2} options={optionsPie}/>
                                 </secion>
                                 <section style={{width:'25%',justifyContent:'center',alignItems:'flex-start',display:'flex',flexDirection:'column'}}>
-                                    <li  style={{color:'#16193B',fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client1}</span></li>
-                                    <li  style={{color:'#35478C',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client2}</span></li>
-                                    <li  style={{color:'#4E7AC7',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client3}</span></li>
-                                    <li  style={{color:'#7FB2F0',fontSize:'25px'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{lang.client4}</span></li>
+                                   
+                                    {
+                                     _getClientNameforDonutsChart().map((cli,index) =>{
+                                       return <li onClick={()=>handleOpen(cli)}  style={{color:colors[index],fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{cli}</span></li>
+                                     })
+                                   } 
                                 </section>
                             </Grid>
                         </Paper>
                     </Grid>
                 </div>
+
+                    <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}> 
+           
+                    <h3 style={{marginLeft:'5px'}}> Stores</h3>
+                          <Grid item md ={4} style={{padding:'20px'}}>
+                           
+                                {
+                                  activeCLient?.stores?.map((store,index)=>{
+                                  return  <div style={{width:'150px',height:'50px',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center',marginBottom:'10px'}}>
+                                           <span style={{color:'#202020',textTransform:'capitalize'}}>{store}</span>
+                                            <Link to={activeCLient?.url[index]?activeCLient?.url[index]:'#'}><LinkIcon  color="action"/></Link>
+                                          </div>
+                                  })
+                                
+                                } 
+                          </Grid>                                  
+                    </Dialog>
             </Container>
     )
 }

@@ -193,8 +193,11 @@
     "logistio_client_username":"Logistio client username",
     "logistio_client_fullname":"Logistio client full name",
     "logistio_client_email":"Logistio client email",
-    "logistio_client_store":"Shopify Store"
+    "logistio_client_store":"Shopify Store",
 
+
+
+    "product_sku":"Product SKU"
 
 
 

@@ -15,10 +15,11 @@ import {uri} from "../../Url_base";
 import useToken from '../../Hooks/useToken';
 import Swal from 'sweetalert2'
 import Loader from '../../Components/Loader';
+import VariantsArray from '../../Components/Stock/VariantsArray';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
-function Stock({stock,stockForm,dispatch,products,fetch,loadingStock}) {
+function Stock({stock,stockForm,dispatch,products,fetch,loadingStock,selected}) {
     const [setToken,getToken] = useToken();
     const [loading, setloading] = React.useState(false);
 
@@ -78,7 +79,7 @@ function Stock({stock,stockForm,dispatch,products,fetch,loadingStock}) {
       }
 
     return (
-        <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'100%'}} >
+        <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'86vh'}} >
 
             <Button
                 variant="contained"
@@ -95,10 +96,10 @@ function Stock({stock,stockForm,dispatch,products,fetch,loadingStock}) {
       {
           addButon  && 
       
-            <motion.Paper variants={formStockVariant} initial='hidden' animate='visible'  elevation={3} style={{marginTop:'35px',marginBottom:'20px',background:'rgb(243,245,247',borderRadius:'15px',padding:'18px',flexDirection:'column',display:'flex'}} >
+            <motion.Paper variants={formStockVariant} initial='hidden' animate='visible'  elevation={3} style={{marginTop:'35px',marginBottom:'20px',background:'rgb(243,245,247',borderRadius:'15px',padding:'18px',flexDirection:'column',display:'flex',height:'400px'}} >
                    
                    <span style={{fontWeight:'bold',color:'#303030',opacity:'80%'}}>{lang.stock_form}</span>
-                    <FormControl style={{width:'300px'}}>
+                    <FormControl style={{width:'300px',marginBottom:'20px'}}>
                             {/* <InputLabel >Product Name</InputLabel>
                             <Select
                         
@@ -112,19 +113,20 @@ function Stock({stock,stockForm,dispatch,products,fetch,loadingStock}) {
                              <Autocomplete
                                     id="combo-box-demo"
                                     options={products}
-                                    getOptionLabel={(option) => option.name}
+                                    getOptionLabel={(option) => option.sku}
                                     style={{ width: 300, marginTop:'10px' }}
                                     size='small'
                                     onChange={(e,v)=>{dispatch({type:'name',value:v?._id})}}
-                                    renderInput={(params) => <TextField {...params} label={lang.product_name} variant="standard"  />}
+                                    renderInput={(params) => <TextField {...params} label={lang.product_sku} variant="standard"  />}
                                     
                                     />
                     </FormControl>
 
-                    <TextField label={lang.quantity}  type='number' style={{width:'300px', marginTop:'10px'}} onChange={(e)=>dispatch({type:'quantity',value:e.target.value})} />
+                    {/* <TextField label={lang.quantity}  type='number' style={{width:'300px', marginTop:'10px'}} onChange={(e)=>dispatch({type:'quantity',value:e.target.value})} />
 
-                    <TextField label={lang.threshold}  type='number' style={{width:'300px', marginTop:'10px'}} onChange={(e)=>dispatch({type:'threshold',value:e.target.value})}/>
-                    {
+                    <TextField label={lang.threshold}  type='number' style={{width:'300px', marginTop:'10px'}} onChange={(e)=>dispatch({type:'threshold',value:e.target.value})}/> */}
+                        <VariantsArray variants={selected.variants} options={selected.options} productID={selected._id} />
+                    {/* {
                         loading?
                        <Loader />
                         :
@@ -140,11 +142,11 @@ function Stock({stock,stockForm,dispatch,products,fetch,loadingStock}) {
                         >
                             {lang.save_it}
                     </motion.Button>
-                    }
+                    } */}
                     
             </motion.Paper>
             }
-            <Paper elevation={3} style={{marginTop:'15px',height:'65vh',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px',display:'flex',flexDirection:'column',justifyContent:loadingStock?'center':null}}>
+            <Paper elevation={3} style={{marginTop:'15px',height:'400px',marginBottom:'30px',background:'rgb(243,245,247',borderRadius:'15px',padding:'10px',display:'flex',flexDirection:'column',justifyContent:loadingStock?'center':null}}>
 
                 {
                     loadingStock?

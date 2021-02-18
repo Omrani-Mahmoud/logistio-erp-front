@@ -42,7 +42,7 @@ function StockContainer() {
     const [bulkProducts, setBulkProducts] = React.useState([]);
     const [loading, setLoading] = React.useState(false)
     const [stockForm, dispatch] =React.useReducer(reducer, initStockValue)
-
+    const [selected, setselected] = React.useState({});
 
 const getStock = (mounted)=>{
     setLoading(true)
@@ -70,8 +70,7 @@ const getBulkProducts = (mounted)=>{
            if(mounted){
                 setBulkProducts(response.data)
            }
-       })
-       .catch(function (error) {
+       }).catch(function (error) {
            // handle error
            console.log(error);
        });
@@ -95,12 +94,21 @@ const getBulkProducts = (mounted)=>{
     }, [])
 
 
-    console.log('STOCK',stock)
+    React.useEffect(() => {
+       
+        bulkProducts.map(elem=>{
 
+            if(elem._id===stockForm.product_name)
+                setselected(elem)
+        })
+    }, [stockForm])
+
+
+    
     return (
         
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-            <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock} loadingStock={loading} />
+            <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock} loadingStock={loading} selected={selected}/>
         </motion.div>
     )
 }

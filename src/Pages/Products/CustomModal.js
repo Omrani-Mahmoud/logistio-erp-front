@@ -206,7 +206,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
             case 'validated':
               return `${lang.validated} ✅`;
             case 'refused':
-              return `${lang.refused}😱`;
+              return `${lang.refused}😱 : ${product.price_control.reason}`;
             default: return '-'
         }
   }
@@ -241,6 +241,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
                {get_status()}
                
              </span>
+            
 
                <section style={{background:'rgb(243,245,247)',borderRadius:'15px',padding:'10px',marginBottom:'20px',display:'flex',flexDirection:'row'}}>
 

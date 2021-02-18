@@ -12,6 +12,8 @@ function Flag({status}) {
                         return 'rgb(250,192,62)'
                         case 'processing':
                             return '#717786'
+                            case 'refused':
+                            return 'black'
         
             default:
                 return null 
