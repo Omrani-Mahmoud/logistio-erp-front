@@ -9,9 +9,9 @@ import SaveIcon from '@material-ui/icons/Save';
 import {uri} from "../../../Url_base";
 import axios from 'axios'
 import useToken from '../../../Hooks/useToken';
-function CustomVariantRow({row,productID}) {
+function CustomVariantRow({row,storageID}) {
 
-    const [inputs, setinputs] = React.useState({quantity:0,threshold:0});
+    const [inputs, setinputs] = React.useState({quantity:row?.quantity?row.quantity:0,threshold:row?.threshold?row.threshold:0});
 
     const [edit, setEdit] = React.useState(false);
     const [status, setStatus] = React.useState('');
@@ -31,12 +31,12 @@ function CustomVariantRow({row,productID}) {
     
     const _post = ()=>{
         setStatus('');
-        axios.post(`${uri.link}/storage/`,
+        axios.patch(`${uri.link}/storage/${storageID}`,
         {
-            productId:productID,
-            variantId:row._id,
-            quantity:inputs.quantity,
-            threshold:inputs.threshold
+            // productId:productID,
+            variant:row._id,
+            quantity:parseInt(inputs.quantity),
+            threshold:parseInt(inputs.threshold)
         },
         {
           headers:{'auth-token':`${getToken()}`}

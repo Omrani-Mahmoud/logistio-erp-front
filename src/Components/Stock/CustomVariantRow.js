@@ -24,7 +24,6 @@ function CustomVariantRow({row,productID}) {
     }
 
 
-
     const _post = ()=>{
         setStatus('');
         console.log('Variant ID =================>',row._id);
@@ -36,7 +35,10 @@ function CustomVariantRow({row,productID}) {
             product:productID,
             variant:row._id,
             quantity:parseInt(inputs.quantity),
-            threshold:parseInt(inputs.threshold)
+            threshold:parseInt(inputs.threshold),
+            option1:row.option1?row.option1:null,
+            option2:row.option2?row.option2:null,
+            option3:row.option3?row.option3:null
         },
         {
           headers:{'auth-token':`${getToken()}`}

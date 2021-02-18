@@ -107,6 +107,8 @@ function CustomRow({row,fetch,productId}) {
     return img
   }
 
+
+  console.log('ZEBIIIIIIIIIII =======>',row)
     return (
         <TableRow key={row}>
                         <TableCell align='center' key={'ac1'} >

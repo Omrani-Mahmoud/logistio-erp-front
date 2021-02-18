@@ -67,6 +67,7 @@ function PurchasesTable({purchases=[],fetch,selectedDate,handleDateChange}) {
                         <TableCell align='center' className={classes.header} >{lang.sku}</TableCell>
                         <TableCell align='center' className={classes.header} >{lang.client}</TableCell>
                         <TableCell align='center' className={classes.header} >{lang.status}</TableCell>
+                        <TableCell align='center' className={classes.header} ></TableCell>
 
                     </TableRow>
                 </TableHead>

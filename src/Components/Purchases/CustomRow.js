@@ -24,7 +24,7 @@ import {motion} from 'framer-motion';
 import productPlaceHolder from '../../Assets/img/productPlaceHolder.png'
 import StatusBadge from '../StatusBadge';
 import CustomModal from './CustomModal';
-
+import UpdateIcon from '@material-ui/icons/Update';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -70,6 +70,12 @@ console.log('ROWWW CUSTOM -> ',row)
              
               <TableCell align='center' key={'p6'} >
                   <StatusBadge status={row.status} />
+              </TableCell>
+
+              <TableCell align='center' key={'p6'} >
+                    <IconButton color="primary" aria-label="upload picture" component="span">
+                        <UpdateIcon  />
+                    </IconButton>
               </TableCell>
           </TableRow>
                       <CustomModal  open={open} handleClose={handleClose} purchase={row}  />

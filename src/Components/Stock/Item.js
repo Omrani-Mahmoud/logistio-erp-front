@@ -37,7 +37,7 @@ function Item({row}) {
             </section>        </AccordionSummary>
         <AccordionDetails>
                         <Grid item md={10} style={{width:'100%'}}>
-                            <VariantsArray options={row.product.options} variants={row.product_variants} productID={row?.product?._id} />
+                            <VariantsArray options={row.product.options} variants={row.variants} storageID={row?._id} />
                         </Grid>
         </AccordionDetails>
       </Accordion>
