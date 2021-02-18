@@ -96,10 +96,10 @@ function Home() {
 
       
       React.useEffect(() => {
-          const sr  = auth.check_auth();
+          //const sr  = auth.check_auth();
         const check___ = setInterval(() => {
             auth.check_auth()
-          }, 5000);
+          }, 60000);
     
         return () => clearInterval(check___);
       }, []);
