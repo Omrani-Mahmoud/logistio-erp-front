@@ -165,7 +165,7 @@
     "current_password":"Current password",
     "new_password":"New password",
     "confirm_password":"Confirm password",
-    "video_upload":"Video upload",
+    "video_upload":"File upload",
     "reset_password":"Reset Password",
     "change_password":"Change Password",
     "reset_hint":"After this step, you will able to connect with the new password!",

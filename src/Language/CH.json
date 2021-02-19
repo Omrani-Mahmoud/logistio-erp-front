@@ -168,7 +168,7 @@
     "current_password":"当前密码",
     "new_password":"新密码",
     "confirm_password":"确认密码",
-    "video_upload":"视频上传",
+    "video_upload":"上傳文件",
     "reset_password":"重设密码",
     "change_password":"更改密码",
     "reset_hint":"完成此步骤后，您将可以使用新密码进行连接!",

@@ -124,10 +124,14 @@ function CustomModal({open,handleClose,purchase,update,status}) {
                     
                     <Grid item md={12}>
                         <span style={{padding:'10px',background:'white',borderRadius:'10px',marginBottom:'35px',fontWeight:'bold'}}>{new Date().toDateString()}</span>
-                        <Button onClick={()=>update()} variant="contained" color="primary" disableElevation style={{float:'right'}} size='small'         startIcon={<UpdateIcon />}
+                        
+                        {
+                            purchase.status==='pending' &&
+                            <Button onClick={()=>update()} variant="contained" color="primary" disableElevation style={{float:'right'}} size='small'         startIcon={<UpdateIcon />}
 >
                             Update Status
                         </Button>
+}
                         <section style={{display:'flex',padding:'15px',background:'white',borderRadius:'15px',marginTop:'20px'}}>
                         <Avatar alt="Remy Sharp" src={purchase.product.media[0].link} className={classes.large} variant='square' />
                         <section style={{display:"flex",flexDirection:'column',padding:'10px'}}>
