@@ -191,11 +191,14 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
               `
           })
         })
+  
+      // const data = new FormData();
+      // data.append('file', productsInputs.media);
+      // console.log('DATA =+==> ',data)
    
   }
 
 
-  console.log('IMAGES LISTTTT',imgs())
 
   const get_status = ()=>{
         switch (product.status) {

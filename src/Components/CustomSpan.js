@@ -20,6 +20,8 @@ function CustomSpan({label,value,textArea,disabled,input,type,handler=null,media
 
         opacity:'85%',
       }
+
+      
     return (
         <section style={{display:'flex',flexDirection:'row',padding:'10px',alignItems:'center'}}>
             <span style={lableSpan} >{label}</span>
