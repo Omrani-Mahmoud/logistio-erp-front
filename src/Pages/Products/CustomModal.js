@@ -57,6 +57,14 @@ const reducer = (state,action)=>{
              return {...state,price_sample:action.value}
              case 'media':
               return {...state,media:action.value}
+              case 'all':
+                return {
+                  moq:action.value.moq,
+                  moqcp:action.value.moqcp,
+                  price_sample:action.value.price_sample,
+                  agentDesc:action.value.agent_description,
+                  media:action.value.media
+                }
      
   
     default:
@@ -199,6 +207,30 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
   }
 
 
+  const _uploadFile = ()=>{
+    // axios.patch(`${uri.link}/products/upload/${product._id}`,productsInputs,{
+      const data = new FormData();
+      data.append("file", productsInputs.media);
+
+    axios.post(`${uri.link}/products/upload/`,data,{
+      headers:{'auth-token':`${getToken()}`}
+    }).then( (response)=> {
+          console.log('RES UPLOAD ======>',response)
+       
+          // setStatus(200)
+        })
+        .catch(error =>{
+
+        
+        })
+  
+      // const data = new FormData();
+      // data.append('file', productsInputs.media);
+      // console.log('DATA =+==> ',data)
+   
+  }
+
+
 
   const get_status = ()=>{
         switch (product.status) {
@@ -213,6 +245,10 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
             default: return '-'
         }
   }
+
+
+
+
 
   return (
     <Modal
@@ -285,7 +321,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
                 <CustomSpan label={`${lang.description} :`} value={product.description?product.description:''} textArea  disabled />
 
                 <CustomSpan label={`${lang.video_upload} :`} value={''}  media type='media' handler={dispatch} />
-
+                    <button onClick={_uploadFile}>aaa</button>
                 <CustomSpan label={`${lang.agent_desc} :`} value={product.agentDesc?product.agentDesc:''} textArea type='agentDesc' handler={dispatch} />
                 {
                     loading?

@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LinkIcon from '@material-ui/icons/Link';
 import { Link } from 'react-router-dom';
-import { Button, Grid, TextField, CircularProgress } from '@material-ui/core'
+import { Button, Grid, TextField, CircularProgress, Tooltip } from '@material-ui/core'
 import AttachmentsLink from '../AttachmentsLink';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import axios from 'axios'
@@ -42,6 +42,10 @@ function CustomRow({row,fetch,productId}) {
     React.useEffect(() => {
         _isDisabled()
     }, [price]);
+
+    React.useEffect(() => {
+        setPrice(row.price)
+    }, [row]);
 
     const _persist = ()=>{
         console.log('price:',price,'variant:',row)
@@ -109,7 +113,7 @@ function CustomRow({row,fetch,productId}) {
                             }
                         </TableCell>
                         <TableCell align='center' key={'ac5'}>
-                            <TextField id="price_text" label={lang.price} variant="outlined" defaultValue={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}}/>
+                            <TextField id="price_text" label={lang.price} variant="outlined" value={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}}/>
                         </TableCell>
                     
                         <TableCell align='center' key={'ac6'}>
@@ -122,7 +126,11 @@ function CustomRow({row,fetch,productId}) {
 
                             }
                         </TableCell>
-
+                        <TableCell align='center' key={'ac5'} style={{textTransform:'capitalize'}}>
+                        <Tooltip title={row.reason}>
+                            <span style={{cursor:'pointer'}}>{row?.status?row.status:'-'}</span>
+                        </Tooltip>
+                        </TableCell>
                       
                     </TableRow>
                     </>

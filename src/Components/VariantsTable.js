@@ -27,7 +27,9 @@ const useStyles = makeStyles({
 function VariantsTable({variants,options,productId,fetch}) {
     const classes = useStyles();
 
-    console.log('Options :::',options)
+ 
+
+    console.log('Variants =======>',variants)
     return (
         <Grid item md={10} style={{marginTop:'5px',height:'183px',overflowY:'auto'}}>
                 <TableContainer component={Paper}>

@@ -39,6 +39,9 @@ function AccessoriesTable({accessories=[],productId,fetch}) {
                         <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
                         <TableCell align='left' className={classes.header} >{lang.attachments}</TableCell>
                         <TableCell align='left' className={classes.header} >{lang.price}</TableCell>
+                        <TableCell align='left' className={classes.header} ></TableCell>
+                        <TableCell align='left' className={classes.header} >{lang.status}</TableCell>
+
 
                     </TableRow>
                 </TableHead>

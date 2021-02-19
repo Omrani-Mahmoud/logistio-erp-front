@@ -43,8 +43,14 @@ function CustomRow({row,productId,fetch}) {
         _isDisabled()
     }, [price]);
 
+
+    React.useEffect(() => {
+        setPrice(row.price)
+    }, [row]);
+
+    console.log('AAaaaaaa baahahahhaha ',row)
+
     const _persist = ()=>{
-        console.log('price:',price,'variant:',row)
         setloading(true)
         axios.patch(`${uri.link}/products/${productId}/v/${row._id}`,
         {
@@ -104,7 +110,7 @@ function CustomRow({row,productId,fetch}) {
                                 {row?.quantity?row?.quantity:'-'}
                         </TableCell>
                         <TableCell align='center'>
-                            <TextField id="price_text" label={lang.price} variant="outlined" defaultValue={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}} />
+                            <TextField id="price_text" label={lang.price} variant="outlined" value={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}} />
                              
                         </TableCell>
 
