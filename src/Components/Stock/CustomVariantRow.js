@@ -9,7 +9,7 @@ import {uri} from "../../Url_base";
 import axios from 'axios'
 import CustomSnackbar from '../CustomSnackBar';
 
-function CustomVariantRow({row,productID}) {
+function CustomVariantRow({row,productID,refetch}) {
 
     const [inputs, setinputs] = React.useState({quantity:0,threshold:0});
     const [setToken,getToken] = useToken();
@@ -43,10 +43,13 @@ function CustomVariantRow({row,productID}) {
         {
           headers:{'auth-token':`${getToken()}`}
         }).then( (res)=> {
-                res.status===200?
-                setStatus(200)
-                :
-                setStatus('error')
+                if(res.status===200){
+                    refetch(true);
+                    setStatus(200);
+                }
+                else {
+                    setStatus('error')
+                }
 
             })
             .catch(error =>{

@@ -46,41 +46,31 @@ function PurchasesContainer() {
            });
     }
 
+    const _fetchBG = ()=>{
+        axios.get(`${uri.link}/purchases/`,{
+            headers:{'auth-token':`${getToken()}`}
+        })
+           .then(function (response) {
+              
+                setPurchases(response.data)
+            })
+           .catch(function (error) {
+               // handle error
+             
+               console.log(error);
+           });
+    }
 
-    const fake = [
-        {
-            _id:'PP1',
-            date:'12/3/1200',
-            sku:'p1_r',
-            quantity:40,
-            client:{first_name:'mahmoud',last_name:'omrani'},
-            status:'Pending'
-        },
-        {
-            _id:'PP1',
-            date:'12/3/1200',
-            sku:'p1_r',
-            quantity:40,
-            client:{first_name:'mahmoud',last_name:'omrani'},
-            status:'Pending'
-        },
-        {
-            _id:'PP1',
-            date:'12/3/1200',
-            sku:'p1_r',
-            quantity:40,
-            client:{first_name:'mahmoud',last_name:'omrani'},
-            status:'Pending'
-        },
-        {
-            _id:'PP1',
-            date:'12/3/1200',
-            sku:'p1_r',
-            quantity:40,
-            client:{first_name:'mahmoud',last_name:'omrani'},
-            status:'Pending'
-        }
-    ]
+
+
+    React.useEffect(() => {
+        //const sr  = auth.check_auth();
+      const check___ = setInterval(() => {
+        _fetchBG()
+        }, 30000);
+  
+      return () => clearInterval(check___);
+    }, []);
 
     React.useEffect(() => {
         console.log('HERE FETCH PURCHASES')

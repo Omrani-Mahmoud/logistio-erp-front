@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import StatusBadge from '../StatusBadge';
 import VariantsTable from './VariantsTable';
+import UpdateIcon from '@material-ui/icons/Update';
 
 const useStyles = makeStyles((theme) => ({
     large: {
@@ -37,7 +38,7 @@ const lang = require(`../../Language/${lngc}.json`);
 //             return state
 //     }
 // }
-function CustomModal({open,handleClose,purchase}) {
+function CustomModal({open,handleClose,purchase,update,status}) {
     const classes = useStyles();
 
     // const [status, setStatus] = React.useState('');
@@ -108,24 +109,6 @@ function CustomModal({open,handleClose,purchase}) {
     // });
     // }
 
-
-    const variant = [
-
-        {option1:'red',option2:'s',option3:'coton'},
-        {option1:'green',option2:'xs',option3:'coton'},
-        {option1:'black',option2:'xl',option3:'coton'},
-        {option1:'red',option2:'s',option3:'coton'},
-        {option1:'green',option2:'xs',option3:'coton'},
-        {option1:'black',option2:'xl',option3:'coton'}
-    ]
-
-    const options  = [
-        {name:'color'},
-        {name:'size'},
-        {name:'type'}
-
-
-    ]
     return (
         <Modal
             open={open}
@@ -138,13 +121,17 @@ function CustomModal({open,handleClose,purchase}) {
             <Grid item md={10} >
                 <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'rgb(243,245,247)',flexDirection:'column'}}>
                     <h1 style={{color:'#303030',opacity:'90%'}}>{`${lang.purchase} #${purchase.purchase_id}`}</h1>
-                   
+                    
                     <Grid item md={12}>
                         <span style={{padding:'10px',background:'white',borderRadius:'10px',marginBottom:'35px',fontWeight:'bold'}}>{new Date().toDateString()}</span>
+                        <Button onClick={()=>update()} variant="contained" color="primary" disableElevation style={{float:'right'}} size='small'         startIcon={<UpdateIcon />}
+>
+                            Update Status
+                        </Button>
                         <section style={{display:'flex',padding:'15px',background:'white',borderRadius:'15px',marginTop:'20px'}}>
                         <Avatar alt="Remy Sharp" src={purchase.product.media[0].link} className={classes.large} variant='square' />
                         <section style={{display:"flex",flexDirection:'column',padding:'10px'}}>
-                            <StatusBadge status={purchase.status} align='center' marginBottom='10px' />
+                            <StatusBadge status={status!==200?purchase.status:'processing'} align='center' marginBottom='10px' />
                             <span><b>{lang.product_name}</b> :{purchase.product.name}  </span>
                             <span><b>{lang.sku}</b> : {purchase.product.sku} </span>
                         </section>

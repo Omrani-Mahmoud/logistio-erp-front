@@ -26,6 +26,11 @@ function CustomVariantRow({row,storageID}) {
     };
 
 
+    React.useEffect(() => {
+        setinputs({quantity:row?.quantity?row.quantity:0,threshold:row?.threshold?row.threshold:0})
+    }, [row])
+
+
 
 
     
@@ -53,6 +58,9 @@ function CustomVariantRow({row,storageID}) {
             })
        
       }
+
+
+      console.log ('BAHA HERE =====>',row)
 
     return (
         <TableRow>

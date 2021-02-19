@@ -137,6 +137,17 @@ function Products({open,handleCloseModal,handleOpenModal}) {
        });
     }
 
+
+    React.useEffect(() => {
+      //const sr  = auth.check_auth();
+    const check___ = setInterval(() => {
+        fetch_products()
+      }, 60000);
+
+    return () => clearInterval(check___);
+  }, []);
+
+
     const rows = [
         {
             id:1,

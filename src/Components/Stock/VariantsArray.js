@@ -25,7 +25,7 @@ const useStyles = makeStyles({
         fontWeight:'bold'
     }
   })
-function VariantsArray({options=[],variants=[],productID}) {
+function VariantsArray({options=[],variants=[],productID,refetch}) {
     const classes = useStyles();
     return (
         <TableContainer component={Paper} style={{background:'white',width:'100%'}}>
@@ -83,7 +83,7 @@ function VariantsArray({options=[],variants=[],productID}) {
         <TableBody>
                 {
                     variants.map(row=>{
-                       return  <CustomVariantRow row={row} productID={productID} />
+                       return  <CustomVariantRow row={row} productID={productID} refetch={refetch} />
                     })
                 }
         </TableBody>

@@ -55,12 +55,14 @@ function UsersContainer() {
     const [toggled, settoggled] = React.useState(false);
     const [selectedRole, setselectedRole] = React.useState('');
     const [newRole, setnewRole] = React.useState(false);
+    const [status, setStatus] = React.useState('');
 
     const [user, dispatch] = React.useReducer(reducer, initUser)
     const [setToken,getToken] = useToken();
-    const [roles, setroles] = React.useState([])
-    const [users, setUsers] = React.useState([])
+    const [roles, setroles] = React.useState([]);
+    const [users, setUsers] = React.useState([]);
 
+    const [loading, setLoading] = React.useState(false)
     const handleToggled = (event)=>{
         settoggled(event.target.checked)
     };
@@ -100,6 +102,8 @@ function UsersContainer() {
 
 
    const  _saveuser = ()=>{
+        setStatus('');
+        setLoading(true);
         let role ;
         let userToSend ;
         let sections = [];
@@ -135,13 +139,20 @@ function UsersContainer() {
             headers:{'auth-token':`${getToken()}`}
         })
         .then(function (response) {
-            console.log(response);
+            setLoading(false);
+                if(response.status===200){
+                    setStatus(200)
+                }
+                else{
+                    setStatus('error')
+                }
         })
         .catch(function (error) {
-            console.log(error);
+            setLoading(false);
+            setStatus('error')
         });
 
-        console.log('to send :::: ',userToSend)
+ 
     }
 
     React.useEffect(() => {
@@ -170,7 +181,7 @@ function UsersContainer() {
 
     return (
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-            <Users usersList={users} handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} resetSelectedRole={resetSelectedRole} />
+            <Users loading={loading} status={status} usersList={users} handleToggled={handleToggled} toggled={toggled} handleDropDownRoleChange={handleDropDownRoleChange} selectedRole={selectedRole} roles={roles} isNewRole={newRole} userDispatcher={dispatch} user={user} saveUser = {_saveuser} resetSelectedRole={resetSelectedRole} />
         </motion.div>
     )
 }

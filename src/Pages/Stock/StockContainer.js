@@ -62,6 +62,31 @@ const getStock = (mounted)=>{
        });
 }
 
+const getStock_withoutLoading = ()=>{
+
+    axios.get(`${uri.link}/storage/`,{
+        headers:{'auth-token':`${getToken()}`}
+    })
+       .then(function (response) {
+            setstock(response.data)
+           
+       })
+       .catch(function (error) {
+        
+           // handle error
+           console.log(error);
+       });
+}
+
+React.useEffect(() => {
+  const check___ = setInterval(() => {
+    getStock_withoutLoading()
+    }, 30000);
+
+  return () => clearInterval(check___);
+}, []);
+
+
 const getBulkProducts = (mounted)=>{
     axios.get(`${uri.link}/products/by_type/bulk`,{
         headers:{'auth-token':`${getToken()}`}
@@ -104,11 +129,13 @@ const getBulkProducts = (mounted)=>{
     }, [stockForm])
 
 
+
+    console.log('HERE ROW AFTER RETCHECH BACKGROUND :::::::::::::::: ',stock)
     
     return (
         
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-            <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock} loadingStock={loading} selected={selected}/>
+            <Stock stock={stock} stockForm={stockForm} dispatch={dispatch} products={bulkProducts} fetch={getStock_withoutLoading} loadingStock={loading} selected={selected} />
         </motion.div>
     )
 }

@@ -25,12 +25,15 @@ import productPlaceHolder from '../../Assets/img/productPlaceHolder.png'
 import StatusBadge from '../StatusBadge';
 import CustomModal from './CustomModal';
 import UpdateIcon from '@material-ui/icons/Update';
+import CustomSnackbar from '../CustomSnackBar';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
 
 function CustomRow({row}) {
   const [open, setOpen] = React.useState(false);
+  const [status, setStatus] = React.useState('');
+  const [setToken,getToken] = useToken();
 
 const handleClose = ()=>{
     setOpen(false)
@@ -41,14 +44,36 @@ const handleOpen = ()=>{
 }
     
 
-console.log('ROWWW CUSTOM -> ',row)
-
-    
-    
-  
-
+const _update = ()=>{
+    setStatus('');
+    axios.patch(`${uri.link}/purchases/${row._id}`,
+    {
+      
+    },
+    {headers:{'auth-token':`${getToken()}`}}
+    ).then( (res)=> {
+            res.status===200?
+            setStatus(200)
+            :
+            setStatus('error');
+        })
+        .catch(error =>{
+            setStatus('error');
+        })
+   
+  }
     return (
       <>
+
+                    {
+                        status===200?
+                        <CustomSnackbar  content='Purchase updated!' type="success"/>
+                        :
+                        status==='error'?
+                        <CustomSnackbar  content='Ops,update failed!' type="error"/>
+                        : null
+
+                    }
               <TableRow key={row} hover onClick={handleOpen} style={{cursor:'pointer'}}>
               <TableCell align='left' key={'p1'} >
                   {row.purchase_id?row.purchase_id:'-'}
@@ -69,16 +94,16 @@ console.log('ROWWW CUSTOM -> ',row)
 
              
               <TableCell align='center' key={'p6'} >
-                  <StatusBadge status={row.status} />
+                  <StatusBadge status={status!==200?row.status:'processing'} />
               </TableCell>
 
-              <TableCell align='center' key={'p6'} >
-                    <IconButton color="primary" aria-label="upload picture" component="span">
+              {/* <TableCell align='center' key={'p6'} style={{pointerEvents:'none'}}>
+                    <IconButton color="primary" aria-label="upload picture" component="span" onClick={_update}>
                         <UpdateIcon  />
                     </IconButton>
-              </TableCell>
+              </TableCell> */}
           </TableRow>
-                      <CustomModal  open={open} handleClose={handleClose} purchase={row}  />
+                      <CustomModal update={_update} status={status}  open={open} handleClose={handleClose} purchase={row}  />
 </>
     )
 }

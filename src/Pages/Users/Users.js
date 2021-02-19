@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, TextField,Switch, FormControlLabel, FormHelperText, Checkbox, Button, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core'
+import { Container, Grid, Paper, TextField,Switch, FormControlLabel, FormHelperText, Checkbox, Button, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, CircularProgress } from '@material-ui/core'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -10,6 +10,7 @@ import SectionsTableContainer from '../../Components/Sections array/SectionsTabl
 import InfoIcon from '@material-ui/icons/Info';
 import {motion} from 'framer-motion'
 import UserListRow from '../../Components/user/UserListRow';
+import CustomSnackbar from '../../Components/CustomSnackBar'
 const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -26,7 +27,7 @@ const lngc = window.localStorage.getItem("lang")
 const lang = require(`../../Language/${lngc}.json`);
 
 
-function Users({usersList,toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user,saveUser,resetSelectedRole}) {
+function Users({loading,status,usersList,toggled,handleToggled,handleDropDownRoleChange,roles,selectedRole,isNewRole,userDispatcher,user,saveUser,resetSelectedRole}) {
     const textFStyle = {
         marginBottom:'7px'
     }
@@ -238,14 +239,29 @@ function Users({usersList,toggled,handleToggled,handleDropDownRoleChange,roles,s
             </Paper>
             
             <Grid md={12} style={{display:'flex',justifyContent:'center'}}>
-            <motion.Button whileHover={{scale:1.1,
+              {
+                loading?
+                <CircularProgress size={25} />
+
+                :
+                <motion.Button whileHover={{scale:1.1,
                                 
-                              }} disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'rgb(120,135,235)',border:'0px',height:'30px',borderRadius:'5px',color:'white',cursor:'pointer',fontWeight:'bold'}} onClick={saveUser}>
+                }} disableElevation style={{width:'50%',alignSelf:'center',margin:'15px',background:'rgb(120,135,235)',border:'0px',height:'30px',borderRadius:'5px',color:'white',cursor:'pointer',fontWeight:'bold'}} onClick={saveUser}>
               {lang.saveUser}
-            </motion.Button>
+              </motion.Button>
+              }
+       
             
             </Grid>
             </Grid>
+            {
+                        status===200?
+                        <CustomSnackbar  content='User created!' type="success"/>
+                        :
+                        status==='error'?
+                        <CustomSnackbar  content='Ops,failed to add user!' type="error"/>
+                        : null
+                    }
         </Container>
 
     )

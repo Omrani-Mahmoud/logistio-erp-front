@@ -125,7 +125,7 @@ function Stock({stock,stockForm,dispatch,products,fetch,loadingStock,selected}) 
                     {/* <TextField label={lang.quantity}  type='number' style={{width:'300px', marginTop:'10px'}} onChange={(e)=>dispatch({type:'quantity',value:e.target.value})} />
 
                     <TextField label={lang.threshold}  type='number' style={{width:'300px', marginTop:'10px'}} onChange={(e)=>dispatch({type:'threshold',value:e.target.value})}/> */}
-                        <VariantsArray variants={selected.variants} options={selected.options} productID={selected._id} />
+                        <VariantsArray variants={selected.variants} options={selected.options} productID={selected._id} refetch={fetch} />
                     {/* {
                         loading?
                        <Loader />
