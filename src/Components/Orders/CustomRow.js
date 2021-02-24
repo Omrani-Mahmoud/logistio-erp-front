@@ -28,7 +28,7 @@ const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('la
 const lang = require(`../../Language/${lngc}.json`)
 
 
-function CustomRow({row,fetch,productId}) {
+function CustomRow({row,fetch,productId,reship}) {
   const [open, setOpen] = React.useState(false);
 
 const handleClose = ()=>{
@@ -52,9 +52,7 @@ console.log('ROWWW CUSTOM -> ',row)
               <TableCell align='center' key={'ac1'} >
                   {row.order_id?row.order_id:'-'}
               </TableCell>
-              <TableCell align='center' key={'ac1'} >
-                  {row.shipping_infos[0].address}
-              </TableCell>
+              
               <TableCell align='center' key={'ac1'} >
                   {`${row.shipping_infos[0].first_name} ${row.shipping_infos[0].last_name}` }
               </TableCell>
@@ -71,7 +69,7 @@ console.log('ROWWW CUSTOM -> ',row)
                   {row.order_items.length}
               </TableCell>
           </TableRow>
-                      <CustomModal open={open} handleClose={handleClose} order={row} fetch={fetch} />
+                      <CustomModal reship={reship} open={open} handleClose={handleClose} order={row} fetch={fetch} />
 </>
     )
 }

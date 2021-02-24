@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
-import { Grid, Paper, TextField,Button } from '@material-ui/core';
+import { Grid, Paper, TextField,Button,Avatar } from '@material-ui/core';
 import { Language, Rowing } from '@material-ui/icons';
 import AddressTable from './AddressTable';
 import OrderItem from './OrderItem';
@@ -11,10 +11,34 @@ import useToken from '../../Hooks/useToken';
 import Swal from 'sweetalert2'
 import CustomSnackbar from '../CustomSnackBar';
 import InfoIcon from '@material-ui/icons/Info';
+import imgP from '../../Assets/img/productPlaceHolder.png';
+import { makeStyles } from '@material-ui/core/styles';
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
 
 
+const useStyles = makeStyles((theme)=>({
+
+    large: {
+        width: theme.spacing(20),
+        height: theme.spacing(20),
+        marginRight:'20px'
+  
+      },
+      small: {
+        width: theme.spacing(8),
+        height: theme.spacing(8),
+        marginRight:'20px',
+        marginTop:'8px'
+      },
+      hover: {
+        width: theme.spacing(28),
+        height: theme.spacing(28),
+        marginRight:'20px',
+        marginTop:'8px'
+      },
+  }));
 
 
 const reducer = (state,action)=>{
@@ -28,7 +52,8 @@ const reducer = (state,action)=>{
             return state
     }
 }
-function CustomModal({open,handleClose,order,fetch}) {
+function CustomModal({open,handleClose,order,fetch,reship}) {
+    const classes = useStyles();
 
     const [status, setStatus] = React.useState('');
     const [setToken,getToken] = useToken();
@@ -37,7 +62,10 @@ function CustomModal({open,handleClose,order,fetch}) {
         order_price:order.shipping_cost?order.shipping_cost:0
     };
     const [orderInfo, dispatch] = React.useReducer(reducer, initOrderInfo)
-
+    const [displayImg, setDisplayImg] = React.useState({
+        isHovred:false,
+        link:''
+      });
     const spanColorbg = {
         background:'white',
         height:'30px',
@@ -61,6 +89,20 @@ function CustomModal({open,handleClose,order,fetch}) {
 
     }
 
+
+  const handleImageDisplay = (link)=>{
+    setDisplayImg({
+      isHovred:true,
+      link:link
+    })
+}
+
+const removeImageDisplay = (link)=>{
+  setDisplayImg({
+    isHovred:false,
+    link:''
+  })
+}
 
     const _updateOrder = ()=>{
     axios.patch(`${uri.link}/orders/`, 
@@ -120,7 +162,19 @@ function CustomModal({open,handleClose,order,fetch}) {
 
     // }
 
-    console.log("ORDER --------->",order)
+    console.log("ORDER --------->",order);
+
+    const img_display = {
+        display:{
+          opacity:1,
+        },
+        hidden:{
+          opacity:0,
+      },
+        transition:{
+          duration:0.3,
+        }
+    }
     return (
         <Modal
             open={open}
@@ -129,7 +183,7 @@ function CustomModal({open,handleClose,order,fetch}) {
 
         >
             
-            
+            {/* <h1>{reship}</h1> */}
             <Grid item md={10} >
                 <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'650px',background:'rgb(243,245,247)',flexDirection:'column'}}>
                     <h1 style={{color:'#303030',opacity:'90%'}}>{lang.order} {`#${order.order_id}`}</h1>
@@ -141,7 +195,32 @@ function CustomModal({open,handleClose,order,fetch}) {
                 <CustomSnackbar  content='Ops, order update failed!' type="error"/>
                 : null
             }
+
+
+
+
             
+           {
+               reship &&
+                <div style={{display:"flex",flexDirection:'row',width:'100%'}}>
+                    {
+                    order.reship_media.map(img=>{
+                      return <Avatar  style={{cursor:'pointer',marginRight:'8px'}}onMouseEnter={()=>handleImageDisplay(img)} onMouseLeave={()=>removeImageDisplay()} alt='broken' src={img.link}  variant="square" className={classes.small} />
+                    })
+                    }
+                </div>
+           } 
+            {
+                  displayImg.isHovred  && 
+                <motion.div variants={img_display} initial='hidden' animate='display' style={{alignSelf:'center',marginTop:'150px',position:'absolute',zIndex:'999999999',justifyContent:'center'}}>
+                  <Avatar  alt='reship item' src={displayImg.link}  variant="square" className={classes.hover} />
+                </motion.div>
+                }
+
+
+
+
+
                     <Grid item md={12} style={{display:'flex',justifyContent:"space-around",maxHeight:'50px',marginTop:'7px',marginBottom:'7px'}}>
                         <Grid item md={4}><span style={spanColorbg}><b>{lang.fullfillment_mode} </b> : {order.fulfillment_mode}</span></Grid>
                         <Grid item md={4}><span style={spanColorbg}><b>{lang.fullfillment_status}</b> : {order.status}</span></Grid>
@@ -160,8 +239,11 @@ function CustomModal({open,handleClose,order,fetch}) {
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.order_info}</span>
                             <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.track_number}</b> :   <TextField defaultValue={order.tracking_number}  size='small'  onChange={(e)=>dispatch({type:'tracking',value:e.target.value})} />
  </span>
-                            <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.shipping_price}</b> :   <TextField defaultValue={order.shipping_cost}  size='small' onChange={(e)=>dispatch({type:'price',value:e.target.value})} />
+                            {
+                                !reship && 
+                                    <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.shipping_price}</b> :   <TextField  defaultValue={order.shipping_cost}  size='small' onChange={(e)=>dispatch({type:'price',value:e.target.value})} />
  </span>
+} 
                         
  <motion.Button
                     

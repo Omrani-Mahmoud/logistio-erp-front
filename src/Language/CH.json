@@ -199,7 +199,8 @@
     "logistio_client_store":"Shopify商店",
 
 
-    "product_sku":"SKU"
+    "product_sku":"SKU",
+    "order_id":"訂單編號"
 
 
 

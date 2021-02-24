@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import StatusBadge from '../StatusBadge';
 import VariantsTable from './VariantsTable';
 import UpdateIcon from '@material-ui/icons/Update';
-
+import img  from '../../Assets/img/productPlaceHolder.png'
 const useStyles = makeStyles((theme) => ({
     large: {
       width: theme.spacing(15),
@@ -133,7 +133,7 @@ function CustomModal({open,handleClose,purchase,update,status}) {
                         </Button>
 }
                         <section style={{display:'flex',padding:'15px',background:'white',borderRadius:'15px',marginTop:'20px'}}>
-                        <Avatar alt="Remy Sharp" src={purchase.product.media[0].link} className={classes.large} variant='square' />
+                        <Avatar alt="p" src={purchase.product.media[0]?.link?purchase.product.media[0]?.link:img} className={classes.large} variant='square' />
                         <section style={{display:"flex",flexDirection:'column',padding:'10px'}}>
                             <StatusBadge status={status!==200?purchase.status:'processing'} align='center' marginBottom='10px' />
                             <span><b>{lang.product_name}</b> :{purchase.product.name}  </span>

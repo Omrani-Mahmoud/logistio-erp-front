@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LinkIcon from '@material-ui/icons/Link';
 import { Link } from 'react-router-dom';
-import { FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@material-ui/core'
+import { FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch, TextField } from '@material-ui/core'
 import AttachmentsLink from '../AttachmentsLink';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import CustomRow from './CustomRow';
@@ -42,13 +42,14 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
     const classes = useStyles();
     const [searchInput, setsearchInput] = React.useState('');
     const [status, setStatus] = React.useState('');
-    const [fullfillment_mode, setfullfillment_mode] = React.useState('')
+    const [fullfillment_mode, setfullfillment_mode] = React.useState('');
+    const [isReship, setisReship] = React.useState(false)
 
     console.log('MODE------------->',fullfillment_mode)
 
-    const filtredData = orders.filter(row =>{
+    let filtredData = orders.filter(row =>{
             if(fullfillment_mode==='' && searchInput.length>0 && status==='')
-                return row?.shipping_infos[0]?.country.includes(searchInput)
+                return row?.order_id.includes(searchInput)
 
             if(searchInput.length === 0 && fullfillment_mode!=='' && status==='' )
                 return row.fulfillment_mode===fullfillment_mode
@@ -60,17 +61,20 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                 return row.status===status && row.fulfillment_mode===fullfillment_mode
             
             if(searchInput.length > 0 && fullfillment_mode!=='' && status==='' )
-                return  row.fulfillment_mode===fullfillment_mode && row?.shipping_infos[0]?.country.includes(searchInput)
+                return  row.fulfillment_mode===fullfillment_mode && row?.order_id.includes(searchInput)
             
             if(searchInput.length > 0 && fullfillment_mode ==='' && status!=='' )
-                return  row.status===fullfillment_mode && row?.shipping_infos[0]?.country.includes(searchInput)
+                return  row.status===fullfillment_mode && row?.order_id.includes(searchInput)
 
             if(searchInput.length > 0 && fullfillment_mode!=='' && status!=='')
-                return row.fulfillment_mode===fullfillment_mode && row?.shipping_infos[0]?.country.includes(searchInput) && row.status===status
+                return row.fulfillment_mode===fullfillment_mode && row?.order_id.includes(searchInput) && row.status===status
 
             else
                 return row
     })
+
+
+    
 
 
     const handleChange = (e)=>{
@@ -79,8 +83,17 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
     const handleChangeStatus = (e)=>{
         setStatus(e.target.value)
     }
+
+  const handleChangeIsReship = (event) => {
+    setisReship(event.target.checked);
+  };
     return (
         <Grid item md={12} style={{marginTop:'5px',height:'485px',overflowY:'auto',marginBottom:'10px'}}>
+                <FormControlLabel
+                    control={<Switch size="small" color='primary' checked={isReship} onChange={handleChangeIsReship}   name="checkedReship" />}
+                    label="Re-ship Orders"
+                    style={{padding:'15px'}}
+                />
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Grid style={{marginBottom:'10px'}}>
         <KeyboardDatePicker
@@ -98,11 +111,10 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
         />
         </Grid>
         </MuiPickersUtilsProvider>
-                            <TextField size='small' id="standard-basic" label={lang.country} style={{width:'300px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
+                            <TextField size='small' id="standard-basic" label={lang.order_id} style={{width:'300px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
                             <FormControl variant="outlined" size='small' style={{width:'250px',float:'right',marginTop:'7px'}}>
                                     <InputLabel id="demo-simple-select-outlined-label">{lang.fullfillment_status}</InputLabel>
                                             <Select
-                                            
                                             labelId="demo-simple-select-outlined-label"
                                             id="demo-simple-select-outlined"
                                             value={status}
@@ -138,7 +150,7 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                     <TableHead >
                         <TableRow>
                             <TableCell align='left' className={classes.header} >#ID</TableCell>
-                            <TableCell align='left' className={classes.header} >{lang.shipping_adr}</TableCell>
+                           
                             <TableCell align='center' className={classes.header} >{lang.client_name}</TableCell>
                             <TableCell align='center' className={classes.header} >{lang.country} </TableCell>
                             <TableCell align='center' className={classes.header} >{lang.status}</TableCell>
@@ -148,8 +160,17 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                     </TableHead>
                     <TableBody>
                         {filtredData.map((row,index) => (
-                                   <CustomRow row={row} fetch={fetch}/>
+                                  
+                                      row.reship_media?.length>0 && isReship &&  
+                                            <CustomRow row={row} fetch={fetch} reship/>
+
+                                    // row.reship_media?.length===0 && !isReship &&  
+                                    //         <CustomRow row={row} fetch={fetch}/>
                         ))}
+                        {filtredData.map((row,index) => (
+                                row.reship_media?.length===0 && !isReship &&  
+                                        <CustomRow row={row} fetch={fetch}/>
+                    ))}
                     </TableBody>
                     </Table>
                 </TableContainer>
