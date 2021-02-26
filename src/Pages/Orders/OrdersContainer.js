@@ -9,7 +9,7 @@ function OrdersContainer() {
     const [orders, setOrders] = React.useState([])
     const [setToken,getToken] = useToken();
     const [loading, setLoading] = React.useState(false);
-
+    const [modalIsOpen, setmodalIsOpen] = React.useState(false)
     const [selectedDate, setSelectedDate] = React.useState(new Date());
     
     const handleDateChange = (date) => {
@@ -50,6 +50,21 @@ function OrdersContainer() {
            });
     }
 
+    const _fetchBG = (mounted)=>{
+        axios.get(`${uri.link}/orders/filter_by/updated_at-desc`,{
+            headers:{'auth-token':`${getToken()}`}
+        })
+           .then(function (response) {
+               if(!mounted){
+                    console.log('ORDERS DATA',response.data)
+                    setOrders(response.data)
+               }
+           })
+           .catch(function (error) {
+               // handle error
+               console.log(error);
+           });
+    }
 
 
     React.useEffect(() => {
@@ -60,10 +75,21 @@ function OrdersContainer() {
            mounted=false
        }
     }, [])
-    
+
+    React.useEffect(() => {
+        //const sr  = auth.check_auth();
+      const check___ = setInterval(() => {
+          console.log('here reftech ya mah',modalIsOpen)
+          _fetchBG(modalIsOpen)
+        }, 60000);
+        return () => clearInterval(check___);
+    }, [modalIsOpen]);
+
+
+    console.log(' TEST RATATATA ====>',modalIsOpen)
     return (
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-                <Orders orders={orders} fetch={_fetch} loading={loading} handleDateChange={handleDateChange} selectedDate={selectedDate}/>
+                <Orders setmodalIsOpen={setmodalIsOpen} orders={orders} fetch={_fetch} loading={loading} handleDateChange={handleDateChange} selectedDate={selectedDate}/>
         </motion.div>
     )
 }

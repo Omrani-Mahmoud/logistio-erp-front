@@ -18,6 +18,8 @@ import useToken from '../../Hooks/useToken';
 import {uri} from "../../Url_base";
 import LinkIcon from '@material-ui/icons/Link';
 import { Link } from 'react-router-dom';
+import LocalShippingIcon from '@material-ui/icons/LocalShipping';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
 const colors=['#16193B','#35478C','#4E7AC7','#7FB2F0']
@@ -281,6 +283,9 @@ function Overview() {
                     <CustomCard type={lang.order_time} number={productsStats.order_tr_time}>
                         <UpdateIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
+                    <CustomCard type={lang.re_shiped_orders} number={productsStats.order_tr_time}>
+                        <LocalShippingIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
+                    </CustomCard>
                 </Grid>
                 <div ref={wrapperRef} style={{marginTop:'50px',width:'220px'}}>
             <Button style={{background:'#35478C',color:'white',width:'250px'}} variant='contained' onClick={() => setToggleDate(!toggleDate)} >
@@ -418,7 +423,7 @@ function Overview() {
                 </div>)}
                 </div>
                
-                <div style={{display:'flex',marginTop:'25px',justifyContent:'space-around'}}>
+                <div style={{display:'flex',marginTop:'25px',justifyContent:'space-between',flexWrap:'wrap'}}>
                     <Grid item md={6} style={{padding:'10px'}}> 
                         {/* <h3 style={{color:'rgb(36,38,76)'}}>Last 15 days Orders </h3> */}
                         <Paper elevation={3} style={{display:'flex',height:'340px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}>
@@ -453,13 +458,35 @@ function Overview() {
                                    
                                     {
                                      _getClientNameforDonutsChart().map((cli,index) =>{
-                                       return <li onClick={()=>handleOpen(cli)}  style={{color:colors[index],fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{cli}</span></li>
+                                       return <li onClick={()=>handleOpen(cli)}  style={{color:colors[index],fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)',cursor:'pointer'}}>{cli}</span></li>
                                      })
                                    } 
                                 </section>
                             </Grid>
                         </Paper>
                     </Grid>
+                    <Grid item md={6} style={{padding:'10px',float:'left'}}>
+ 
+                          <Paper elevation={3} style={{display:'flex',height:'340px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}> 
+                            <div style={{height:'20px',alignItems:'center',display:'flex',padding:'8px',width:'90%',justifyContent:'flex-start'}}>
+                                  <LocalOfferIcon  style={{marginRight:'10px',color:'rgb(36,38,76)',fontSize:'30px'}}/>
+                                  <span style={{fontSize:'20px',color:'#303030',color:'rgb(36,38,76)'}}><b>{lang.top_10_returned_SKUs}</b></span>
+                              </div>
+                              <Grid item md={12} style={{marginTop:'10px',display:'flex'}}>
+                                  <secion style={{width:'75%',justifyContent:'center',alignItems:'center',display:'flex'}}>
+                                      <Doughnut data={data2} options={optionsPie}/>
+                                  </secion>
+                                  <section style={{width:'25%',justifyContent:'center',alignItems:'flex-start',display:'flex',flexDirection:'column'}}>
+                                      
+                                      {
+                                        _getClientNameforDonutsChart().map((cli,index) =>{
+                                          return <li style={{color:colors[index],fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{cli}</span></li>
+                                        })
+                                      } 
+                                  </section>
+                                </Grid>
+                            </Paper>
+                      </Grid>
                 </div>
 
                     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}> 

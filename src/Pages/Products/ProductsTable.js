@@ -16,6 +16,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import EmptyArrayHolder from '../../Components/EmptyArrayHolder';
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme)=>({
         height: theme.spacing(7),
       },
   }));
-function ProductsTable({rows,open,handleOpenModal,handleCloseModal,filter}) {
+function ProductsTable({rows,open,handleOpenModal,handleCloseModal,filter,handleDateChange,currentDate}) {
     const classes = useStyles();
     const [searchValue, setsearchValue] = React.useState('');
 
@@ -71,10 +72,9 @@ function ProductsTable({rows,open,handleOpenModal,handleCloseModal,filter}) {
                             <InputAdornment position="start">
                             <SearchIcon />
                             </InputAdornment>
-                        }
-                />
-                </FormControl>
-             
+                        }/>
+                    </FormControl>
+               
         <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                 <TableHead>

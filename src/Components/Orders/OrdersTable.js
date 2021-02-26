@@ -35,7 +35,7 @@ const useStyles = makeStyles({
         fontWeight:'bold'
     }
   });
-function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
+function OrdersTable({orders=[],fetch,handleDateChange,selectedDate,setmodalIsOpen}) {
 
 
     console.log('Orders------------->',orders)
@@ -162,14 +162,14 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate}) {
                         {filtredData.map((row,index) => (
                                   
                                       row.reship_media?.length>0 && isReship &&  
-                                            <CustomRow row={row} fetch={fetch} reship/>
+                                            <CustomRow setmodalIsOpen={setmodalIsOpen} row={row} fetch={fetch} reship/>
 
                                     // row.reship_media?.length===0 && !isReship &&  
                                     //         <CustomRow row={row} fetch={fetch}/>
                         ))}
                         {filtredData.map((row,index) => (
                                 row.reship_media?.length===0 && !isReship &&  
-                                        <CustomRow row={row} fetch={fetch}/>
+                                        <CustomRow setmodalIsOpen={setmodalIsOpen} row={row} fetch={fetch}/>
                     ))}
                     </TableBody>
                     </Table>

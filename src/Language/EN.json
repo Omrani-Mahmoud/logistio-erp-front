@@ -53,7 +53,7 @@
     "urls_table":"Urls table",
     "variants_table":"Variants table",
     "accessories_table":"Accessories table",
-    "minim_q":"MOQ",
+    "minim_q":"MOQ ( Per product )",
     "minim_p_q":"MOQ for custom packaging",
 
 
@@ -198,7 +198,10 @@
 
 
     "product_sku":"Product SKU",
-    "order_id":"Order ID"
+    "order_id":"Order ID",
+    "upload_items":"Upload items",
+    "re_shiped_orders":"Re-shipped Orders",
+    "top_10_returned_SKUs":"Top 10 returned SKUs"
 
 
 

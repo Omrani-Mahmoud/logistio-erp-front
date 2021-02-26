@@ -28,15 +28,17 @@ const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('la
 const lang = require(`../../Language/${lngc}.json`)
 
 
-function CustomRow({row,fetch,productId,reship}) {
+function CustomRow({row,fetch,productId,reship,setmodalIsOpen}) {
   const [open, setOpen] = React.useState(false);
 
 const handleClose = ()=>{
-    setOpen(false)
+    setOpen(false);
+    setmodalIsOpen(false);
 }
 
 const handleOpen = ()=>{
-  setOpen(true)
+  setOpen(true);
+  setmodalIsOpen(true);
 }
     
 

@@ -29,6 +29,13 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import { AnimatePresence } from 'framer-motion';
 import Loader from '../../Components/Loader';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -86,6 +93,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
   const [selectValue, setselectValue] = React.useState('');
   const [isAccepted, setIsAccepted] = React.useState(0);
   const [loading, setloading] = React.useState(false);
+  const [modalIsOpen, setmodalIsOpen] = React.useState(false)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -119,17 +127,17 @@ function Products({open,handleCloseModal,handleOpenModal}) {
     }, [])
 
 
-    const fetch_products = ()=>{
+    const fetch_products = (mounted)=>{
+      console.log(' houni fetch bg')
       axios.get(`${uri.link}/products/`,{
         headers:{'auth-token':`${getToken()}`}
     })
        .then(function (response) {
            
+        if(!mounted){
             console.log('PRODUCTS --->',response)
-    
-            // console.log('PRODUCTS ::: :',response);
-                setproducts(response.data)
-         
+            setproducts(response.data)
+          }
        })
        .catch(function (error) {
            // handle error
@@ -141,11 +149,12 @@ function Products({open,handleCloseModal,handleOpenModal}) {
     React.useEffect(() => {
       //const sr  = auth.check_auth();
     const check___ = setInterval(() => {
-        fetch_products()
+      console.log('MODALA IS HERE',modalIsOpen)
+        fetch_products(modalIsOpen)
       }, 60000);
 
     return () => clearInterval(check___);
-  }, []);
+  }, [modalIsOpen]);
 
 
     const rows = [
@@ -290,6 +299,26 @@ function Products({open,handleCloseModal,handleOpenModal}) {
       justifyContent:'center',
       minHeight:'80vh'
     }
+
+
+
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
+    
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+      };
+    const contentVariant = {
+        hidden:{
+            scale:0,
+        },
+        visible:{
+            scale:1,
+            transition:{
+                type:'tween',
+                duration:0.4,  
+            }
+        },   
+    }
     return (
         <Grid item md={12} style={loading?styleWhileLoading:{marginTop:'10px'}}>
           {
@@ -345,6 +374,23 @@ function Products({open,handleCloseModal,handleOpenModal}) {
         </Tabs>
       </AppBar>
 
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Grid style={{marginBottom:'10px'}}>
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="dd/MM/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label={lang.date}
+          value={selectedDate}
+          onChange={handleDateChange}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </Grid>
+        </MuiPickersUtilsProvider>
       <TabPanel value={value} index={0}>
             <section style={{display:'flex',justifyContent:'space-between'}}>
                 <FormControl style={{margin:'10px'}}>
@@ -385,7 +431,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                     }
                     label={lang.accepted_product}
                 /> */}
-            <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'63vh',overflowY:'auto',justifyContent:filter_by_status_all().length>0?'start':'center'}}>
+            <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'52vh',overflowY:'auto',justifyContent:filter_by_status_all().length>0?'start':'center'}}>
               {
                 products.length>0?
 
@@ -400,7 +446,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                 // if(row.price_control.is_accepted===isAccepted)
                   return(
                     <ProductCardErrorHandler>
-                        <ProductCard fetch={fetch_products} row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all' products={products} />
+                        <ProductCard  setmodalIsOpen={setmodalIsOpen} fetch={fetch_products} row={row} filter='all' products={products} />
                     </ProductCardErrorHandler>)
                     //  else
                     //  return               <div style={{width:'100%',height:'200px'}}><EmptyArrayHolder text={lang.no_accepted_products}/></div>
@@ -457,7 +503,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                     }
                     label={lang.accepted_product}
                 /> */}
-          <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'63vh',overflowY:'auto',justifyContent:filter_by_status('bulk').length>0?'start':'center'}}>
+          <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'52vh',overflowY:'auto',justifyContent:filter_by_status('bulk').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='bolk'/> */}
                 {
                 products.length>0?
@@ -469,7 +515,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                   // if(row.price_control.is_accepted===isAccepted)
                 return(
                         <ProductCardErrorHandler>
-                            <ProductCard fetch={fetch_products} row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open}  products={products} />
+                            <ProductCard setmodalIsOpen={setmodalIsOpen} fetch={fetch_products} row={row} products={products} />
                         </ProductCardErrorHandler>
 
                   )
@@ -528,7 +574,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                     }
                     label={lang.accepted_product}
                 /> */}
-                <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'63vh',overflowY:'auto',justifyContent:filter_by_status('ds').length>0?'start':'center'}}>
+                <Grid item md={12} style={{display:'flex',flexWrap:'wrap',height:'52vh',overflowY:'auto',justifyContent:filter_by_status('ds').length>0?'start':'center'}}>
                 {/* <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='drop_ship'/> */}
                 {
                 products.length>0?
@@ -539,7 +585,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
                   // if(row.price_control.is_accepted===isAccepted)
                 return(
                         <ProductCardErrorHandler>
-                            <ProductCard fetch={fetch_products} row={row} handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open}  products={products} />
+                            <ProductCard setmodalIsOpen={setmodalIsOpen} fetch={fetch_products} row={row}  products={products} />
                         </ProductCardErrorHandler>
                   )
                   // else
@@ -557,7 +603,7 @@ function Products({open,handleCloseModal,handleOpenModal}) {
 
       <TabPanel value={value} index={3}>
             <Grid item md={12} style={{background:'rgb(243,245,247)',padding:'15px',borderRadius:'15px'}}>
-                <ProductsTable rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all'/>
+                <ProductsTable handleDateChange={handleDateChange} currentDate={selectedDate} rows={rows}  handleOpenModal={handleOpenModal} handleCloseModal={handleCloseModal} open={open} filter='all'/>
             </Grid>
       </TabPanel>
       </>

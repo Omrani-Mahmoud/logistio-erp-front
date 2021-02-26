@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme)=>({
       },
   }));
 
-function ProductCard({rows,filter,row,products,fetch}) {
+function ProductCard({rows,filter,row,products,fetch,setmodalIsOpen}) {
 
 
     const cardVariant = {
@@ -56,10 +56,12 @@ function ProductCard({rows,filter,row,products,fetch}) {
         const handleOpenModal = () => {
             _updateStatus();
             setOpen(true);
+            setmodalIsOpen(true);
         };
 
         const handleCloseModal = () => {
             setOpen(false);
+            setmodalIsOpen(false);
         };
 
 

@@ -55,7 +55,7 @@
     "urls_table":"桌子",
     "variants_table":"变体表",
     "accessories_table":"配件表",
-    "minim_q":"最小采购量",
+    "minim_q":"最小采购量 每筆訂單",
     "minim_p_q":"定制包装的最小数量",
     "sample":"样品价格",
 
@@ -200,7 +200,13 @@
 
 
     "product_sku":"SKU",
-    "order_id":"訂單編號"
+    "order_id":"訂單編號",
+    "upload_items":"上傳項目",
+    "re_shiped_orders":"重新發貨的訂單",
+    "top_10_returned_SKUs":"返回的十大SKU"
+
+
+
 
 
 

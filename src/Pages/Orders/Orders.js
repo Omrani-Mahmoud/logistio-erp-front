@@ -3,7 +3,7 @@ import React from 'react'
 import OrdersTable from '../../Components/Orders/OrdersTable'
 import CustomSnackBar from '../../Components/CustomSnackBar'
 import Loader from '../../Components/Loader'
-function Orders({orders,fetch,loading,handleDateChange,selectedDate}) {
+function Orders({orders,fetch,loading,handleDateChange,selectedDate,setmodalIsOpen}) {
 
     return (
         <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'100%'}} >
@@ -13,7 +13,7 @@ function Orders({orders,fetch,loading,handleDateChange,selectedDate}) {
                     loading?
                     <Loader />
                     :
-                    <OrdersTable orders={orders} fetch={fetch} handleDateChange={handleDateChange} selectedDate={selectedDate} />
+                    <OrdersTable setmodalIsOpen={setmodalIsOpen} orders={orders} fetch={fetch} handleDateChange={handleDateChange} selectedDate={selectedDate} />
                 }
             </Paper>
         </Container>

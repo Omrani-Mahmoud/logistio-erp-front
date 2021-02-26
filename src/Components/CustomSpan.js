@@ -1,9 +1,11 @@
 import React from 'react'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
-import { TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import InputBase from '@material-ui/core/InputBase';
 
-function CustomSpan({label,value,textArea,disabled,input,type,handler=null,media}) {
+const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
+const lang = require(`../Language/${lngc}.json`);
+function CustomSpan({label,value,textArea,disabled,input,type,handler=null,media,upload}) {
 
 
 
@@ -32,8 +34,13 @@ function CustomSpan({label,value,textArea,disabled,input,type,handler=null,media
                <TextField id="outlined-basic"  label="" variant="outlined"  size='small' defaultValue={value} onChange={(e)=>{handler({type:type,value:e.target.value})}} disabled={disabled} />
                :
                media?
+                (<>
                <TextField id="outlined-basic" type='file' label="" variant="outlined"  size='small' defaultValue={value} onChange={(e)=>{handler({type:type,value:e.target.files[0]})}}/>
-              //  onChange={(e)=>{handler({type:type,value:e.target.value})}
+              {/* onChange={(e)=>{handler({type:type,value:e.target.value})} */}
+                <Button style={{marginLeft:'30px'}} onClick={upload} variant="outlined" color="primary" size='small'>
+                      {lang.upload_items}
+                    </Button>
+                </>)
                :
               <span style={valueSpan} >{value}</span>
             }

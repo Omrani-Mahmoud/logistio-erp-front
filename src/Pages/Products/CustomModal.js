@@ -320,8 +320,8 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
 
                 <CustomSpan label={`${lang.description} :`} value={product.description?product.description:''} textArea  disabled />
 
-                <CustomSpan label={`${lang.video_upload} :`} value={''}  media type='media' handler={dispatch} />
-                    <button onClick={_uploadFile}>aaa</button>
+                <CustomSpan label={`${lang.video_upload} :`} value={''}  media type='media' handler={dispatch} upload={_uploadFile} />
+                  
                 <CustomSpan label={`${lang.agent_desc} :`} value={product.agentDesc?product.agentDesc:''} textArea type='agentDesc' handler={dispatch} />
                 {
                     loading?
