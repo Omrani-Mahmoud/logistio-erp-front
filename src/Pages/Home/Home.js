@@ -19,6 +19,7 @@ import auth from '../../Auth';
 import PurchasesContainer from '../Purchases/PurchasesContainer'
 import Overview from './Overview'
 import Profile from '../Settings/Profile'
+import FinanceContainer from '../Finance/FinanceContainer'
 
 function Home() {
 
@@ -181,6 +182,10 @@ function Home() {
 
                                 <LockRoute sections={sections} name='orders' path='/home/orders'>
                                             <OrdersContainer />
+                                </LockRoute>
+
+                                <LockRoute sections={sections} name='finance' path='/home/finance'>
+                                            <FinanceContainer />
                                 </LockRoute>
 
                                 <LockRoute sections={sections} name='purchases' path='/home/purchases'>

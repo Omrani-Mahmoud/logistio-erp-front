@@ -99,8 +99,8 @@
     "save":"保存",
 
 
-    "send_mail":"发电子邮件",
-    "mailing":"邮寄",
+    "open_chat":"开启即时通讯",
+    "chat_room":"聊天室",
     "email_subject":"电子邮件主题",
     "email_text":"电子邮件文字",
     "your_text_here":"在这输入文字 ...",
@@ -203,7 +203,10 @@
     "order_id":"訂單編號",
     "upload_items":"上傳項目",
     "re_shiped_orders":"重新發貨的訂單",
-    "top_10_returned_SKUs":"返回的十大SKU"
+    "top_10_returned_SKUs":"返回的十大SKU",
+    "update_product":"更新产品",
+    "send":"发送",
+    "finance":"金融"
 
 
 

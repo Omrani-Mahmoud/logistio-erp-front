@@ -62,6 +62,7 @@ const init_activeRoute = {
   users: false,
   orders: false,
   purchases: false,
+  finance:false
 };
 
 const activeRouteReducer = (state, action) => {
@@ -74,6 +75,7 @@ const activeRouteReducer = (state, action) => {
         users: false,
         orders: false,
         purchases: false,
+        finance:false
       };
     case "products":
       return {
@@ -83,6 +85,7 @@ const activeRouteReducer = (state, action) => {
         users: false,
         orders: false,
         purchases: false,
+        finance:false
       };
     case "stock":
       return {
@@ -92,6 +95,7 @@ const activeRouteReducer = (state, action) => {
         users: false,
         orders: false,
         purchases: false,
+        finance:false
       };
     case "users":
       return {
@@ -101,6 +105,7 @@ const activeRouteReducer = (state, action) => {
         users: true,
         orders: false,
         purchases: false,
+        finance:false
       };
     case "orders":
       return {
@@ -110,6 +115,7 @@ const activeRouteReducer = (state, action) => {
         users: false,
         orders: true,
         purchases: false,
+        finance:false
       };
     case "purchases":
       return {
@@ -119,8 +125,18 @@ const activeRouteReducer = (state, action) => {
         users: false,
         orders: false,
         purchases: true,
+        finance:false
       };
-
+      case "finance":
+        return {
+          home: false,
+          products: false,
+          stock: false,
+          users: false,
+          orders: false,
+          purchases: false,
+          finance:true
+        };
     default:
       return state;
   }
@@ -262,6 +278,27 @@ function SideMenu({ sections }) {
             </Link>
           </motion.section>
         )}
+
+        {!useRole(sections, "finance") && (
+          <motion.section
+            style={activeRoute.finance ? activeStyle : notActiveStyle}
+            whileHover={{ scale: 1.05, originX: 0 }}
+          >
+            <Link
+              to="/home/finance"
+              style={{ textDecoration: "none", color: "white" }}
+              onClick={() => _isActiveRoute("finance")}
+            >
+              <ListItem button key={lang.finance} style={{ padding: "10px" }}>
+                <ListItemIcon>
+                  <MonetizationOnIcon className="sideBarMenuIcon" />
+                </ListItemIcon>
+                <ListItemText primary={lang.finance} />
+              </ListItem>
+            </Link>
+          </motion.section>
+        )}
+
         {useRole(sections, "user") && (
           <motion.section
             style={activeRoute.users ? activeStyle : notActiveStyle}

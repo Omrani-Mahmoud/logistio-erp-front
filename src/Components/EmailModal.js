@@ -3,13 +3,23 @@ import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Button, CircularProgress, Grid, Paper } from '@material-ui/core';
-
+import Avatar from '@material-ui/core/Avatar';
+import ChatRow from '../Pages/Products/ChatRow';
+import axios from 'axios'
+import {uri} from "../Url_base";
+import useToken from '../Hooks/useToken';
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`)
 
-function EmailModal({open,handleClose}) {
-    const [loading, setloading] = React.useState(false)
+function EmailModal({product_id,open,handleClose}) {
+    const [loading, setloading] = React.useState(false);
+    const [msgInput, setmsgInput] = React.useState('');
+    const [setToken,getToken] = useToken();
+
+    const [msgs, setmsgs] = React.useState([]);
+
+
     const spanMargin = {
         marginBottom:'10px',
         fontWeight:'bold',
@@ -21,12 +31,70 @@ function EmailModal({open,handleClose}) {
         marginBottom:'20px'
     }
 
+
+
+
     const send_ =()=>{
         console.log('send email here')
-        setloading(true);
-        setloading(false);
-        handleClose();
+        axios.post(`${uri.link}/messages`, {
+            product: product_id,
+            body: msgInput,
+            agentMsg:1,
+            uid:0
+          },
+          {
+            headers:{'auth-token':`${getToken()}`}
+          })
+          .then(function (response) {
+            console.log(response);
+            setmsgs([...msgs,{agentMsg:1,body:msgInput}]);
+            setmsgInput('');
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
+        // setmsgs([...msgs,{agentMsg:1,body:msgInput}]);
+        // setmsgInput('');
+        // setloading(true);
+        // setloading(false);
+        // handleClose();
+        
     }
+
+
+    const _get_msgs = (mounted)=>{
+
+
+        console.log('aaaaaa hahahah gpogogogo')
+        setloading(true);
+        axios.get(`${uri.link}/messages/${product_id}`,{
+            headers:{'auth-token':`${getToken()}`}
+        })
+           .then(function (response) {
+             setloading(false)
+               if(mounted){
+                console.log('MSGS --->',response)
+                setmsgs(response.data.data)
+                // // console.log('PRODUCTS ::: :',response);
+                //     setproducts(response.data)
+               }
+           })
+           .catch(function (error) {
+               // handle error
+               setloading(false)
+               console.log(error);
+           });
+    }
+
+    React.useEffect(() => {
+        if(open){
+        _get_msgs(true);
+    }
+    }, [open])
+
+
+
 
     return (
         <Modal
@@ -38,23 +106,28 @@ function EmailModal({open,handleClose}) {
         >
          <Grid item md={8}  >
          <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'350px',background:'rgb(243,245,247)',flexDirection:'column',padding:'25px'}}>
-             <h3>{lang.mailing}</h3>
-             <section style={{display:'flex',flexDirection:'column'}}>
+             <h3>{lang.chat_room}</h3>
+             <section style={{display:'flex',flexDirection:'column',padding:'10px'}}>
                 
-                <TextField style={inputMargin} size='small' id="outlined-basic" label={lang.email_subject} variant="outlined" />
-             </section>
+               {
+                   msgs.map(msg=>{
+                       return <ChatRow text={msg.body} user={msg.agentMsg}/>
+                   })
+               } 
+                             
 
-             <section style={{display:'flex',flexDirection:'column'}}>
-                <span style={spanMargin}>{`${lang.email_text}`}</span>
-                <TextareaAutosize aria-label="minimum height" rowsMin={10} placeholder={lang.your_text_here}  style={{width:'90%'}}/>
              </section>
+             <Grid item md={8} xs={12} style={{padding:'10px'}}>
+                              <TextareaAutosize value={msgInput} onChange={(e)=>setmsgInput(e.target.value)} aria-label="minimum height" rowsMin={5} placeholder={lang.your_text_here} style={{width:'100%'}}/>
+             </Grid>
+            
              {
-                 loading?
-                 <CircularProgress style={{alignSelf:'center',marginTop:'15px'}} size={30}/>
-                :
+                 msgInput.length>0?
+                
                 <Button variant="contained"  style={{marginTop:'17px',background:'#000246',color:'white'}} onClick={send_}>
-                {lang.send_mail}
+                {lang.send}
                </Button>
+               : null
              }
             
              </Paper>

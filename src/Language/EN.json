@@ -95,8 +95,8 @@
 
 
 
-    "send_mail":"Send Email",
-    "mailing":"Mailing",
+    "open_chat":"Open Chat",
+    "chat_room":"Chat Room",
     "email_subject":"Email subject",
     "email_text":"Email Text",
     "your_text_here":"your text here ...",
@@ -201,7 +201,10 @@
     "order_id":"Order ID",
     "upload_items":"Upload items",
     "re_shiped_orders":"Re-shipped Orders",
-    "top_10_returned_SKUs":"Top 10 returned SKUs"
+    "top_10_returned_SKUs":"Top 10 returned SKUs",
+    "update_product":"Update product",
+    "send":"Send",
+    "finance":"Finance"
 
 
 

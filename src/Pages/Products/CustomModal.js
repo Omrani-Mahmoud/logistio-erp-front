@@ -302,7 +302,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
                       <CustomSpan label={`${lang.product_name} :`} value={product.name} />
                    
                       <CustomSpan label={`${lang.type} :`} value={product.type_shopping} />
-                      <Button variant="contained" size='small' style={{background:'#939BA4',color:"white",fontWeight:'bold',fontSize:'12px'}} onClick={handleOpeneEmailModal} >{lang.send_mail}</Button>
+                      <Button variant="contained" size='small' style={{background:'#939BA4',color:"white",fontWeight:'bold',fontSize:'12px'}} onClick={handleOpeneEmailModal} >{lang.open_chat}</Button>
 
                     </section>
                 </Grid>
@@ -327,7 +327,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
                     loading?
                       <Loader />
                     :
-                    <Button variant='contained'  style={{background:'black',color:'white',fontWeight:'bold',zIndex:999999999,float:'right',width:'200px'}} onClick={_updateProd}>Update product</Button>
+                    <Button variant='contained'  style={{background:'black',color:'white',fontWeight:'bold',zIndex:999999999,float:'right',width:'200px'}} onClick={_updateProd}>{lang.update_product}</Button>
 
                 }
 
@@ -352,7 +352,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
             </Grid>
            
            </Paper>
-           <EmailModal open={emailModal} handleClose={handleCloseEmailModal} />
+           <EmailModal product_id={product._id} open={emailModal} handleClose={handleCloseEmailModal} />
           </Grid>
    
   </Modal>
