@@ -1,6 +1,6 @@
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
-import { Grid, Paper, TextField,Button,Avatar } from '@material-ui/core';
+import { Grid, Paper, TextField,Button,Avatar, Select } from '@material-ui/core';
 import { Language, Rowing } from '@material-ui/icons';
 import AddressTable from './AddressTable';
 import OrderItem from './OrderItem';
@@ -13,10 +13,13 @@ import CustomSnackbar from '../CustomSnackBar';
 import InfoIcon from '@material-ui/icons/Info';
 import imgP from '../../Assets/img/productPlaceHolder.png';
 import { makeStyles } from '@material-ui/core/styles';
-
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
-
+const countries = require(`../../Assets/Files/country.json`);
 
 const useStyles = makeStyles((theme)=>({
 
@@ -47,6 +50,12 @@ const reducer = (state,action)=>{
             return {...state,tracking_id:action.value}
             case 'price':
                 return {...state,order_price:action.value}
+                case 'company':
+                    return {...state,shipping_company:action.value}
+                    case 'line':
+                        return {...state,shipping_line:action.value}
+                        case 'country':
+                            return {...state,country:action.value}
         
         default:
             return state
@@ -57,15 +66,22 @@ function CustomModal({open,handleClose,order,fetch,reship}) {
 
     const [status, setStatus] = React.useState('');
     const [setToken,getToken] = useToken();
+
     const initOrderInfo = {
         tracking_id:order.tracking_number?order.tracking_number:'',
-        order_price:order.shipping_cost?order.shipping_cost:0
+        order_price:order.shipping_cost?order.shipping_cost:0,
+        shipping_company:'',
+        shipping_line:'',
+        country:''
     };
+
     const [orderInfo, dispatch] = React.useReducer(reducer, initOrderInfo)
     const [displayImg, setDisplayImg] = React.useState({
         isHovred:false,
         link:''
       });
+    const [lines, setlines] = React.useState([{}]);
+
     const spanColorbg = {
         background:'white',
         height:'30px',
@@ -162,7 +178,6 @@ const removeImageDisplay = (link)=>{
 
     // }
 
-    console.log("ORDER --------->",order);
 
     const img_display = {
         display:{
@@ -175,6 +190,43 @@ const removeImageDisplay = (link)=>{
           duration:0.3,
         }
     }
+
+    const company_handler = (val)=>{
+        dispatch({type:'company',value:val})
+    }
+
+    const lines_handler = (val)=>{
+        dispatch({type:'line',value:val})
+    }
+
+    const country_handler = (val)=>{
+        dispatch({type:'country',value:val})
+    }
+    const getLines = ()=>{
+        axios.get(`${uri.link}/yunexpress/lines/${orderInfo.country}`,{
+            headers:{
+                'auth-token':getToken()
+            }
+        })
+            .then(function (response) {
+                // handle success
+               
+                setlines(JSON.parse(response.data)['Items'])
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+    }
+
+    React.useEffect(() => {
+        if(open && orderInfo.country.length>0){
+            getLines();
+        }
+    }, [open,orderInfo.country])
+
+
+    console.log('lines =====>',lines)
     return (
         <Modal
             open={open}
@@ -237,11 +289,60 @@ const removeImageDisplay = (link)=>{
 
                     <Grid item md={12} style={{display:order.fulfillment_mode==='fulfill_all'?'flex':'none',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.order_info}</span>
-                            <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.track_number}</b> :   <TextField defaultValue={order.tracking_number}  size='small'  onChange={(e)=>dispatch({type:'tracking',value:e.target.value})} />
+                            <FormControl style={{width:'30%',marginBottom:'10px'}}>
+                                    <InputLabel id="country">Country</InputLabel>
+                                    <Select
+                                    labelId="country"
+                                  
+                                    value={orderInfo.country}
+                                    onChange={(e)=>country_handler(e.target.value)}
+                                    >
+                                        {
+                                           countries?.length>0 &&  countries?.map(elem=>{
+                                                return <MenuItem value={elem.code}>{elem.name}</MenuItem>
+                                            })
+                                        }
+
+                                    </Select>
+                                </FormControl>
+                            <FormControl style={{width:'30%',marginBottom:'10px'}}>
+                                    <InputLabel id="shipingcompany">Shipping Company</InputLabel>
+                                    <Select
+                                    labelId="shipingcompany"
+                                  
+                                    value={'yunexpress'}
+                                    onChange={(e)=>company_handler(e.target.value)}
+                                    >
+                                    <MenuItem value={'yunexpress'}>Yun Express</MenuItem>
+                                    <MenuItem value={20}>Twenty</MenuItem>
+                                    <MenuItem value={30}>Thirty</MenuItem>
+                                    </Select>
+                                </FormControl>
+
+                                <FormControl style={{width:'30%',marginBottom:'10px'}}>
+                                    <InputLabel id="shipingline">Shipping Line</InputLabel>
+                                    <Select
+                                    labelId="shipingline"
+                                  
+                                    value={orderInfo.shipping_line}
+                                    onChange={(e)=>lines_handler(e.target.value)}
+                                    >
+                                        {
+                                           lines?.length>0 &&  lines?.map(elem=>{
+                                                return <MenuItem value={elem.Code}>{lngc ==='EN'?elem.EName:elem.CName}</MenuItem>
+                                            })
+                                        }
+
+                                    </Select>
+                                </FormControl>
+                            <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.track_number}</b> : 
+                              <TextField defaultValue={order.tracking_number}  size='small'  onChange={(e)=>dispatch({type:'tracking',value:e.target.value})} />
+                               
  </span>
                             {
                                 !reship && 
-                                    <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.shipping_price}</b> :   <TextField  defaultValue={order.shipping_cost}  size='small' onChange={(e)=>dispatch({type:'price',value:e.target.value})} />
+                                    <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.shipping_price}</b> : 
+                                      <TextField  defaultValue={order.shipping_cost}  size='small' onChange={(e)=>dispatch({type:'price',value:e.target.value})} />
  </span>
 } 
                         
@@ -256,6 +357,7 @@ const removeImageDisplay = (link)=>{
                         >
                             {lang.save_it}
                     </motion.Button>
+
 
                     </Grid>
                     <Grid item md={12} style={{display:'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
