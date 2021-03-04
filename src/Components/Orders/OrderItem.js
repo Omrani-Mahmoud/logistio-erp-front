@@ -31,6 +31,9 @@ import Swal from 'sweetalert2'
 import useToken from '../../Hooks/useToken';
 import {uri} from '../../Url_base'
 import CustomSnackbar from '../CustomSnackBar';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`)
 
@@ -47,7 +50,7 @@ const reducer = (state,action)=>{
             return state
     }
 }
-function OrderItem({product,disabled,order_id,fetch}) {
+function OrderItem({product,disabled,order_id,fetch,dispatcher}) {
     const initItemInfo = {
         tracking_id:product.tracking_number?product.tracking_number:'',
         order_price:product.shipping_cost?product.shipping_cost:0
@@ -88,6 +91,16 @@ function OrderItem({product,disabled,order_id,fetch}) {
               
         });
         }
+
+        const handlerShipItems = (e)=>{
+                if(e.target.checked){
+                    dispatcher({type:'push',value:product.product._id})
+                }
+                else{
+                    dispatcher({type:'remove',value:product.product._id})
+
+                }
+        }
     return (
 
         <Accordion >
@@ -118,13 +131,17 @@ function OrderItem({product,disabled,order_id,fetch}) {
         </AccordionSummary>
         <AccordionDetails style={{display:'flex',flexDirection:'column'}}>
 
-        <Grid item md={12} style={{display:disabled?'none':'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
+        <Grid item md={12} style={{display:!disabled?'none':'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>Item information</span>
-                            <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>Tracking number</b> :   <TextField  size='small' defaultValue={product.tracking_number} onChange={(e)=>{dispatch({type:'tracking',value:e.target.value})}}   />
+                            {/* <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>Tracking number</b> :   <TextField  size='small' defaultValue={product.tracking_number} onChange={(e)=>{dispatch({type:'tracking',value:e.target.value})}}   />
  </span>
                             <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>Shipping Price</b> :   <TextField  size='small' defaultValue={product.shipping_cost} onChange={(e)=>{dispatch({type:'price',value:e.target.value})}}/>
- </span>
-                        
+ </span> */}
+  <FormControlLabel
+        control={<Checkbox onChange={(e)=>handlerShipItems(e)} color='default' />}
+        label="To ship"
+      />
+{/*                         
  <motion.Button
                     
                     whileHover={{scale:1.1 }}
@@ -135,7 +152,7 @@ function OrderItem({product,disabled,order_id,fetch}) {
                             style={{width:'300px',alignSelf:'center',background:'rgb(65,84,179)',border:'0px',borderRadius:'5px',height:'30px',marginTop:'15px',color:'white',cursor:'pointer',fontWeight:'bold'}}
                         >
                             {lang.save}
-                    </motion.Button>
+                    </motion.Button> */}
 
                     </Grid>
             <section >

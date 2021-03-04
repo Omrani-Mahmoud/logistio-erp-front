@@ -56,6 +56,21 @@ const reducer = (state,action)=>{
                         return {...state,shipping_line:action.value}
                         case 'country':
                             return {...state,country:action.value}
+                            case 'push':
+                            {
+                                let old = state.items?.length>0?state.items:[];
+                                
+                                old.push(action.value);
+                                return {...state,items:old}
+
+                            }
+                            case 'remove':
+                                {
+                                    let old = state.items;
+                                    let newT = old.filter(elem=>{return elem!==action.value})
+                                    return {...state,items:newT}
+    
+                                }
         
         default:
             return state
@@ -72,7 +87,8 @@ function CustomModal({open,handleClose,order,fetch,reship}) {
         order_price:order.shipping_cost?order.shipping_cost:0,
         shipping_company:'',
         shipping_line:'',
-        country:''
+        country:'',
+        items: []
     };
 
     const [orderInfo, dispatch] = React.useReducer(reducer, initOrderInfo)
@@ -120,13 +136,26 @@ const removeImageDisplay = (link)=>{
   })
 }
 
-    const _updateOrder = ()=>{
-    axios.patch(`${uri.link}/orders/`, 
-	    { 
-            id:order._id,
-		    tracking: orderInfo.tracking_id, 
-		    cost: orderInfo.order_price
-	    }, 
+    const _updateOrder = (v)=>{
+        let body = {}
+        if(v===1){
+        body={ 
+                id:order._id,
+                company: orderInfo.shipping_company, 
+                line: orderInfo.shipping_line.code,
+                line_name: orderInfo.shipping_line.name,
+                items:orderInfo.items
+	        }
+        }
+        if(v===2){
+            body={
+                id:order._id,
+                items:orderInfo.items,
+                tracking:orderInfo.tracking_id,
+                cost:orderInfo.order_price,
+            }
+        }
+    axios.patch(`${uri.link}/orders/`,body, 
 	{
         headers:{'auth-token':`${getToken()}`}
 
@@ -153,6 +182,19 @@ const removeImageDisplay = (link)=>{
           
           
     });
+    }
+
+    const verifInputs = ()=>{
+        if(orderInfo.shipping_company.length>0 && orderInfo.shipping_line.length>0 ){
+                _updateOrder(1);
+        }
+        else if(orderInfo.tracking_id.length>0){
+                _updateOrder(2);
+
+        }
+        else{
+            alert('Empty Orders info not allowed')
+        }
     }
 
     const isItemDS = ()=>{
@@ -329,7 +371,7 @@ const removeImageDisplay = (link)=>{
                                     >
                                         {
                                            lines?.length>0 &&  lines?.map(elem=>{
-                                                return <MenuItem value={elem.Code}>{lngc ==='EN'?elem.EName:elem.CName}</MenuItem>
+                                                return <MenuItem value={{code:elem.Code,name:elem.EName}}>{lngc ==='EN'?elem.EName:elem.CName}</MenuItem>
                                             })
                                         }
 
@@ -346,17 +388,17 @@ const removeImageDisplay = (link)=>{
  </span>
 } 
                         
- <motion.Button
+ {/* <motion.Button 
                     
                     whileHover={{scale:1.1 }}
                             variant="contained"
                             
                             style={{marginTop:'15px'}}
-                            onClick={_updateOrder}
+                            onClick={verifInputs}
                             style={{width:'300px',alignSelf:'center',background:'rgb(65,84,179)',border:'0px',borderRadius:'5px',height:'30px',marginTop:'15px',color:'white',cursor:'pointer',fontWeight:'bold'}}
                         >
                             {lang.save_it}
-                    </motion.Button>
+                    </motion.Button> */}
 
 
                     </Grid>
@@ -383,10 +425,23 @@ const removeImageDisplay = (link)=>{
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px',marginTop:'10px'}}>{lang.order_items}</span>
                             {
                                 order.order_items.map(row=>{
-                                        return   <OrderItem product={row} disabled={order.fulfillment_mode==='fulfill_all'?true:false} order_id={order._id} fetch={fetch} />
+                                        return   <OrderItem dispatcher={dispatch} product={row} disabled={order.fulfillment_mode==='fulfill_all'?true:false} order_id={order._id} fetch={fetch} />
 
                                 })
                             }
+                                                    
+ <motion.Button
+                    
+                    whileHover={{scale:1.1 }}
+                            variant="contained"
+                            
+                            style={{marginTop:'15px'}}
+                            // onClick={_updateItem}
+                            onClick={verifInputs}
+                            style={{width:'300px',alignSelf:'center',background:'rgb(65,84,179)',border:'0px',borderRadius:'5px',height:'30px',marginTop:'15px',color:'white',cursor:'pointer',fontWeight:'bold'}}
+                        >
+                            Push orders for shipping
+                    </motion.Button>
 
                 </Paper>
             </Grid>

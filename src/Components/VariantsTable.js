@@ -79,6 +79,11 @@ function VariantsTable({variants,options,productId,fetch}) {
              
                         <TableCell align='center' className={classes.header} >{lang.quantity}</TableCell>
                         <TableCell align='center' className={classes.header} >{lang.price}</TableCell>
+
+                        <TableCell align='center' className={classes.header} >Height</TableCell>
+                        <TableCell align='center' className={classes.header} >Width</TableCell>
+                        <TableCell align='center' className={classes.header} >Length</TableCell>
+                        <TableCell align='center' className={classes.header} >volume</TableCell>
                         <TableCell align='center' className={classes.header} ></TableCell>
 
                     </TableRow>
