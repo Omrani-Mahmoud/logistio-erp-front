@@ -85,8 +85,8 @@ function CustomModal({open,handleClose,order,fetch,reship}) {
     const initOrderInfo = {
         tracking_id:order.tracking_number?order.tracking_number:'',
         order_price:order.shipping_cost?order.shipping_cost:0,
-        shipping_company:'',
-        shipping_line:'',
+        shipping_company:'Yun Express',
+        shipping_line:{},
         country:'',
         items: []
     };
@@ -185,7 +185,7 @@ const removeImageDisplay = (link)=>{
     }
 
     const verifInputs = ()=>{
-        if(orderInfo.shipping_company.length>0 && orderInfo.shipping_line.length>0 ){
+        if(orderInfo.shipping_company.length>0 && orderInfo.shipping_line!=={} ){
                 _updateOrder(1);
         }
         else if(orderInfo.tracking_id.length>0){
@@ -238,7 +238,8 @@ const removeImageDisplay = (link)=>{
     }
 
     const lines_handler = (val)=>{
-        dispatch({type:'line',value:val})
+        dispatch({type:'line',value: {code:val.Code,name:val.EName}})
+       
     }
 
     const country_handler = (val)=>{
@@ -268,7 +269,7 @@ const removeImageDisplay = (link)=>{
     }, [open,orderInfo.country])
 
 
-    console.log('lines =====>',lines)
+    console.log('lines =====>',orderInfo)
     return (
         <Modal
             open={open}
@@ -366,12 +367,12 @@ const removeImageDisplay = (link)=>{
                                     <Select
                                     labelId="shipingline"
                                   
-                                    value={orderInfo.shipping_line}
+                                    value={orderInfo.shipping_line.code}
                                     onChange={(e)=>lines_handler(e.target.value)}
                                     >
                                         {
                                            lines?.length>0 &&  lines?.map(elem=>{
-                                                return <MenuItem value={{code:elem.Code,name:elem.EName}}>{lngc ==='EN'?elem.EName:elem.CName}</MenuItem>
+                                                return <MenuItem value={elem}>{lngc ==='EN'?elem.EName:elem.CName}</MenuItem>
                                             })
                                         }
 

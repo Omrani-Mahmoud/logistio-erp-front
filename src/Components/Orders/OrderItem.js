@@ -131,7 +131,7 @@ function OrderItem({product,disabled,order_id,fetch,dispatcher}) {
         </AccordionSummary>
         <AccordionDetails style={{display:'flex',flexDirection:'column'}}>
 
-        <Grid item md={12} style={{display:!disabled?'none':'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
+        <Grid item md={12} style={{display:disabled?'none':'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>Item information</span>
                             {/* <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>Tracking number</b> :   <TextField  size='small' defaultValue={product.tracking_number} onChange={(e)=>{dispatch({type:'tracking',value:e.target.value})}}   />
  </span>
