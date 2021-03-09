@@ -253,7 +253,7 @@ const removeImageDisplay = (link)=>{
             .then(function (response) {
                 // handle success
                 console.log('aaaaaaa raaaa',response.data)
-                setlines(JSON.parse(response.data)['Items'])
+                setlines(response.data['Items'])
             })
             .catch(function (error) {
                 // handle error
@@ -264,8 +264,9 @@ const removeImageDisplay = (link)=>{
     React.useEffect(() => {
         if(open){
             getLines();
+            alert('haha')
         }
-    }, [open]) //,orderInfo.country
+    }, [open,orderInfo.shipping_company]) //,orderInfo.country
 
 
     console.log('lines =====>',orderInfo)
