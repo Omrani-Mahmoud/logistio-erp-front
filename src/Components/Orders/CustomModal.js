@@ -19,7 +19,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../../Language/${lngc}.json`);
-const countries = require(`../../Assets/Files/country.json`);
+const companies = require(`../../Assets/Files/companies.json`);
 
 const useStyles = makeStyles((theme)=>({
 
@@ -85,7 +85,7 @@ function CustomModal({open,handleClose,order,fetch,reship}) {
     const initOrderInfo = {
         tracking_id:order.tracking_number?order.tracking_number:'',
         order_price:order.shipping_cost?order.shipping_cost:0,
-        shipping_company:'Yun Express',
+        shipping_company:0,
         shipping_line:{},
         country:'',
         items: []
@@ -137,25 +137,15 @@ const removeImageDisplay = (link)=>{
 }
 
     const _updateOrder = (v)=>{
-        let body = {}
-        if(v===1){
-        body={ 
+        let body = {
+                e:'create_order',
                 id:order._id,
-                company: orderInfo.shipping_company, 
+                c: orderInfo.shipping_company, 
                 line: orderInfo.shipping_line.code,
-                line_name: orderInfo.shipping_line.name,
                 items:orderInfo.items
 	        }
-        }
-        if(v===2){
-            body={
-                id:order._id,
-                items:orderInfo.items,
-                tracking:orderInfo.tracking_id,
-                cost:orderInfo.order_price,
-            }
-        }
-    axios.patch(`${uri.link}/orders/`,body, 
+        
+    axios.patch(`${uri.link}/shipper`,body, 
 	{
         headers:{'auth-token':`${getToken()}`}
 
@@ -245,15 +235,24 @@ const removeImageDisplay = (link)=>{
     const country_handler = (val)=>{
         dispatch({type:'country',value:val})
     }
+
+
     const getLines = ()=>{
-        axios.get(`${uri.link}/yunexpress/lines/${orderInfo.country}`,{
+        axios.post(`${uri.link}/shipper`,
+        {
+            e:'shipping_lines',
+            c:orderInfo.shipping_company,
+            country:order.shipping_infos[0].country
+        },
+        
+        {
             headers:{
                 'auth-token':getToken()
             }
         })
             .then(function (response) {
                 // handle success
-               
+                console.log('aaaaaaa raaaa',response.data)
                 setlines(JSON.parse(response.data)['Items'])
             })
             .catch(function (error) {
@@ -263,10 +262,10 @@ const removeImageDisplay = (link)=>{
     }
 
     React.useEffect(() => {
-        if(open && orderInfo.country.length>0){
+        if(open){
             getLines();
         }
-    }, [open,orderInfo.country])
+    }, [open]) //,orderInfo.country
 
 
     console.log('lines =====>',orderInfo)
@@ -332,7 +331,7 @@ const removeImageDisplay = (link)=>{
 
                     <Grid item md={12} style={{display:order.fulfillment_mode==='fulfill_all'?'flex':'none',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.order_info}</span>
-                            <FormControl style={{width:'30%',marginBottom:'10px'}}>
+                            {/* <FormControl style={{width:'30%',marginBottom:'10px'}}>
                                     <InputLabel id="country">Country</InputLabel>
                                     <Select
                                     labelId="country"
@@ -347,18 +346,20 @@ const removeImageDisplay = (link)=>{
                                         }
 
                                     </Select>
-                                </FormControl>
+                                </FormControl> */}
                             <FormControl style={{width:'30%',marginBottom:'10px'}}>
                                     <InputLabel id="shipingcompany">Shipping Company</InputLabel>
                                     <Select
                                     labelId="shipingcompany"
                                   
-                                    value={'yunexpress'}
+                                    value={orderInfo.shipping_company}
                                     onChange={(e)=>company_handler(e.target.value)}
                                     >
-                                    <MenuItem value={'yunexpress'}>Yun Express</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
+                                        {
+                                            companies.map(company=>{
+                                               return  <MenuItem value={company.code}>{company.name}</MenuItem>
+                                            })
+                                        }
                                     </Select>
                                 </FormControl>
 

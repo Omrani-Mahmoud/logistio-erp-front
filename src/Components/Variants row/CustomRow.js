@@ -77,7 +77,11 @@ function CustomRow({row,productId,fetch}) {
         setloading(true)
         axios.patch(`${uri.link}/products/${productId}/v/${row._id}`,
         {
-            price:parseFloat(price)
+            price:parseFloat(price),
+            volume:shippingvalues.volume,
+            width:shippingvalues.width,
+            height:shippingvalues.height,
+            length:shippingvalues.length
         },
         {
           headers:{'auth-token':`${getToken()}`}
