@@ -145,7 +145,7 @@ const removeImageDisplay = (link)=>{
                 items:orderInfo.items
 	        }
         
-    axios.patch(`${uri.link}/shipper`,body, 
+    axios.post(`${uri.link}/shipper`,body, 
 	{
         headers:{'auth-token':`${getToken()}`}
 
@@ -252,8 +252,27 @@ const removeImageDisplay = (link)=>{
         })
             .then(function (response) {
                 // handle success
-                console.log('aaaaaaa raaaa',response.data)
-                setlines(response.data['Items'])
+                let res = [];
+                console.log('aaaaaaa raaaa',response)
+                switch (orderInfo.shipping_company) {
+                    case 0:
+                        setlines(response.data['Items'])
+                        case 1:
+                           {
+                            response.data.data.map(elem=>{
+                                    res.push({CName:elem.logistics_product_name_cn,EName:elem.logistics_product_name_en,Code:elem.logistics_product_code})
+                            })
+                            setlines(res)
+                           }
+                           case 2:
+                            {
+                             response.data.map(elem=>{
+                                     res.push({CName:elem.ServiceName,EName:elem.ServiceName,Code:elem.ServiceCode})
+                             })
+                             setlines(res)
+                            }
+                }
+               
             })
             .catch(function (error) {
                 // handle error
@@ -264,12 +283,10 @@ const removeImageDisplay = (link)=>{
     React.useEffect(() => {
         if(open){
             getLines();
-            alert('haha')
         }
     }, [open,orderInfo.shipping_company]) //,orderInfo.country
 
 
-    console.log('lines =====>',orderInfo)
     return (
         <Modal
             open={open}
