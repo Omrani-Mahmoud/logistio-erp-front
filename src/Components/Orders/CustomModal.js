@@ -81,15 +81,22 @@ function CustomModal({open,handleClose,order,fetch,reship}) {
 
     const [status, setStatus] = React.useState('');
     const [setToken,getToken] = useToken();
+    const [disableIntegrations, setdisableIntegrations] = React.useState(false);
 
     const initOrderInfo = {
         tracking_id:order.tracking_number?order.tracking_number:'',
-        order_price:order.shipping_cost?order.shipping_cost:0,
+        order_price:order.shipping_cost?order.shipping_cost:"",
         shipping_company:0,
         shipping_line:{},
         country:'',
         items: []
     };
+
+
+    React.useEffect(() => {
+        if(order?.tracking_number?.length>0 || order.shipping_cost>0)
+            setdisableIntegrations(true)
+    }, []);
 
     const [orderInfo, dispatch] = React.useReducer(reducer, initOrderInfo)
     const [displayImg, setDisplayImg] = React.useState({
@@ -137,48 +144,88 @@ const removeImageDisplay = (link)=>{
 }
 
     const _updateOrder = (v)=>{
-        let body = {
+        let body = {};
+        if(v==1)
+        body = {
                 e:'create_order',
                 id:order._id,
                 c: orderInfo.shipping_company, 
                 line: orderInfo.shipping_line.code,
-                items:orderInfo.items
 	        }
-        
-    axios.post(`${uri.link}/shipper`,body, 
-	{
-        headers:{'auth-token':`${getToken()}`}
-
-    }).then(res=>{
-        if(res.status===200){
-            fetch(true);
-            setStatus(200)
+        else{
+            body = {
+                tracking:orderInfo.tracking_id,
+                id:order._id,
+                cost:orderInfo.order_price
+                
+	        }
         }
-                // return  <CustomSnackbar  content='Order updated!!' type="success"/>
-            else
-            setStatus('error')
-                // return <CustomSnackbar  content='Ops, order update failed!' type="error"/>
+   
+        
+     if(v==1){
+                    axios.post(`${uri.link}/shipper`,body, 
+                    {
+                        headers:{'auth-token':`${getToken()}`}
 
-    })
-    .catch(function (error) {
-        // handle error
-        handleClose()
-        console.log(error);
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Something went wrong!',
-          })
-          
-          
-    });
+                    }).then(res=>{
+                        if(res.status===200){
+                            fetch(true);
+                            setStatus(200)
+                        }
+                                // return  <CustomSnackbar  content='Order updated!!' type="success"/>
+                            else
+                            setStatus('error')
+                                // return <CustomSnackbar  content='Ops, order update failed!' type="error"/>
+
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        handleClose()
+                        console.log(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                        })
+                        
+                        
+                    });
+                }
+                else{
+                    axios.patch(`${uri.link}/orders`,body, 
+                    {
+                        headers:{'auth-token':`${getToken()}`}
+
+                    }).then(res=>{
+                        if(res.status===200){
+                            fetch(true);
+                            setStatus(200)
+                        }
+                                // return  <CustomSnackbar  content='Order updated!!' type="success"/>
+                            else
+                            setStatus('error')
+                                // return <CustomSnackbar  content='Ops, order update failed!' type="error"/>
+
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        handleClose()
+                        console.log(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                        })
+                        
+                        
+                    });
+                }
     }
-
     const verifInputs = ()=>{
         if(orderInfo.shipping_company.length>0 && orderInfo.shipping_line!=={} ){
                 _updateOrder(1);
         }
-        else if(orderInfo.tracking_id.length>0){
+        else if(orderInfo.tracking_id.length>0 || orderInfo.order_price.length>0){
                 _updateOrder(2);
 
         }
@@ -365,7 +412,10 @@ const removeImageDisplay = (link)=>{
 
                                     </Select>
                                 </FormControl> */}
-                            <FormControl style={{width:'30%',marginBottom:'10px'}}>
+                            {
+                                !disableIntegrations && !(orderInfo.tracking_id != "" || orderInfo.order_price != "") ?
+                            
+                                <FormControl style={{width:'30%',marginBottom:'10px'}}>
                                     <InputLabel id="shipingcompany">Shipping Company</InputLabel>
                                     <Select
                                     labelId="shipingcompany"
@@ -380,7 +430,12 @@ const removeImageDisplay = (link)=>{
                                         }
                                     </Select>
                                 </FormControl>
+                                :
+                                null
+}
 
+{
+                                !disableIntegrations &&  !(orderInfo.tracking_id != "" || orderInfo.order_price != "") ?
                                 <FormControl style={{width:'30%',marginBottom:'10px'}}>
                                     <InputLabel id="shipingline">Shipping Line</InputLabel>
                                     <Select
@@ -397,6 +452,8 @@ const removeImageDisplay = (link)=>{
 
                                     </Select>
                                 </FormControl>
+                                : null
+                                    }
                             <span style={{marginLeft:'7px',marginBottom:'7px',alignItems:'center', display:'flex'}}><b>{lang.track_number}</b> : 
                               <TextField defaultValue={order.tracking_number}  size='small'  onChange={(e)=>dispatch({type:'tracking',value:e.target.value})} />
                                
