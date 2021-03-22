@@ -74,7 +74,7 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate,setmodalIsOp
     })
 
 
-    
+    console.log('filtred data here ======>',filtredData)
 
 
     const handleChange = (e)=>{
@@ -168,7 +168,7 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate,setmodalIsOp
                                     //         <CustomRow row={row} fetch={fetch}/>
                         ))}
                         {filtredData.map((row,index) => (
-                                row.reship_media?.length===0 && !isReship &&  
+                                row.reship_media?.length===0 || !row.reship_media && !isReship &&  
                                         <CustomRow setmodalIsOpen={setmodalIsOpen} row={row} fetch={fetch}/>
                     ))}
                     </TableBody>
