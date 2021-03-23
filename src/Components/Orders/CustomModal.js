@@ -157,7 +157,7 @@ const removeImageDisplay = (link)=>{
                 tracking:orderInfo.tracking_id,
                 id:order._id,
                 cost:orderInfo.order_price
-                
+
 	        }
         }
    

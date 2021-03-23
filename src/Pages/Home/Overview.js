@@ -51,6 +51,9 @@ function Overview() {
     const [orders, setOrders] = useState({});
     const [activeCLient, setActiveClient] = useState({})
     
+    const [chartData, setchartData] = useState({});
+
+
     const [open, setopen] = useState(false);
     const handleClose = () => {
       setopen(false)
@@ -130,19 +133,7 @@ function Overview() {
 
 
     const context = React.useContext(ConnectedUser);
-    const data = {
-        labels: ['13/02', '14/02', '15/02', '16/02','17/02', '18/02', '19/02', '20/02','21/02', '22/02', '23/02', '24/02','25/02', '26/02', '27/02'],
-        datasets: [
-          {
-            label: '# Orders this day',
-            data: [12, 19, 3, 5, 2, 3,12, 19, 3, 5, 2, 3,12, 19, 3],
-            fill: false,
-            backgroundColor: 'rgba(36,38,76,0.3)',
-            borderColor: 'rgb(36,38,76)',
-          },
-          
-        ],
-      };
+  
 
       const data2 = {
         labels: _getClientNameforDonutsChart(),
@@ -241,7 +232,61 @@ function Overview() {
              console.log(error);
          });
   }
-    
+    console.log('DATES HERE ::::::',chosedDate)
+
+  const _fetchOrdersByDate = ()=>{
+    // setLoading(true);
+
+    axios.post(`${uri.link}/stats/orders_by_date`,{
+      sd:new Date(chosedDate[0].startDate).toISOString().split('T')[0],
+      ed:new Date(chosedDate[0].endDate).toISOString().split('T')[0]
+    },
+    {
+        headers:{'auth-token':`${getToken()}`}
+    })
+       .then(function (response) {
+        //    setLoading(false)
+        console.log(' OORDERS by date ',response)
+         
+                console.log(' OORDERS by date ',response)
+                setchartData(response.data)
+                
+           
+       })
+       .catch(function (error) {
+           // handle error
+        //    setLoading(false)
+           console.log(error);
+       });
+}
+
+console.log('SAAD HHH',chartData)
+const formateData = ()=>{
+  let data = {
+    labels: [],
+    datasets: [
+      {
+        label: '# Orders this day',
+        data: [],
+        fill: false,
+        backgroundColor: 'rgba(36,38,76,0.3)',
+        borderColor: 'rgb(36,38,76)',
+      },
+      
+    ],
+  };
+  let keys = Object.keys(chartData);
+  console.log('keyyss here',keys)
+  keys.map(key=>{
+      data.labels.push(`${key.split('-')[1]}-${key.split('-')[2]}`);
+      data.datasets[0].data.push(chartData[key]);
+  })
+
+  console.log('data to chart ',data)
+  return data;
+};
+
+
     React.useEffect(() => {
         let mounted = true;
         _fetchProducts(mounted)
@@ -252,7 +297,8 @@ function Overview() {
 
     React.useEffect(() => {
       let mounted = true;
-      _fetch15daysOrders(mounted)
+      _fetch15daysOrders(mounted);
+      _fetchOrdersByDate();
      return ()=>{
          mounted=false
      }
@@ -262,10 +308,15 @@ function Overview() {
       useEffect(() => {
           if(currentFocus[1]===0)
             setToggleDate(false)
-      }, [currentFocus])
-      
+      }, [currentFocus]);
 
-      console.log('CHOSED',chosedDate)
+
+      useEffect(() => {
+        if(currentFocus[1]===0)
+          _fetchOrdersByDate();
+    }, [currentFocus]);
+
+
     return (
             <Container maxWidth="lg" style={{display:'flex',flexDirection:'column',overflowY:'auto',height:'100%'}}>
                     <h3>Overview</h3>
@@ -283,7 +334,7 @@ function Overview() {
                     <CustomCard type={lang.order_time} number={productsStats.order_tr_time}>
                         <UpdateIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
-                    <CustomCard type={lang.re_shiped_orders} number={productsStats.order_tr_time}>
+                    <CustomCard type={lang.re_shiped_orders} number={productsStats.reshiped_orders}>
                         <LocalShippingIcon style={{fontSize:'40px',color:'rgb(36,38,76)'}}/>
                     </CustomCard>
                 </Grid>
@@ -437,7 +488,7 @@ function Overview() {
                             <Line
                                 options={optionsLine}
                                 redraw
-                                data={data}
+                                data={formateData()}
                             />
                         </Paper>
                     </Grid>
