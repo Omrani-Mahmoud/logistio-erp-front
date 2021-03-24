@@ -69,7 +69,7 @@ function Overview() {
 
     const [chosedDate, setChosedDate] = useState([{
         startDate: new Date(),
-        endDate: new Date(),
+        endDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
         key: 'selection'
       }]);
       const [activeBtn, setActiveBtn] = useState(window.localStorage.getItem("activeBtn") ? JSON.parse(window.localStorage.getItem("activeBtn")) : {
@@ -131,6 +131,27 @@ function Overview() {
   }
 
 
+  const _getDataforDonutsChartSKU = ()=>{
+    let res = [];
+      productsStats?.top_skus?.map(sku =>{
+          res.push(sku[Object.keys(sku)[0]])
+      })
+
+      return res
+  }
+
+
+  const _getSKUNamesforDonutsChart = ()=>{
+    let res = [];
+    
+      productsStats?.top_skus?.map(sku =>{
+          res.push(Object.keys(sku)[0])
+      })
+
+      return res
+  }
+
+
 
     const context = React.useContext(ConnectedUser);
   
@@ -144,6 +165,19 @@ function Overview() {
             fill: false,
             backgroundColor: ['#16193B','#35478C','#4E7AC7','#7FB2F0'],
             borderColor: ['#16193B','#35478C','#4E7AC7','#7FB2F0'],
+          },
+        ],
+      };
+
+      const data3 = {
+        labels: _getSKUNamesforDonutsChart(),
+        datasets: [
+          {
+            label: '# Client Orders',
+            data: _getDataforDonutsChartSKU(),
+            fill: false,
+            backgroundColor: ['#16193B','#35478C','#4E7AC7','#7FB2F0','#4818E7','#781AEB','#B209E6','#1BACC2','#0C4F59','#039994'],
+            borderColor: ['#16193B','#35478C','#4E7AC7','#7FB2F0','#4818E7','#781AEB','#B209E6','#1BACC2','#0C4F59','#039994'],
           },
         ],
       };
@@ -260,7 +294,7 @@ function Overview() {
        });
 }
 
-console.log('SAAD HHH',chartData)
+
 const formateData = ()=>{
   let data = {
     labels: [],
@@ -516,7 +550,8 @@ const formateData = ()=>{
                             </Grid>
                         </Paper>
                     </Grid>
-                    <Grid item md={6} style={{padding:'10px',float:'left'}}>
+
+                    <Grid item md={8} style={{padding:'10px',float:'left'}}>
  
                           <Paper elevation={3} style={{display:'flex',height:'340px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}> 
                             <div style={{height:'20px',alignItems:'center',display:'flex',padding:'8px',width:'90%',justifyContent:'flex-start'}}>
@@ -525,12 +560,12 @@ const formateData = ()=>{
                               </div>
                               <Grid item md={12} style={{marginTop:'10px',display:'flex'}}>
                                   <secion style={{width:'75%',justifyContent:'center',alignItems:'center',display:'flex'}}>
-                                      <Doughnut data={data2} options={optionsPie}/>
+                                      <Doughnut data={data3} options={optionsPie}/>
                                   </secion>
                                   <section style={{width:'25%',justifyContent:'center',alignItems:'flex-start',display:'flex',flexDirection:'column'}}>
                                       
                                       {
-                                        _getClientNameforDonutsChart().map((cli,index) =>{
+                                        _getSKUNamesforDonutsChart().map((cli,index) =>{
                                           return <li style={{color:colors[index],fontSize:'25px',listStylePosition:'inside'}}><span style={{fontSize:'15px',color:'rgb(36,38,76)'}}>{cli}</span></li>
                                         })
                                       } 
@@ -538,6 +573,7 @@ const formateData = ()=>{
                                 </Grid>
                             </Paper>
                       </Grid>
+
                 </div>
 
                     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}> 
