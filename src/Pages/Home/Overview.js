@@ -68,8 +68,8 @@ function Overview() {
     }
 
     const [chosedDate, setChosedDate] = useState([{
-        startDate: new Date(),
-        endDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+        startDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+        endDate: new Date(),
         key: 'selection'
       }]);
       const [activeBtn, setActiveBtn] = useState(window.localStorage.getItem("activeBtn") ? JSON.parse(window.localStorage.getItem("activeBtn")) : {

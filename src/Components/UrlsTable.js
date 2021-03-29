@@ -10,7 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import LinkIcon from '@material-ui/icons/Link';
 import { Link } from 'react-router-dom';
-import { Grid } from '@material-ui/core'
+import { Grid, Tooltip } from '@material-ui/core'
 
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`)
@@ -43,7 +43,15 @@ function UrlsTable({urls_array}) {
                                 {`${lang.link} ${index}`}
                         </TableCell>
                         <TableCell>
-                                <a target='_blank' href={row}><LinkIcon color="action" /></a>
+                        {/* <Tooltip title={lang.url_link_descr}> */}
+                             <span style={{display:'flex',alignItems:'center',fontWeight:'BOLD'}}> URL :  
+                              <Tooltip title={lang.url_link_descr}> 
+                             <a target='_blank' href={row}> 
+                             <LinkIcon color="primary" style={{marginLeft:'8px',marginTop:'3px'}} />
+                             </a>
+                             </Tooltip>
+                             </span>
+                        {/* </Tooltip> */}
                         </TableCell>
                     </TableRow>
                     ))}

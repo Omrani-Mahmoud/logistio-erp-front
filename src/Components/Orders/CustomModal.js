@@ -82,6 +82,18 @@ function CustomModal({open,handleClose,order,fetch,reship}) {
     const [status, setStatus] = React.useState('');
     const [setToken,getToken] = useToken();
     const [disableIntegrations, setdisableIntegrations] = React.useState(false);
+    const [companies_, setcompanies_] = React.useState([]);
+
+
+    const get_companies_ = ()=>{
+        console.log('hereloo there')
+          axios.get(`${uri.link}/shipper/lines/`,{
+              headers:{'auth-token':getToken()}
+          }).then(res=>{
+            setcompanies_(res.data)
+        });
+          
+    }
 
     const initOrderInfo = {
         tracking_id:order.tracking_number?order.tracking_number:'',
@@ -222,7 +234,7 @@ const removeImageDisplay = (link)=>{
                 }
     }
     const verifInputs = ()=>{
-        if(orderInfo.shipping_company.length>0 && orderInfo.shipping_line!=={} ){
+        if(orderInfo.shipping_company!== -1  && orderInfo.shipping_line!=={} ){
                 _updateOrder(1);
         }
         else if(orderInfo.tracking_id.length>0 || orderInfo.order_price.length>0){
@@ -230,7 +242,8 @@ const removeImageDisplay = (link)=>{
 
         }
         else{
-            alert('Empty Orders info not allowed')
+            alert('Empty Orders info not allowed');
+            console.log(orderInfo)
         }
     }
 
@@ -306,7 +319,7 @@ const removeImageDisplay = (link)=>{
                         setlines(response.data['Items'])
                         case 1:
                            {
-                            response.data.data.map(elem=>{
+                            response.data.map(elem=>{
                                     res.push({CName:elem.logistics_product_name_cn,EName:elem.logistics_product_name_en,Code:elem.logistics_product_code})
                             })
                             setlines(res)
@@ -327,9 +340,12 @@ const removeImageDisplay = (link)=>{
             })
     }
 
+   
     React.useEffect(() => {
         if(open){
             getLines();
+            get_companies_();
+
         }
     }, [open,orderInfo.shipping_company]) //,orderInfo.country
 
@@ -424,7 +440,7 @@ const removeImageDisplay = (link)=>{
                                     onChange={(e)=>company_handler(e.target.value)}
                                     >
                                         {
-                                            companies.map(company=>{
+                                            companies_.map(company=>{
                                                return  <MenuItem value={company.code}>{company.name}</MenuItem>
                                             })
                                         }
