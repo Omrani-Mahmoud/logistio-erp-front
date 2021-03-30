@@ -298,6 +298,7 @@ const removeImageDisplay = (link)=>{
 
 
     const getLines = ()=>{
+        setlines([]);
         axios.post(`${uri.link}/shipper`,
         {
             e:'shipping_lines',
@@ -372,9 +373,15 @@ const removeImageDisplay = (link)=>{
             get_companies_();
 
         }
-    }, [open,orderInfo.shipping_company]) //,orderInfo.country
+    }, [open]) //,orderInfo.country
 
+    React.useEffect(() => {
+        if(open){
+            getLines();
+            // get_companies_();
 
+        }
+    }, [orderInfo.shipping_company])
     return (
         <Modal
             open={open}
