@@ -108,7 +108,7 @@ function CustomRow({row,fetch,productId}) {
   }
 
 
-  console.log('ZEBIIIIIIIIIII =======>',row)
+  console.log('- =======>',row)
     return (
         <TableRow key={row}>
                         <TableCell align='center' key={'ac1'} >
