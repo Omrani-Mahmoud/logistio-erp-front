@@ -331,6 +331,31 @@ const removeImageDisplay = (link)=>{
                              })
                              setlines(res)
                             }
+                            // x544D - GDWSE
+                            case 3:
+                            {
+                             response.data.map(elem=>{
+                                console.log(elem.product_shortname);
+                                res.push({CName:elem.product_shortname,EName:elem.product_shortname,Code:elem.product_id})
+                             })
+                             setlines(res)
+                            }
+                            // x544D - YITONGGUAN 
+                            case 4:
+                            {
+                                response.data.map(elem=>{
+                                        res.push({CName:elem.product_shortname,EName:elem.product_shortname,Code:elem.product_id})
+                                })
+                                setlines(res)
+                            }
+                            // x544D -  topalink
+                            case 5:
+                            {
+                                response.data.map(elem=>{
+                                        res.push({CName:elem.product_shortname,EName:elem.product_shortname,Code:elem.product_id})
+                                })
+                                setlines(res)
+                            }
                 }
                
             })
