@@ -99,7 +99,7 @@ function CustomModal({open,handleClose,order,fetch,reship}) {
         tracking_id:order.tracking_number?order.tracking_number:'',
         order_price:order.shipping_cost?order.shipping_cost:"",
         shipping_company:0,
-        shipping_line:{},
+        shipping_line:{code:'',name:''},
         country:'',
         items: []
     };
@@ -288,7 +288,11 @@ const removeImageDisplay = (link)=>{
     }
 
     const lines_handler = (val)=>{
-        dispatch({type:'line',value: {code:val.Code,name:val.EName}})
+        let elem = lines.filter(e=>{
+            return e.Code==val
+        })[0];
+
+        dispatch({type:'line',value: {code:elem.Code,name:elem.EName}})
        
     }
 
@@ -494,7 +498,7 @@ const removeImageDisplay = (link)=>{
                                     >
                                         {
                                            lines?.length>0 &&  lines?.map(elem=>{
-                                                return <MenuItem value={elem}>{lngc ==='EN'?elem.EName:elem.CName}</MenuItem>
+                                                return <MenuItem value={elem.Code}>{lngc ==='EN'?elem.EName:elem.CName}</MenuItem>
                                             })
                                         }
 
