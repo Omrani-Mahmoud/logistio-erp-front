@@ -349,7 +349,7 @@ const removeImageDisplay = (link)=>{
                             case 4:
                             {
                                 response.data.map(elem=>{
-                                        res.push({CName:elem.product_shortname,EName:elem.product_shortname,Code:elem.product_id})
+                                        res.push({CName:elem.shipName,EName:elem.shipName,Code:elem.shipCode})
                                 })
                                 setlines(res)
                             }
