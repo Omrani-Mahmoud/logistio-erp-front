@@ -205,7 +205,11 @@
     "update_product":"Update product",
     "send":"Send",
     "finance":"Finance",
-    "url_link_descr":"Click here to see the product"
+    "url_link_descr":"Click here to see the product",
+    "height":"Height",
+    "width":"Width",
+    "volume":"Volume",
+    "length":"Length"
 
 
 

@@ -207,7 +207,11 @@
     "update_product":"更新产品",
     "send":"发送",
     "finance":"金融",
-    "url_link_descr":"点击这里查看产品"
+    "url_link_descr":"点击这里查看产品",
+    "height":"高度",
+    "width":"宽度",
+    "volume":"体积",
+    "length":"长度"
 
 
 
