@@ -163,12 +163,14 @@ const removeImageDisplay = (link)=>{
                 id:order._id,
                 c: orderInfo.shipping_company, 
                 line: orderInfo.shipping_line.code,
+                items:orderInfo.items
 	        }
         else{
             body = {
                 tracking:orderInfo.tracking_id,
                 id:order._id,
-                cost:orderInfo.order_price
+                cost:orderInfo.order_price,
+                items:orderInfo.items
 
 	        }
         }
@@ -446,7 +448,8 @@ const removeImageDisplay = (link)=>{
                         <Button variant="contained" style={{textTransform:'capitalize',fontWeight:'bold', marginBottom:'10px'}} color='default' onClick={create_purchase}>Create purchase</Button>
                     }
 
-                    <Grid item md={12} style={{display:order.fulfillment_mode==='fulfill_all'?'flex':'none',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
+{/* order.fulfillment_mode==='fulfill_all' || orderInfo.items.length>0 ?'flex':'none', */}
+                    <Grid item md={12} style={{display:'flex',background:'white',borderRadius:'8px',flexDirection:'column',padding:'10px',maxHeight:'400px',marginBottom:'10px'}}>
                             <span style={{color:'#303030',opacity:'60%',fontWeight:'bold',fontSize:'18px',marginBottom:'10px'}}>{lang.order_info}</span>
                             {/* <FormControl style={{width:'30%',marginBottom:'10px'}}>
                                     <InputLabel id="country">Country</InputLabel>
@@ -559,7 +562,9 @@ const removeImageDisplay = (link)=>{
                                 })
                             }
                                                     
- <motion.Button
+                    {
+                        orderInfo.items.length>0 && (orderInfo.shipping_line.code!=="" || orderInfo.tracking_id !== "") &&
+                        <motion.Button
                     
                     whileHover={{scale:1.1 }}
                             variant="contained"
@@ -571,7 +576,7 @@ const removeImageDisplay = (link)=>{
                         >
                             Push orders for shipping
                     </motion.Button>
-
+}
                 </Paper>
             </Grid>
       </Modal>

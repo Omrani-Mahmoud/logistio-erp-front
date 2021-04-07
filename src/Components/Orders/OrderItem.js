@@ -101,6 +101,9 @@ function OrderItem({product,disabled,order_id,fetch,dispatcher}) {
 
                 }
         }
+
+
+        console.log('hahahahahahhahhhahahahaha',product.product)
     return (
 
         <Accordion >
