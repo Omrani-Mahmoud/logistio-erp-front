@@ -563,7 +563,23 @@ const removeImageDisplay = (link)=>{
                             }
                                                     
                     {
-                        orderInfo.items.length>0 && (orderInfo.shipping_line.code!=="" || orderInfo.tracking_id !== "") &&
+                        order.fulfillment_mode=='partially_fulfilled' &&  orderInfo.items.length>0 &&  (orderInfo.shipping_line.code!=="" || orderInfo.tracking_id !== "") &&
+                        <motion.Button
+                    
+                    whileHover={{scale:1.1 }}
+                            variant="contained"
+                            
+                            style={{marginTop:'15px'}}
+                            // onClick={_updateItem}
+                            onClick={verifInputs}
+                            style={{width:'300px',alignSelf:'center',background:'rgb(65,84,179)',border:'0px',borderRadius:'5px',height:'30px',marginTop:'15px',color:'white',cursor:'pointer',fontWeight:'bold'}}
+                        >
+                            Push orders for shipping
+                    </motion.Button>
+}
+
+{
+                        order.fulfillment_mode=='fulfill_all'  &&
                         <motion.Button
                     
                     whileHover={{scale:1.1 }}

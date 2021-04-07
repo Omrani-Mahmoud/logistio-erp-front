@@ -38,10 +38,12 @@ const useStyles = makeStyles((theme)=>({
       marginTop:'8px'
     },
     hover: {
-      width: theme.spacing(28),
-      height: theme.spacing(28),
-      marginRight:'20px',
-      marginTop:'8px'
+      // width: theme.spacing(28),
+      // height: theme.spacing(28),
+      objectFit:'contain',
+      // marginRight:'20px',
+      // marginTop:'8px',
+      
     },
 }));
 
@@ -271,7 +273,8 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
                 {
                   displayImg.isHovred  && 
                 <motion.div variants={img_display} initial='hidden' animate='display' style={{alignSelf:'center',marginTop:'150px',position:'absolute',zIndex:'999999999',justifyContent:'center'}}>
-                  <Avatar  alt={product.name} src={displayImg.link}  variant="square" className={classes.hover} />
+                  {/* <Avatar  alt={product.name} src={displayImg.link}  variant="square" className={classes.hover} /> */}
+                  <img src={displayImg.link} style={{width:'300px',height:'300px',objectFit:'contain'}} />
                 </motion.div>
                 }
 
