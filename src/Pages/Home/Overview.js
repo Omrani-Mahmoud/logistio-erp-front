@@ -68,7 +68,7 @@ function Overview() {
     }
 
     const [chosedDate, setChosedDate] = useState([{
-        startDate: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000),
+        startDate: new Date(Date.now() - 31 * 24 * 60 * 60 * 1000),
         endDate: new Date(),
         key: 'selection'
       }]);
@@ -408,7 +408,7 @@ const formateData = ()=>{
                             ranges={chosedDate}
                             dragSelectionEnabled={true}
                             rangeColors={["#35478C"]}
-                            maxDate={addDays(chosedDate[0].startDate,15)}
+                            maxDate={addDays(chosedDate[0].startDate,31)}
                         />
                     </div>
                     <div className="calendarDiv">
@@ -513,7 +513,7 @@ const formateData = ()=>{
                         {/* <h3 style={{color:'rgb(36,38,76)'}}>Last 15 days Orders </h3> */}
                         <Paper elevation={3} style={{display:'flex',height:'340px',borderRadius:'10px',background:'rgb(243,245,247)',flexDirection:'column',padding:'10px 10px 30px 10px'}}>
                             <section style={{display:'flex',width:'100%',justifyContent:'space-between',alignItems:'center',height:'30px',marginBottom:'10px'}}>
-                                <h3 style={{color:'rgb(36,38,76)'}}>Last 15 days Orders </h3>
+                                <h3 style={{color:'rgb(36,38,76)'}}>{lang.last_31_days} </h3>
                                 <section style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
                                     <div style={{background:'rgb(36,38,76)',width:'7px',height:'7px',borderRadius:'100%',marginRight:'5px'}}></div>
                                     <span style={{fontSize:'13px',color:'rgb(36,38,76)'}}>{lang.orders_this_day}</span>

@@ -13,7 +13,7 @@ function Purchases({data,loading,selectedDate,handleDateChange}) {
                 loading?
                 <Loader />
                 :
-                <PurchasesTable  purchases={data}  />
+                <PurchasesTable  purchases={data} handleDateChange={handleDateChange} selectedDate={selectedDate} />
 
 }
         </Paper>

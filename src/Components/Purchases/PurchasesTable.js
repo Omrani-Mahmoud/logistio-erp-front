@@ -49,9 +49,7 @@ function PurchasesTable({purchases=[],fetch,selectedDate,handleDateChange}) {
           label={lang.date}
           value={selectedDate}
           onChange={handleDateChange}
-          KeyboardButtonProps={{
-            'aria-label': 'change date',
-          }}
+         
         />
         </Grid>
         </MuiPickersUtilsProvider>

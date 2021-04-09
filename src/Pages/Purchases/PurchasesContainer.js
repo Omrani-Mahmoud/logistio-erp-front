@@ -24,7 +24,8 @@ function PurchasesContainer() {
      const [selectedDate, setSelectedDate] = React.useState(new Date());
     
      const handleDateChange = (date) => {
-         setSelectedDate(date);
+            setSelectedDate(date);
+       
        };
     const _fetch = (mounted)=>{
         setLoading(true);
@@ -83,7 +84,7 @@ function PurchasesContainer() {
 
     return (
         <motion.div variants={contentVariant} initial='hidden' animate='visible'>
-            <Purchases data = {purchases} loading={loading} handleDateChange={handleDateChange} selectedDate={selectedDate}/>
+            <Purchases data = {purchases} loading={loading} handleDateChange={handleDateChange} selectedDate={selectedDate} />
         </motion.div>
     )
 }
