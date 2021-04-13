@@ -175,7 +175,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
 
   const _updateProd = ()=>{
     setloading(true)
-    axios.patch(`${uri.link}/products/${product._id}`,productsInputs,{
+    axios.patch(`${uri.link}/products/${product._id}/update`,productsInputs,{
       headers:{'auth-token':`${getToken()}`}
     }).then( (response)=> {
           setloading(false);
