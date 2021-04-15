@@ -63,7 +63,7 @@
 
     "option":"Option",
     "quantity":"Quantity",
-    "price":"Price",
+    "price":"Unit price (RMB)",
 
 
     "name":"Name",
@@ -206,10 +206,10 @@
     "send":"Send",
     "finance":"Finance",
     "url_link_descr":"Click here to see the product",
-    "height":"Height",
-    "width":"Width",
-    "volume":"Volume",
-    "length":"Length",
+    "height":"Height(cm)",
+    "width":"Width(cm)",
+    "volume":"Volume(cm3)",
+    "length":"Length(cm)",
     "last_31_days":"Last 31 days Orders"
 
 

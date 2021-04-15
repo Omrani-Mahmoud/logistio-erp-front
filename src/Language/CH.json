@@ -69,7 +69,7 @@
 
     "option":"选项",
     "quantity":"数量",
-    "price":"价钱",
+    "price":"价钱(RMB)",
 
 
 
@@ -208,10 +208,10 @@
     "send":"发送",
     "finance":"金融",
     "url_link_descr":"点击这里查看产品",
-    "height":"高度",
-    "width":"宽度",
-    "volume":"体积",
-    "length":"长度",
+    "height":"高度(cm)",
+    "width":"宽度(cm)",
+    "volume":"体积(cm3)",
+    "length":"长度(cm)",
     "last_31_days":"最近31天的订单"
 
 

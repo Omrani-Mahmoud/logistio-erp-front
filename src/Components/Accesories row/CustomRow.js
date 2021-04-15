@@ -100,7 +100,13 @@ function CustomRow({row,fetch,productId}) {
                                 <TextareaAutosize defaultValue={row?.description?row.description:'-'} disabled placeholder="Description" />
                         </TableCell>
                         <TableCell align='center' key={'ac3'}>
-                                {row?.quantity?row.quantity:'-'}
+                                {
+                                                                  row && row.name && row.name ==='Package' ? 
+ 
+                                row?.quantity?row.quantity:'-'
+                                :
+                                '-'
+                                }
                         </TableCell>
                         <TableCell align='center' style={{display:'flex',width:'160px',flexWrap:'wrap'}} key={'ac4'}>
                                 {row?.attachments?row.attachments.map(elem =>{
@@ -113,23 +119,33 @@ function CustomRow({row,fetch,productId}) {
                             }
                         </TableCell>
                         <TableCell align='center' key={'ac5'}>
-                            <TextField id="price_text" label={lang.price} variant="outlined" value={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}}/>
+                           {
+                               row && row.name && row.name ==='Package' ? 
+                               <TextField id="price_text" label={lang.price} variant="outlined" value={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}}/>
+                               :
+                               '-'
+                           } 
                         </TableCell>
                     
                         <TableCell align='center' key={'ac6'}>
-                        {
+                        { row && row.name && row.name ==='Package' ? 
                                 loading?
                                 <CircularProgress  size={20} />
 
                                 :
                                 <Button variant="contained" size="small" disableElevation disabled={_disabled} onClick={_persist}>{lang.save}</Button>
-
+                            :
+                            null
                             }
                         </TableCell>
                         <TableCell align='center' key={'ac5'} style={{textTransform:'capitalize'}}>
+                        { row && row.name && row.name ==='Package' ? 
                         <Tooltip title={row.reason}>
                             <span style={{cursor:'pointer'}}>{row?.status?row.status:'-'}</span>
                         </Tooltip>
+                        :
+                        '-'
+}
                         </TableCell>
                       
                     </TableRow>
