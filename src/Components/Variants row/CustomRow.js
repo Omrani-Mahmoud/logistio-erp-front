@@ -46,6 +46,12 @@ function CustomRow({row,productId,fetch}) {
     const [setToken,getToken] = useToken();
 
     const [price, setPrice] = React.useState(row?.price?row.price:0);
+    const init_values ={
+        width:row?.width?row.width:0,
+        height:row?.height?row.height:0,
+        volume:row?.volume?row.volume:0,
+        length:row?.length?row.length:0
+}
     const [_disabled, set_disabled] = React.useState(true)
     const [loading, setloading] = React.useState(false)
     const [shippingvalues, dispatch] = React.useReducer(reducer, init_values)
@@ -74,15 +80,29 @@ function CustomRow({row,productId,fetch}) {
     console.log('AAaaaaaa baahahahhaha ',shippingvalues)
 
     const _persist = ()=>{
+        let tosend  = {}
+        if(parseFloat(price) === row && row.price){
+            tosend = {
+                volume:parseFloat(shippingvalues.volume),
+                width:parseFloat(shippingvalues.width),
+                height:parseFloat(shippingvalues.height),
+                length:parseFloat(shippingvalues.length)
+            }
+        }
+        else{
+            tosend = {
+                price:parseFloat(price),
+                volume:parseFloat(shippingvalues.volume),
+                width:parseFloat(shippingvalues.width),
+                height:parseFloat(shippingvalues.height),
+                length:parseFloat(shippingvalues.length)
+            }
+        }
+       
+       
         setloading(true)
         axios.patch(`${uri.link}/products/${productId}/v/${row._id}`,
-        {
-            price:parseFloat(price),
-            volume:parseFloat(shippingvalues.volume),
-            width:parseFloat(shippingvalues.width),
-            height:parseFloat(shippingvalues.height),
-            length:parseFloat(shippingvalues.length)
-        },
+            tosend,
         {
           headers:{'auth-token':`${getToken()}`}
         }).then( (response)=> {
