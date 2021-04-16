@@ -78,10 +78,10 @@ function CustomRow({row,productId,fetch}) {
         axios.patch(`${uri.link}/products/${productId}/v/${row._id}`,
         {
             price:parseFloat(price),
-            volume:shippingvalues.volume,
-            width:shippingvalues.width,
-            height:shippingvalues.height,
-            length:shippingvalues.length
+            volume:parseFloat(shippingvalues.volume),
+            width:parseFloat(shippingvalues.width),
+            height:parseFloat(shippingvalues.height),
+            length:parseFloat(shippingvalues.length)
         },
         {
           headers:{'auth-token':`${getToken()}`}
@@ -137,7 +137,7 @@ function CustomRow({row,productId,fetch}) {
                                 {row?.quantity?row?.quantity:'-'}
                         </TableCell>
                         <TableCell align='center'>
-                            <TextField id="price_text"  variant="outlined" value={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}} />
+                            <TextField  id="price_text"  variant="outlined" value={price}  size='small' onChange={(e)=>{priceHandler(e.target.value)}} />
                         </TableCell>
 
 
