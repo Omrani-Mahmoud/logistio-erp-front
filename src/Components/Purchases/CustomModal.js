@@ -123,7 +123,7 @@ function CustomModal({open,handleClose,purchase,update,status}) {
                     <h1 style={{color:'#303030',opacity:'90%'}}>{`${lang.purchase} #${purchase.purchase_id}`}</h1>
                     
                     <Grid item md={12}>
-                        <span style={{padding:'10px',background:'white',borderRadius:'10px',marginBottom:'35px',fontWeight:'bold'}}>{new Date().toDateString()}</span>
+                        <span style={{padding:'10px',background:'white',borderRadius:'10px',marginBottom:'35px',fontWeight:'bold'}}>{new Date(purchase.updated_at).toLocaleString()}</span>
                         
                         {
                             purchase.status==='pending' &&

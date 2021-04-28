@@ -80,7 +80,7 @@ const _update = ()=>{
               </TableCell>
 
               <TableCell align='center' key={'p2'} >
-                  {new Date().toDateString()}
+                  {new Date(row.updated_at).toLocaleString()}
               </TableCell>
 
               <TableCell align='center' key={'p3'} >

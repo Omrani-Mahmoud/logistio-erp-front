@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Avatar, Grid } from '@material-ui/core';
+import { Avatar, Badge, Grid } from '@material-ui/core';
 import  avatar from '../Assets/img/avatar.png';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -21,6 +21,12 @@ import Divider from '@material-ui/core/Divider';
 import auth from '../Auth'
 import { useHistory } from 'react-router-dom';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import CustomMenu from './Notifications/CustomMenu';
+
+import {Notifications,ConnectedUser}  from '../App'
+
+
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`);
 
@@ -37,7 +43,19 @@ export default function CustomAppBar({user}) {
 
   const classes = useStyles();
   const [isMenuOpen, setisMenuOpen] = React.useState(null)
+  const [isNotifOpen, setisNotifOpen] = React.useState(null)
+  const notifications_context = React.useContext(Notifications)
+  const user_context = React.useContext(ConnectedUser);
+  const [sections, setsections] = React.useState([])
+
   const history = useHistory();
+
+
+
+
+
+
+
   const handleMenuOpen = (event)=>{
         setisMenuOpen(event.currentTarget)
   }
@@ -45,6 +63,19 @@ export default function CustomAppBar({user}) {
     // auth.logout()
         setisMenuOpen(null)
 }
+
+
+
+
+const handleOpenNotif = (event)=>{
+  setisNotifOpen(event.currentTarget)
+}
+const handleNotifClose = ()=>{
+// auth.logout()
+  setisNotifOpen(null)
+}
+
+
 
 const logout_ = ()=>{
   auth.logout()
@@ -66,9 +97,29 @@ const handleChange = (event) => {
   window.location.reload()
 };
 
-
+React.useEffect(() => {
+          
+  setsections(user_context[0]?.role?.sections)
+   
+ }, [user_context[0]])
 
  
+
+ console.log('context ehre =====< ',user_context)
+
+ const _check  = (array,value)=>{
+  let valid = false;
+  array && array.map(obj =>{
+    console.log('OBJ',obj)
+      if(obj.name===value){
+        valid = true
+      }
+
+  })
+  return valid
+}
+
+
   return (
     <Grid item lg={12} style={{background:'rgb(243,245,247)',borderRadius:'10px'}}>
      
@@ -88,9 +139,16 @@ const handleChange = (event) => {
             <section style={{display:'flex',width:'250px',alignItems:'center',padding:'3px',cursor:'pointer',marginLeft:'20px'}} >
                 <Avatar alt="avatar" src={avatar} className={classes.large}/>
                 <span style={{color:'#303030',display:'flex',alignItems:'center'}} onClick={handleMenuOpen}>{`${lang.hello}, ${user?.userName}`}<ExpandMoreIcon /></span>
-         
                 
+              {
+                _check(sections,'product') && 
+             
+              <Badge badgeContent={notifications_context[0].length} color="secondary">
+                <NotificationsIcon style={{marginLeft:'20px'}} color='primary' onClick={handleOpenNotif}/>
+              </Badge>
+               }
             </section>
+
             <Menu
       
                     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -106,9 +164,11 @@ const handleChange = (event) => {
                     <MenuItem style={{width:'150px',textAlign:'center',fontSize:'13px',paddingLeft:'38%',color:'#303030',opacity:'55%'}} onClick={logout_}>{lang.logout}</MenuItem>
                     
                     </Menu>
+
+                    <CustomMenu  anchorEl={isNotifOpen} handleOpen={handleOpenNotif} handleClose={handleNotifClose}  />
         </div>
         
-
+   
 </Grid>
   );
 }

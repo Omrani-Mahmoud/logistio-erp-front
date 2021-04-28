@@ -12,7 +12,7 @@ import useToken from '../Hooks/useToken';
 const lngc = window.localStorage.getItem('lang')?window.localStorage.getItem('lang'):'EN';
 const lang = require(`../Language/${lngc}.json`)
 
-function EmailModal({product_id,open,handleClose}) {
+function EmailModal({product_id,open,handleClose,sku=''}) {
     const [loading, setloading] = React.useState(false);
     const [msgInput, setmsgInput] = React.useState('');
     const [setToken,getToken] = useToken();
@@ -66,7 +66,6 @@ function EmailModal({product_id,open,handleClose}) {
     const _get_msgs = (mounted)=>{
 
 
-        console.log('aaaaaa hahahah gpogogogo')
         setloading(true);
         axios.get(`${uri.link}/messages/${product_id}`,{
             headers:{'auth-token':`${getToken()}`}
@@ -105,14 +104,21 @@ function EmailModal({product_id,open,handleClose}) {
         style={{display:'flex',justifyContent:'center',alignItems:'center'}}
         >
          <Grid item md={8}  >
-         <Paper elevation={3} style={{display:'flex', padding:'20px',overflowY:'auto',height:'350px',background:'rgb(243,245,247)',flexDirection:'column',padding:'25px'}}>
+         <Paper elevation={3} style={{display:'flex', padding:'20px',background:'rgb(243,245,247)',flexDirection:'column',padding:'25px'}}>
              <h3>{lang.chat_room}</h3>
-             <section style={{display:'flex',flexDirection:'column',padding:'10px'}}>
+             {
+               sku.length>0 && 
+               <span style={{fontWeight:'bold',fontSize:'13px'}}>SKU:{sku}</span>
+             }
+             <section style={{display:'flex',flexDirection:'column',padding:'10px',overflowY:'auto',height:'350px'}}>
                 
                {
+                   msgs.length>0?
                    msgs.map(msg=>{
                        return <ChatRow text={msg.body} user={msg.agentMsg}/>
                    })
+                   :
+                   <span style={{padding:'10px',color:'white',background:'#2196f3',fontWeight:'500',borderRadius:'5px'}}>No Messages yet ... !</span>
                } 
                              
 

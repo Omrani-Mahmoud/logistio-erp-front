@@ -48,9 +48,9 @@ function CustomSpan({label,value,textArea,disabled,input,type,handler=null,media
 
               {/* onChange={(e)=>{handler({type:type,value:e.target.value})} */}
               
-                {/* <Button style={{marginLeft:'30px'}} onClick={upload} variant="outlined" color="primary" size='small'>
+                <Button style={{marginLeft:'30px'}} onClick={upload} variant="outlined" color="primary" size='small'>
                       {lang.upload_items}
-                    </Button> */}
+                    </Button>
                 </>)
                :
               <span style={valueSpan} >{value}</span>

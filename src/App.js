@@ -9,10 +9,12 @@ import { AnimatePresence } from 'framer-motion';
 
 const history = createBrowserHistory();
 export const ConnectedUser = React.createContext();
+export const Notifications = React.createContext();
 
 function App() {
 
   const [user, setuser] = React.useState({});
+  const [notifications, setNotifications] = React.useState([]);
 
 
  
@@ -21,7 +23,7 @@ function App() {
 
     <BrowserRouter>
     <ConnectedUser.Provider value={[user,setuser]} >
-
+    <Notifications.Provider value={[notifications,setNotifications]}>
     <Router  history={history}>
 
 
@@ -35,6 +37,7 @@ function App() {
          {/* <ProtectedRoute  component={Dashboard}  path='/home' /> */}
       </Switch>
     </Router>
+    </Notifications.Provider>
     </ConnectedUser.Provider>
 
     </BrowserRouter>

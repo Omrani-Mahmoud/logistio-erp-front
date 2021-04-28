@@ -2,7 +2,7 @@ import { Divider, Grid } from '@material-ui/core'
 import React from 'react'
 import CustomAppBar from '../../Components/CustomAppBar'
 import SideMenu from '../../Components/sideBar/SideMenu'
-import {ConnectedUser}  from '../../App'
+import {ConnectedUser,Notifications}  from '../../App'
 import jwt from 'jsonwebtoken';
 import UsersContainer from '../Users/UsersContainer'
 import { Switch, Route, Link,useLocation } from 'react-router-dom';
@@ -20,6 +20,7 @@ import PurchasesContainer from '../Purchases/PurchasesContainer'
 import Overview from './Overview'
 import Profile from '../Settings/Profile'
 import FinanceContainer from '../Finance/FinanceContainer'
+import socketIOClient from "socket.io-client";
 
 function Home() {
 
@@ -72,7 +73,9 @@ function Home() {
     }
 
 
-    const user_context = React.useContext(ConnectedUser)
+    const user_context = React.useContext(ConnectedUser);
+    const notifications_context = React.useContext(Notifications)
+
     const [sections, setsections] = React.useState([])
    
 
@@ -136,6 +139,15 @@ function Home() {
     // }, [])
 
   
+
+    React.useEffect(() => {
+        const socket = socketIOClient(`${uri.link}/notifs:3577`);
+        socket.on("data", data => {
+          notifications_context[1](data);
+          notifications_context[1]([...notifications_context,data])
+
+        });
+      }, []);
 
     return (
 

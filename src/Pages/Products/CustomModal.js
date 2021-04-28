@@ -211,6 +211,7 @@ function CustomModal({open,handleOpen,handleClose,product,fetch,img,imgs}) {
 
   const _uploadFile = ()=>{
     // axios.patch(`${uri.link}/products/upload/${product._id}`,productsInputs,{
+      console.log('to UPLOAD ======>',productsInputs.media)
       const data = new FormData();
       data.append("file", productsInputs.media);
 
