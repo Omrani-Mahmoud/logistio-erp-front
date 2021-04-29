@@ -20,7 +20,7 @@ import PurchasesContainer from '../Purchases/PurchasesContainer'
 import Overview from './Overview'
 import Profile from '../Settings/Profile'
 import FinanceContainer from '../Finance/FinanceContainer'
-import socketIOClient from "socket.io-client";
+import {io} from "socket.io-client";
 
 function Home() {
 
@@ -141,10 +141,19 @@ function Home() {
   
 
     React.useEffect(() => {
-        const socket = socketIOClient(`${uri.link}/notifs:3577`);
-        socket.on("data", data => {
-          notifications_context[1](data);
-          notifications_context[1]([...notifications_context,data])
+        const socket = io(`192.168.1.18:3001`);
+
+        socket.emit('jwt',window.localStorage.getItem('erpT'));
+        
+        socket.on("notif", data => {
+            console.log('data');
+            let xx = JSON.parse(data)
+            if(xx.status==1){
+            notifications_context[1](xx.data);
+            console.log('aaaa',xx.data)
+            // notifications_context[1]([...notifications_context,xx.data])
+            }
+          
 
         });
       }, []);
