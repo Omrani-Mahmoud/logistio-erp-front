@@ -1,3 +1,8 @@
+// this product card
+// display single product info 
+// insdie products View
+// api cal here too
+
 import { Grid } from '@material-ui/core'
 import React from 'react'
 import { Avatar } from '@material-ui/core';

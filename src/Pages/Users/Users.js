@@ -1,3 +1,10 @@
+//  users render component
+// add user and access form ect
+// every handler related to the users is here
+
+
+
+
 import { Container, Grid, Paper, TextField,Switch, FormControlLabel, FormHelperText, Checkbox, Button, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, CircularProgress } from '@material-ui/core'
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';

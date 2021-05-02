@@ -1,3 +1,8 @@
+
+// products container
+// fetch the products here
+// the modal handlers is here too
+
 import React from 'react'
 import Products from './Products'
 import {motion} from 'framer-motion'

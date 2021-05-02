@@ -1,5 +1,9 @@
-import React from 'react'
+// display variants for each product
+// each row got its own customrow
+// custom row got its own handler and update api
 
+
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';

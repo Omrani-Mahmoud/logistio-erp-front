@@ -1,3 +1,8 @@
+// statistics
+// the apii calls that return statistics is called here
+// each chart has its own options and data layers
+
+
 import { Button, Container, Dialog, DialogTitle, Grid, Paper } from '@material-ui/core'
 import React,{useEffect,useState,useRef} from 'react'
 import {ConnectedUser}  from '../../App'

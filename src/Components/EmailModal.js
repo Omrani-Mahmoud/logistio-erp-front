@@ -1,3 +1,7 @@
+// this component render the chatbox
+// msgs api call is called here
+
+
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
 import TextField from '@material-ui/core/TextField';

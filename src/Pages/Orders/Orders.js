@@ -1,3 +1,11 @@
+// Orders component
+// render the OrdersTable
+// OrdersTbale accept modal handler and orders data
+// each order got a specifique modal
+// each modal got an single order as props 
+
+
+
 import { Container, Paper } from '@material-ui/core'
 import React from 'react'
 import OrdersTable from '../../Components/Orders/OrdersTable'

@@ -1,3 +1,12 @@
+// this root compoennt 
+// handle the rendre compoennt depends on the route
+// also the sockets call
+// are all here
+// and update the notifcation context here too
+// yo just need to uodate the logique of the socket call
+// they updated the backend
+
+
 import { Divider, Grid } from '@material-ui/core'
 import React from 'react'
 import CustomAppBar from '../../Components/CustomAppBar'
@@ -20,7 +29,8 @@ import PurchasesContainer from '../Purchases/PurchasesContainer'
 import Overview from './Overview'
 import Profile from '../Settings/Profile'
 import FinanceContainer from '../Finance/FinanceContainer'
-import {io} from "socket.io-client";
+// import {io} from "socket.io-client";
+import {io} from 'socket.io-client';
 
 function Home() {
 
@@ -138,25 +148,47 @@ function Home() {
     //     }
     // }, [])
 
-  
+
 
     React.useEffect(() => {
-        const socket = io(`192.168.1.18:3001`);
-
-        socket.emit('jwt',window.localStorage.getItem('erpT'));
+        //uri.link
         
+        const socket = io(uri.sock , {
+            path : '/notify/socket.io/',
+            transports:["websocket"],
+            
+        });
+        socket.on('connect' , () => {
+            console.info("socketos ==> " , socket.connected) 
+            socket.emit('jwt', Window.localStorage.getItem('erpT'));
+        });
+   
+
         socket.on("notif", data => {
-            console.log('data');
+    
+            console.log(data);
             let xx = JSON.parse(data)
-            if(xx.status==1){
-            notifications_context[1](xx.data);
-            console.log('aaaa',xx.data)
-            // notifications_context[1]([...notifications_context,xx.data])
+            if(xx.status==1)
+            {
+                notifications_context[1](xx.data);
+                console.log('aaaa',xx.data)
+                // notifications_context[1]([...notifications_context,xx.data])
             }
           
-
+    
         });
-      }, []);
+        // socket.on('connect', () => { 
+        //     console.log('sabrina'); 
+        // });
+        // const socket = io('192.168.1.18:3001');
+
+        // socket.emit('notif', window.localStorage.getItem('erpT'));
+
+        //https://dev.to/bravemaster619/how-to-use-socket-io-client-correctly-in-react-app-o65
+        // check this https://www.valentinog.com/blog/socket-react/
+
+
+    }, []);
 
     return (
 

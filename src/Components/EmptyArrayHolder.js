@@ -1,3 +1,5 @@
+//empty array placeholder
+
 import React from 'react'
 
 function EmptyArrayHolder({text}) {

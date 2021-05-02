@@ -1,3 +1,4 @@
+// return coonected user token (decoded)
 
 import jwt from 'jsonwebtoken'
 function useGetUser(token) {

@@ -1,3 +1,9 @@
+// stock container
+// all api calls and reducers and forms data will be here
+// the render component accept it as props
+// without loading is refrech function in the background
+
+
 import React from 'react'
 import Stock from './Stock'
 import axios from 'axios'

@@ -1,3 +1,7 @@
+// modal of a single Order
+// display order details
+// annd the updates and post  needed is here too 
+// shipping line ect
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
 import { Grid, Paper, TextField,Button,Avatar, Select } from '@material-ui/core';

@@ -1,3 +1,6 @@
+// old display methode ( simple array instead teh cards)
+// display products data 
+// just a simple duisplay but every row got a a handlfer to open the modal
 import React from 'react'
 
 import Table from '@material-ui/core/Table';

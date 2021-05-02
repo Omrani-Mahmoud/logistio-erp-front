@@ -1,3 +1,8 @@
+//orders container
+// appi calls is here
+// all the orders are here
+// Orders component accept orders arrray as props
+
 import React from 'react'
 import Orders from './Orders'
 import {motion} from 'framer-motion'

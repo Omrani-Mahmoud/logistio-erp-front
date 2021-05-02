@@ -1,3 +1,9 @@
+// custom variant row
+// reprenseted a a single variant 
+// with its own data 
+// and updates needed 
+// api calls ect
+
 import React from 'react'
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';

@@ -1,3 +1,9 @@
+
+// for future uses
+// it will be each user will got a sections access
+// y need to edit it here
+// its aleady existe
+//check sectionTableContainer
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

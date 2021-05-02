@@ -1,3 +1,8 @@
+// SIDE MENU
+// eaach menu got a route
+// each route reprent a major component
+// routes are locked with LockRouteComponent
+
 import React from "react";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";

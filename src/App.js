@@ -8,7 +8,11 @@ import Home from './Pages/Home/Home';
 import { AnimatePresence } from 'framer-motion';
 
 const history = createBrowserHistory();
+
+// coonected user context
 export const ConnectedUser = React.createContext();
+
+// notification context
 export const Notifications = React.createContext();
 
 function App() {

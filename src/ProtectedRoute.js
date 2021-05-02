@@ -1,3 +1,8 @@
+// protected route
+// check if the user got a valid token or not
+// else the section check 
+// i handle it inside lockROute component
+
 import React from 'react'
 import {Route,Redirect} from "react-router-dom"
 import auth from './Auth'

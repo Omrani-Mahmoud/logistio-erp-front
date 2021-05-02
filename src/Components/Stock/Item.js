@@ -1,3 +1,7 @@
+// this represent a single Stock item 
+// this  an according item
+// read material UI
+
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';

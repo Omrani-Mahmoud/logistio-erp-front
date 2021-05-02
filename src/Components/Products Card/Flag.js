@@ -1,3 +1,5 @@
+// custom span to display the status of the product
+
 import React from 'react'
 
 function Flag({status}) {

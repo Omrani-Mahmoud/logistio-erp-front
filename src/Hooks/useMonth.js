@@ -1,3 +1,5 @@
+// return month names
+
 import React from 'react'
 
 function useMonth() {

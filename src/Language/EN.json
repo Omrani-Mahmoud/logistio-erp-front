@@ -210,7 +210,9 @@
     "width":"Width(cm)",
     "volume":"Volume(cm3)",
     "length":"Length(cm)",
-    "last_31_days":"Last 31 days Orders"
+    "last_31_days":"Last 31 days Orders",
+
+    "orders_per_shipping_line":"Orders per shipping line"
 
 
 

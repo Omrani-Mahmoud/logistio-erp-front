@@ -1,3 +1,6 @@
+// this a custom row of accessories table inside the products modal 
+// its reprent the row there
+
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

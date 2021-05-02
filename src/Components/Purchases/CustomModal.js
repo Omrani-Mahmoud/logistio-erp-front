@@ -1,3 +1,7 @@
+// this modal represent what single purchase hold
+// tehre is no api calls here
+// just in the CustomrRow
+
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
 import { Grid, Paper, TextField,Button } from '@material-ui/core';

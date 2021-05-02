@@ -1,3 +1,8 @@
+// top bar custom menu ( notifications)
+// the menu items based on the context inside the app.js
+// socket response 
+
+
 import React from 'react'
 import Menu from '@material-ui/core/Menu';
 import CustomMenuItem from './CustomMenuItem';

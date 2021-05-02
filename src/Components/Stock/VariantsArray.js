@@ -1,3 +1,8 @@
+
+// this a avaraint table but this time
+// for the stock array 
+// its nt the same 
+// in this section  he can update the stock number ect
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

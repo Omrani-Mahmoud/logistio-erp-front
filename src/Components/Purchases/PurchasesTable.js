@@ -1,3 +1,6 @@
+// purchase table
+// display purchase data with the custom row
+
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';

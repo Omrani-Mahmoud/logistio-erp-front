@@ -1,3 +1,5 @@
+// custom span depends on the input type
+
 import React from 'react'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Button, TextField } from '@material-ui/core';

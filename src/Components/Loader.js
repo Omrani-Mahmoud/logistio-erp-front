@@ -1,3 +1,5 @@
+// custom loader
+
 import React from 'react'
 import {motion} from 'framer-motion'
 import  '../Assets/css/loader.css'

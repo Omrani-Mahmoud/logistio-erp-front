@@ -1,3 +1,10 @@
+// here the render component of Stocks
+// the add to stock ( new )
+// and the display and update is here too
+// variant table
+// StockTableErrorHandler
+// StockTableErrorHandler in case there is a  error inside the stock then the app will not crash , StockTableErrorHandler will be rendred
+
 import { Button, CircularProgress, Container, InputLabel, Paper, TextField } from '@material-ui/core';
 import React from 'react'
 import StockTable from '../../Components/Stock/StockTable';

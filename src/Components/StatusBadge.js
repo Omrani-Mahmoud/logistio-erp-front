@@ -1,3 +1,5 @@
+// badge status here
+// custom component
 import React from 'react'
 
 function StatusBadge({status='-',align='left',marginBottom='0px'}) {

@@ -1,3 +1,6 @@
+// this srock table component render stock item
+// with the Item component
+
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';

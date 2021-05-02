@@ -1,3 +1,9 @@
+// profile settings
+/// api calls is here
+// the form is here too there is no render component
+//
+
+
 import { Container, Paper, TextField, Button, Grid, Avatar } from '@material-ui/core'
 import React from 'react'
 import {ConnectedUser}  from '../../App'

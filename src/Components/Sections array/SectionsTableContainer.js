@@ -1,3 +1,6 @@
+// users section logique
+// available  parts ine evry section will be here
+
 import React from 'react'
 import SectionsTable from './SectionsTable'
 

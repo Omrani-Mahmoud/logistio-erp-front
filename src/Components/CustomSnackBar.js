@@ -1,3 +1,4 @@
+// snackbars that display while an error w or 200ok status from the backend 
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';

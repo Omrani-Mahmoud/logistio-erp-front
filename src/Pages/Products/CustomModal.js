@@ -1,3 +1,12 @@
+// this is the products modal 
+// that handle everything needed for a single product
+// like update price ect , variants, filees ect
+// each product here got an array of variants and Array of URLS and   accessories
+// each form is seperated 
+// each input on every array got its own reducer
+// email modal means the chatbox
+
+
 import { Avatar, Button, CircularProgress, Grid, Modal, Paper } from '@material-ui/core'
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';

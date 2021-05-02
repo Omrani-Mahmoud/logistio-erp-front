@@ -212,7 +212,9 @@
     "width":"宽度(cm)",
     "volume":"体积(cm3)",
     "length":"长度(cm)",
-    "last_31_days":"最近31天的订单"
+    "last_31_days":"最近31天的订单",
+    "orders_per_shipping_line":"每條運輸線的訂單"
+
 
 
 

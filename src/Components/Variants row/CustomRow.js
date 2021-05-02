@@ -1,3 +1,8 @@
+// here the variant row
+// represent each varaiant that displaay on the product modal
+// Variants array got a customrow depends on the type 
+// example : VariantTable => the custom row related to must be inside the folder with the same names
+
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

@@ -1,3 +1,8 @@
+// attachement link
+// each attachement got a type
+// each type got an icon 
+// and a link
+
 import React from 'react'
 import psd from '../Assets/img/psdIcon.png';
 import ai from '../Assets/img/aiIcon.png'

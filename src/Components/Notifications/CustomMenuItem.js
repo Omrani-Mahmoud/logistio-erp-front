@@ -1,3 +1,15 @@
+/// single menu item depends on the format of the repsonse
+// current format::
+// {
+  //name:'test 1',
+  //product_id:'123',
+ // is_read:false,
+  //sku:'3RFFT'
+
+//},
+
+// on click will display the old chat of the current notification inside a modal 
+// the chatbox element ( like the emailModal)
 import { Avatar, MenuItem } from '@material-ui/core'
 import React from 'react'
 import {uri} from '../../Url_base'

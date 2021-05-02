@@ -1,3 +1,7 @@
+// Js class that hanlde auth 
+// login lgout isAuth ect
+// i use inside the protectedroute and Signin compnennt
+//
 import Swal from 'sweetalert2'
 import {uri} from "./Url_base";
 import axios from "axios";

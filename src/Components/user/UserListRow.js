@@ -1,3 +1,8 @@
+//  users table
+// render each user inside a single row
+// each single row represented by this component
+//
+
 import { TableCell, TableRow, Button } from '@material-ui/core'
 import React from 'react'
 import useToken from '../../Hooks/useToken';

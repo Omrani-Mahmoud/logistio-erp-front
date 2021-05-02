@@ -1,3 +1,8 @@
+// purchase render
+//render component 
+// return Purhcase table
+// purchase table accept purchases ( data ) and handle change
+
 import React from 'react'
 import { Container, Paper } from '@material-ui/core'
 import Loader from '../../Components/Loader'

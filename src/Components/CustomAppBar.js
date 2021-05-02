@@ -1,3 +1,11 @@
+// thiis the app bar menu ( the top bar )
+
+// language switcher handler is also here
+
+//menus too is here
+
+
+
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';

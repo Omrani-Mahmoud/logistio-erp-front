@@ -1,3 +1,8 @@
+// purchase custom row
+// its called inside CustomModal
+// just the update call is here
+// its what we need
+
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

@@ -1,3 +1,6 @@
+// check the roles of the connected user
+
+
 import React from 'react'
 import useGetUser from './useGetUser'
 import axios from 'axios'

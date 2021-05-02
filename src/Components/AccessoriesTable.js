@@ -1,3 +1,8 @@
+// accessories table
+// take accessories data 
+// and render each one on separated  row
+// CustomRow
+
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';

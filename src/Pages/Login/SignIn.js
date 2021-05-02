@@ -1,3 +1,8 @@
+// Login 
+// AUthh class handle all the things here
+// signin ect
+
+
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -168,8 +173,6 @@ const _reset = ()=>{
 React.useEffect(() => {
   if(auth.isAuthenticated())
       history.push('/home')
-    
-
 }, [])
 
   return (

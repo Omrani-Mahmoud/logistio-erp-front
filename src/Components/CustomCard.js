@@ -1,3 +1,7 @@
+
+// overview cards
+// display statistics
+// avg order time , orders ect
 import { Divider, Grid, Paper } from '@material-ui/core'
 import React from 'react'
 import LocalMallIcon from '@material-ui/icons/LocalMall';

@@ -1,3 +1,7 @@
+// same as the old varinats rows
+// but this one for edit and persist ( updat variant of the STOck)
+//
+
 import React from 'react'
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -60,7 +64,6 @@ function CustomVariantRow({row,storageID}) {
       }
 
 
-      console.log ('BAHA HERE =====>',row)
 
     return (
         <TableRow>

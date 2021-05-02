@@ -1,3 +1,5 @@
+// this compoennt handle if the user got an access or not to the route
+
 import React from 'react'
 import {
     BrowserRouter as Router,

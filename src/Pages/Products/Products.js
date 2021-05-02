@@ -1,3 +1,12 @@
+// products display component
+// all the product filters is here
+// for each filter the product render depends on it
+// each products card has a modal handler
+// each modal had the product info
+// depends on the click the selected product will be rendred
+
+// ProductCardErrorHandler in case there is a  error inside the product card then the app will not crash , ProductCardErrorHandler will be rendred
+
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

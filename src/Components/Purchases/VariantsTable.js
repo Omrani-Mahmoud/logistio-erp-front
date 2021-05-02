@@ -1,3 +1,8 @@
+// variants table
+// its just display the varianst
+// no update no edits no delete
+// just data display
+
 import React from 'react'
 
 import { makeStyles } from '@material-ui/core/styles';

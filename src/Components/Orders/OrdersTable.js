@@ -30,6 +30,7 @@ const lang = require(`../../Language/${lngc}.json`)
 const useStyles = makeStyles({
     table: {
       minWidth: 350,
+  
     },
     header:{
         fontWeight:'bold'
@@ -41,6 +42,7 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate,setmodalIsOp
     console.log('Orders------------->',orders)
     const classes = useStyles();
     const [searchInput, setsearchInput] = React.useState('');
+    const [countryInput, setcountryInput] = React.useState('');
     const [status, setStatus] = React.useState('');
     const [fullfillment_mode, setfullfillment_mode] = React.useState('');
     const [isReship, setisReship] = React.useState(false)
@@ -51,23 +53,44 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate,setmodalIsOp
             if(fullfillment_mode==='' && searchInput.length>0 && status==='')
                 return row?.order_id.includes(searchInput)
 
-            if(searchInput.length === 0 && fullfillment_mode!=='' && status==='' )
+            if(fullfillment_mode==='' && searchInput.length=== 0 && countryInput.length>0 && status==='')
+                return row?.shipping_infos[0].country.includes(countryInput)
+
+
+
+
+
+            if(countryInput.length===0 && searchInput.length === 0 && fullfillment_mode!=='' && status==='' )
                 return row.fulfillment_mode===fullfillment_mode
         
-            if(searchInput.length === 0 && fullfillment_mode==='' && status!=='' )
+            if(countryInput.length===0 && searchInput.length === 0 && fullfillment_mode==='' && status!=='' )
                 return row.status===status
             
-            if(searchInput.length === 0 && fullfillment_mode!=='' && status!=='' )
+            if( countryInput.length===0 && searchInput.length === 0 && fullfillment_mode!=='' && status!=='' )
                 return row.status===status && row.fulfillment_mode===fullfillment_mode
             
-            if(searchInput.length > 0 && fullfillment_mode!=='' && status==='' )
+            if(countryInput.length===0 && searchInput.length > 0 && fullfillment_mode!=='' && status==='' )
                 return  row.fulfillment_mode===fullfillment_mode && row?.order_id.includes(searchInput)
-            
-            if(searchInput.length > 0 && fullfillment_mode ==='' && status!=='' )
-                return  row.status===fullfillment_mode && row?.order_id.includes(searchInput)
 
-            if(searchInput.length > 0 && fullfillment_mode!=='' && status!=='')
+            if(countryInput.length>0 && searchInput.length === 0 && fullfillment_mode!=='' && status==='' )
+                return  row.fulfillment_mode===fullfillment_mode && row?.shipping_infos[0].country.includes(countryInput)
+                
+
+
+
+            
+            if(countryInput.length===0 && searchInput.length > 0 && fullfillment_mode ==='' && status!=='' )
+                return  row.status===fullfillment_mode && row?.order_id.includes(searchInput)
+            if(countryInput.length>0 && searchInput.length ===0 && searchInput.length === 0 && fullfillment_mode ==='' && status!=='' )
+                return  row.status===fullfillment_mode && row?.shipping_infos[0].country.includes(countryInput)
+
+
+
+            if(countryInput.length===0 && searchInput.length > 0 && fullfillment_mode!=='' && status!=='')
                 return row.fulfillment_mode===fullfillment_mode && row?.order_id.includes(searchInput) && row.status===status
+            
+                if(countryInput.length>0 && searchInput.length > 0 && fullfillment_mode!=='' && status!=='')
+                return row.fulfillment_mode===fullfillment_mode && row?.order_id.includes(searchInput) && row.status===status && row?.shipping_infos[0].country.includes(countryInput)
 
             else
                 return row
@@ -111,8 +134,23 @@ function OrdersTable({orders=[],fetch,handleDateChange,selectedDate,setmodalIsOp
         />
         </Grid>
         </MuiPickersUtilsProvider>
-                            <TextField size='small' id="standard-basic" label={lang.order_id} style={{width:'300px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
-                            <FormControl variant="outlined" size='small' style={{width:'250px',float:'right',marginTop:'7px'}}>
+                            <TextField size='small' id="standard-basic" label={lang.order_id} style={{width:'180px',marginLeft:'5px',marginBottom:'20px'}} onChange={(e)=>setsearchInput(e.target.value)} />
+                            <TextField size='small' id="standard-basic" label={lang.country} style={{width:'180px',marginLeft:'35px',marginBottom:'20px'}} onChange={(e)=>setcountryInput(e.target.value)} />
+                            <section style={{ background:'white',borderRadius:'7px',padding:'10px',fontSize:'15px',display:'flex',flexDirection:'column',justifyContent:'space-around',marginBottom:'20px',marginTop:'20px'}}>
+                            <h3 style={{color:'rgb(36,37,77)'}}>{lang.orders_per_shipping_line}:</h3>
+                            <div style={{display:'flex', justifyContent:'space-around',marginBottom:'20px',marginTop:'5px'}}>
+                                <span><b>4PX</b> (0)</span>
+                                <span><b>CK1</b> (0)</span>
+                                <span><b>YUNEXPRESS</b> (0)</span>
+                                <span><b>YINTONGGUAN</b> (0)</span>
+                                <span><b>GDWSE</b> (0)</span>
+                            </div>
+                            </section>
+
+
+
+
+                            <FormControl variant="outlined" size='small' style={{width:'250px',float:'right',marginTop:'7px',marginBottom:'15px'}}>
                                     <InputLabel id="demo-simple-select-outlined-label">{lang.fullfillment_status}</InputLabel>
                                             <Select
                                             labelId="demo-simple-select-outlined-label"

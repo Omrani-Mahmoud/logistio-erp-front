@@ -1,3 +1,9 @@
+// purchase container
+// this component handle the apis call
+//  also there is a BG function ( to fetch in the background)
+
+
+
 import React from 'react'
 import axios from 'axios'
 import {uri} from '../../Url_base'
